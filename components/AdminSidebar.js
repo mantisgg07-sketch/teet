@@ -1,0 +1,115 @@
+'use client'
+
+import Link from 'next/link'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+
+const navItems = [
+    {
+        name: 'Dashboard', href: '/admin/dashboard', icon: (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+        )
+    },
+    {
+        name: 'Bookings', href: '/admin/bookings', icon: (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+        )
+    },
+    {
+        name: 'Customers', href: '/admin/customers', icon: (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+        )
+    },
+    {
+        name: 'Tours', href: '/admin/dashboard', icon: ( // dashboard actually shows tours list
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2 2 2 0 012 2v.1c0 .1.1.2.1.25M4.136 4.136L5.93 5.93m10.211 10.211l1.794 1.794M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        )
+    },
+    {
+        name: 'Announcements', href: '/admin/announcements', icon: (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.167H3.3a1.598 1.598 0 01-1.283-2.541l2.304-3.32h4.562l2.117-1.922zM16.14 8.07c3.41.253 6.096 3.111 6.096 6.565 0 3.454-2.686 6.312-6.096 6.565M16.14 8.07V14M16.14 14V21.23a1.75 1.75 0 11-3.5 0v-7.23" />
+            </svg>
+        )
+    },
+]
+
+export default function AdminSidebar({ isOpen, setIsOpen, currentPath }) {
+    const router = useRouter()
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('/api/logout', { method: 'POST' })
+            if (response.ok) {
+                router.push('/admin')
+            }
+        } catch (error) {
+            console.error('Logout error:', error)
+        }
+    }
+
+    return (
+        <aside className={`fixed lg:sticky top-0 left-0 h-screen w-72 bg-gray-900 text-white z-50 transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            <div className="flex flex-col h-full px-4 py-8">
+                {/* Logo */}
+                <div className="px-4 mb-10 flex items-center justify-between">
+                    <Link href="/admin/dashboard" className="flex items-center gap-2">
+                        <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center font-black text-xl italic shadow-lg shadow-primary-600/20">
+                            G
+                        </div>
+                        <span className="text-xl font-black uppercase tracking-tighter">Admin Panel</span>
+                    </Link>
+                    <button onClick={() => setIsOpen(false)} className="lg:hidden p-2 hover:bg-white/10 rounded-lg">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                {/* Navigation */}
+                <nav className="flex-1 space-y-2">
+                    {navItems.map((item) => {
+                        const isActive = currentPath === item.href || (item.href !== '/admin/dashboard' && currentPath.startsWith(item.href))
+                        return (
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                onClick={() => setIsOpen(false)}
+                                className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-200 group ${isActive
+                                    ? 'bg-primary-600 text-white font-bold shadow-lg shadow-primary-600/20'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                    }`}
+                            >
+                                <span className={isActive ? 'text-white' : 'text-gray-500 group-hover:text-primary-400'}>
+                                    {item.icon}
+                                </span>
+                                <span className="text-sm uppercase tracking-widest font-black">{item.name}</span>
+                            </Link>
+                        )
+                    })}
+                </nav>
+
+                {/* User / Logout */}
+                <div className="mt-auto pt-6 border-t border-white/5">
+                    <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-red-400 hover:bg-red-400/10 hover:text-red-300 transition-all duration-200"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span className="text-sm uppercase tracking-widest font-black">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+    )
+}
