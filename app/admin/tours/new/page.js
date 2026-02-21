@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import AdminNav from '@/components/AdminNav'
 import ImageUpload from '@/components/ImageUpload'
 import VideoUpload from '@/components/VideoUpload'
