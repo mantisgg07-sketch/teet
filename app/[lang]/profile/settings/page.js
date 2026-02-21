@@ -112,9 +112,8 @@ export default function SettingsPage() {
       if (emailTimeoutRef.current) clearTimeout(emailTimeoutRef.current)
       if (passwordTimeoutRef.current) clearTimeout(passwordTimeoutRef.current)
       if (bannerTimeoutRef.current) clearTimeout(bannerTimeoutRef.current)
-      stopPolling()
     }
-  }, [stopPolling])
+  }, [])
 
   // Fetch user session
   useEffect(() => {
