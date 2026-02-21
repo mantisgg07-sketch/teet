@@ -32,8 +32,11 @@ export default function Header({ lang = 'en', dict }) {
     }
   }, [])
 
-  // Cross-tab sync
-  useAuthSync({ onAuthEvent: handleAuthEvent })
+  // Cross-tab sync via Supabase Realtime
+  useAuthSync({
+    userId: user?.id,
+    onAuthEvent: handleAuthEvent
+  })
 
   useEffect(() => {
     const handleScroll = () => {

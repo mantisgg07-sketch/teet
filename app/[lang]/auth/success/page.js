@@ -5,6 +5,7 @@ import { useSearchParams, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getDictionary } from '@/lib/i18n'
+import { supabase } from '@/lib/supabase'
 import { broadcastAuthEvent } from '@/lib/useAuthSync'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -23,11 +24,21 @@ export default function AuthSuccessPage() {
     getDictionary(lang).then(setDict)
   }, [lang])
 
-  // Broadcast auth event to other tabs in the same browser
+  // Broadcast auth event to other tabs/browsers via Supabase Realtime
   useEffect(() => {
-    if (type === 'email_updated' || type === 'email_verified') {
-      broadcastAuthEvent(type)
+    const broadcastSuccess = async () => {
+      if (type === 'email_updated' || type === 'email_verified') {
+        if (!supabase) return
+
+        // We need the user ID to broadcast on the correct channel
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.user?.id) {
+          broadcastAuthEvent(type, session.user.id)
+        }
+      }
     }
+
+    broadcastSuccess()
   }, [type])
 
   // Determine message and icon based on type

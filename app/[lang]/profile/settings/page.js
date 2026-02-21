@@ -95,12 +95,10 @@ export default function SettingsPage() {
     }
   }, [dict])
 
-  // Cross-tab sync hook
-  const { startPolling, stopPolling } = useAuthSync({
-    onAuthEvent: handleAuthEvent,
-    enablePolling: waitingForEmailConfirmation,
-    currentEmail: user?.email,
-    pollInterval: 5000
+  // Cross-tab sync hook via Supabase Realtime
+  useAuthSync({
+    userId: user?.id,
+    onAuthEvent: handleAuthEvent
   })
 
   // Load dictionary
@@ -246,9 +244,8 @@ export default function SettingsPage() {
         text: dict?.settings?.emailUpdateSuccessShort || dict?.profile?.emailUpdateSuccess || 'Confirmation links have been sent to both your old and new email addresses. This page will update automatically once confirmed.'
       })
 
-      // Start polling to detect email confirmation from another browser
+      // We wait for the confirmation event from Supabase Realtime broadcast
       setWaitingForEmailConfirmation(true)
-      startPolling(user.email)
 
       // Keep the form visible with the success message (don't auto-close, wait for confirmation)
       // Only reset password field for security

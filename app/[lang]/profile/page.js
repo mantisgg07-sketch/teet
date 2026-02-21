@@ -67,8 +67,11 @@ export default function ProfilePage() {
     }
   }, [])
 
-  // Cross-tab sync
-  useAuthSync({ onAuthEvent: handleAuthEvent })
+  // Cross-tab sync via Supabase Realtime
+  useAuthSync({
+    userId: user?.id,
+    onAuthEvent: handleAuthEvent
+  })
 
   // Load dictionary
   useEffect(() => {
