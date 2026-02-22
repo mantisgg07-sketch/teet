@@ -45,7 +45,7 @@ export default async function AnnouncementsPage() {
             <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">New Announcement</h2>
           </div>
           <div className="p-8">
-            <AnnouncementForm onCreated={() => window.location.reload()} />
+            <AnnouncementForm />
           </div>
         </div>
 
