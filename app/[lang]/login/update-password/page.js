@@ -18,7 +18,7 @@ export default function UpdatePasswordPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
-  
+
   // Extract lang from pathname
   const lang = pathname?.split('/')[1] || 'en'
 
@@ -26,13 +26,13 @@ export default function UpdatePasswordPage() {
     // Check if user has a valid session from the reset link
     const checkSession = async () => {
       if (!supabase) return
-      
+
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) {
         setError('Invalid or expired reset link. Please request a new password reset.')
       }
     }
-    
+
     checkSession()
   }, [])
 
@@ -72,11 +72,19 @@ export default function UpdatePasswordPage() {
       setMessage('Password updated successfully! Redirecting to login...')
       setNewPassword('')
       setConfirmPassword('')
-      
+
       // Redirect to login with lang
       router.push(`/${lang}/login`)
     } catch (error) {
-      setError(error.message)
+      console.error('[UpdatePassword] Error updating password:', error)
+      const errMsg = error?.message?.toLowerCase() || ''
+      if (errMsg.includes('rate limit')) {
+        setError('Too many attempts. Please wait a few minutes before trying again.')
+      } else if (errMsg.includes('session') && errMsg.includes('expired')) {
+        setError('Your session has expired. Please request a new reset link.')
+      } else {
+        setError(error.message || 'An unexpected error occurred.')
+      }
     } finally {
       setLoading(false)
     }
@@ -85,16 +93,16 @@ export default function UpdatePasswordPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <main className="flex-grow bg-gradient-to-br from-primary-50 to-secondary-50 py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-md mx-auto">
             <div className="bg-white rounded-2xl shadow-glass p-8">
               {/* Logo */}
               <div className="text-center mb-6">
-                <Image 
-                  src="/img/logo.png" 
-                  alt="GoHoliday Logo" 
+                <Image
+                  src="/img/logo.png"
+                  alt="GoHoliday Logo"
                   width={140}
                   height={40}
                   className="h-10 w-auto mx-auto mb-4"

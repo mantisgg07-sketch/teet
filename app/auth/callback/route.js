@@ -7,7 +7,9 @@ export async function GET(request) {
   const type = requestUrl.searchParams.get('type') // email_verified, password_reset, etc.
 
   // Get the lang from the request or default to 'en'
-  const lang = requestUrl.searchParams.get('lang') || 'en'
+  const allowedLangs = ['en', 'th', 'zh']
+  let lang = requestUrl.searchParams.get('lang') || 'en'
+  if (!allowedLangs.includes(lang)) lang = 'en'
 
   if (code) {
     // Existing PKCE flow for normal logins
