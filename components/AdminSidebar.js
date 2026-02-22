@@ -58,7 +58,7 @@ export default function AdminSidebar({ isOpen, setIsOpen, currentPath }) {
                         <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-black text-xl italic shadow-lg shadow-indigo-600/40 group-hover:scale-110 transition-transform">
                             G
                         </div>
-                        <span className="text-xl font-black uppercase tracking-tighter text-slate-100 group-hover:text-white transition-colors">Admin <span className="text-indigo-400">Hub</span></span>
+                        <span className="text-xl font-black uppercase tracking-tighter text-slate-100 group-hover:text-white transition-colors">Admin <span className="text-indigo-400">Panel</span></span>
                     </Link>
                     <button onClick={() => setIsOpen(false)} className="lg:hidden p-2 hover:bg-slate-800 rounded-xl transition-colors text-slate-400 hover:text-white">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +102,7 @@ export default function AdminSidebar({ isOpen, setIsOpen, currentPath }) {
                         <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
-                        <span className="text-[11px] uppercase tracking-[0.2em] font-black">Exit Terminal</span>
+                        <span className="text-[11px] uppercase tracking-[0.2em] font-black">Logout</span>
                     </button>
                 </div>
             </div>

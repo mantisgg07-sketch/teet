@@ -70,11 +70,11 @@ export default function AnnouncementList({ announcements }) {
         <table className="w-full text-left">
           <thead className="text-[9px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50 bg-slate-50/30">
             <tr>
-              <th className="px-6 py-4">Announcement</th>
+              <th className="px-6 py-4">Alert</th>
               <th className="px-6 py-4">Type</th>
               <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4">Created</th>
-              <th className="px-6 py-4 text-right">Ops</th>
+              <th className="px-6 py-4">Date</th>
+              <th className="px-6 py-4 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">
@@ -100,7 +100,7 @@ export default function AnnouncementList({ announcements }) {
                       ? 'bg-green-50 text-green-700 border border-green-100'
                       : 'bg-slate-50 text-slate-400 border border-slate-100'
                     }`}>
-                    {announcement.is_active ? 'Live' : 'Off'}
+                    {announcement.is_active ? 'On' : 'Off'}
                   </span>
                 </td>
                 <td className="px-6 py-5">
@@ -164,7 +164,7 @@ export default function AnnouncementList({ announcements }) {
                     ? 'bg-amber-50 text-amber-700 border border-amber-100'
                     : 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'}`}
               >
-                {actionLoading === announcement.id ? '...' : announcement.is_active ? 'Standby' : 'Go Live'}
+                {actionLoading === announcement.id ? '...' : announcement.is_active ? 'Off' : 'On'}
               </button>
               <button
                 onClick={() => handleDelete(announcement.id, announcement.message_en || announcement.message)}

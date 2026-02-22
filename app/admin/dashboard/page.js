@@ -52,10 +52,10 @@ export default async function AdminDashboardPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
         <div>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
-            Control <span className="text-indigo-600">Center</span>
+            Dash<span className="text-indigo-600">board</span>
           </h1>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-2 ml-1">
-            Real-time operations management
+            Admin Management Overview
           </p>
         </div>
         <Link
@@ -63,7 +63,7 @@ export default async function AdminDashboardPage() {
           className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 active:scale-95 text-center flex items-center justify-center gap-2"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
-          Create New Tour
+          Add New Tour
         </Link>
       </div>
 
@@ -75,7 +75,7 @@ export default async function AdminDashboardPage() {
               🏖️
             </div>
             <div>
-              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Portfolio</p>
+              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Total Tours</p>
               <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.totalTours} <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">Tours</span></p>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default async function AdminDashboardPage() {
               📢
             </div>
             <div>
-              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Marketing</p>
+              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Announcements</p>
               <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.activeAnnouncements} <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">Active</span></p>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default async function AdminDashboardPage() {
               📅
             </div>
             <div>
-              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Queue</p>
+              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Bookings</p>
               <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">{stats.pendingBookings} <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">Pending</span></p>
             </div>
           </div>
@@ -111,7 +111,7 @@ export default async function AdminDashboardPage() {
               👥
             </div>
             <div>
-              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Growth</p>
+              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Customers</p>
               <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">Stats <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">&rarr;</span></p>
             </div>
           </div>
@@ -122,8 +122,8 @@ export default async function AdminDashboardPage() {
       <div className="pro-card rounded-[2rem] overflow-hidden">
         <div className="px-6 md:px-8 py-5 md:py-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
           <div>
-            <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">Inventory</h2>
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Manage live listings</p>
+            <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">All Tours</h2>
+            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Manage your tour listings</p>
           </div>
           <Link
             href="/admin/tours/new"
@@ -132,7 +132,7 @@ export default async function AdminDashboardPage() {
             <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
             </svg>
-            <span className="hidden md:inline">Create Tour</span>
+            <span className="hidden md:inline">Add Tour</span>
           </Link>
         </div>
 
@@ -175,13 +175,13 @@ export default async function AdminDashboardPage() {
 
                   <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
                     <div className="flex-1">
-                      <div className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Pricing</div>
+                      <div className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Price</div>
                       <div className="text-xl md:text-2xl font-black text-slate-900 leading-none">
                         <TourPriceDisplay price={tour.price} currency={tour.currency} />
                       </div>
                     </div>
                     <div className="flex-1 overflow-hidden">
-                      <div className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Station</div>
+                      <div className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Location</div>
                       <div className="text-xs md:text-sm font-black text-slate-700 uppercase tracking-tight truncate">
                         {tour.location_en || tour.location}
                       </div>
@@ -194,7 +194,7 @@ export default async function AdminDashboardPage() {
                       href={`/admin/tours/edit/${tour.id}`}
                       className="flex-1 px-4 py-2.5 bg-slate-900 text-white rounded-xl font-black text-[9px] uppercase tracking-widest text-center hover:bg-indigo-600 transition-all active:scale-95"
                     >
-                      Config
+                      Edit
                     </Link>
                     <DeleteTourButton tourId={tour.id} tourTitle={tour.title_en || tour.title} />
                   </div>
@@ -211,7 +211,7 @@ export default async function AdminDashboardPage() {
               href="/admin/tours/new"
               className="inline-block px-10 py-4 bg-primary-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-primary-500 transition-all shadow-xl shadow-primary-600/20 shadow-[0_20px_50px_-20px_rgba(255,102,0,0.4)] active:scale-95"
             >
-              Launch Your First Tour
+              Add Your First Tour
             </Link>
           </div>
         )}

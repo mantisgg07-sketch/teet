@@ -40,7 +40,7 @@ export default function DeleteTourButton({ tourId, tourTitle }) {
       disabled={isDeleting}
       className="flex-1 px-4 py-2.5 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all duration-200 text-[9px] uppercase font-black tracking-widest disabled:opacity-50 disabled:cursor-not-allowed border border-red-500/20"
     >
-      {isDeleting ? 'Decommissioning...' : 'Decommission'}
+      {isDeleting ? 'Deleting...' : 'Delete'}
     </button>
   )
 }

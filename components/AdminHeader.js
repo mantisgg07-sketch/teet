@@ -39,7 +39,7 @@ export default function AdminHeader({ title, onMenuClick }) {
                 <div className="flex items-center gap-3 pl-4 border-l border-slate-100 h-8">
                     <div className="text-right hidden sm:block">
                         <div className="text-[10px] font-black text-slate-900 uppercase tracking-widest leading-none">Admin</div>
-                        <div className="text-[8px] text-indigo-500 font-bold uppercase tracking-tighter mt-0.5">Control Mode</div>
+                        <div className="text-[8px] text-indigo-500 font-bold uppercase tracking-tighter mt-0.5">Administrator</div>
                     </div>
                     <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-xs font-black shadow-lg shadow-indigo-600/20 active:scale-95 transition-transform cursor-pointer border border-white/20">
                         A

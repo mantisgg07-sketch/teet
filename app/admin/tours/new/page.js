@@ -117,10 +117,10 @@ export default function NewTourPage() {
           <div className="flex items-center gap-2 text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
             <Link href="/admin/dashboard" className="hover:text-indigo-600 transition-colors">Tours</Link>
             <span className="opacity-40">/</span>
-            <span className="text-slate-900">Provisioning</span>
+            <span className="text-slate-900">Add New</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
-            Create New <span className="text-indigo-600">Listing</span>
+            Add New <span className="text-indigo-600">Tour</span>
           </h1>
         </div>
       </div>
@@ -128,8 +128,8 @@ export default function NewTourPage() {
       <div className="pro-card rounded-[2rem] overflow-hidden border-slate-100">
         <div className="px-6 md:px-10 py-5 bg-slate-50/30 border-b border-slate-50 flex items-center justify-between">
           <div>
-            <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">Inventory Configuration</h2>
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Define core listing parameters</p>
+            <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">Tour Details</h2>
+            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Basic Information</p>
           </div>
         </div>
 
@@ -152,7 +152,7 @@ export default function NewTourPage() {
             <div className="space-y-6">
               <div className="group">
                 <label htmlFor="title" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
-                  Title Archive *
+                  Tour Name *
                 </label>
                 <input
                   id="title"
@@ -162,14 +162,14 @@ export default function NewTourPage() {
                   onChange={handleChange}
                   required
                   className="w-full px-5 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner"
-                  placeholder="e.g. ULTRA-PREMIUM MALDIVES ESCAPE"
+                  placeholder="e.g. Maldives Package"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="group">
                   <label htmlFor="price" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
-                    Base Valuation *
+                    Price *
                   </label>
                   <div className="relative">
                     <input
@@ -192,7 +192,7 @@ export default function NewTourPage() {
 
                 <div className="group">
                   <label htmlFor="currency" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
-                    Currency Unit *
+                    Currency *
                   </label>
                   <div className="relative">
                     <select
@@ -217,7 +217,7 @@ export default function NewTourPage() {
 
               <div className="group">
                 <label htmlFor="description" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
-                  Narrative Brief *
+                  Description *
                 </label>
                 <textarea
                   id="description"
@@ -234,7 +234,7 @@ export default function NewTourPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="group">
                   <label htmlFor="duration" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
-                    Timeframe *
+                    Duration *
                   </label>
                   <input
                     id="duration"
@@ -250,7 +250,7 @@ export default function NewTourPage() {
 
                 <div className="group">
                   <label htmlFor="dates" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
-                    Deployment Window *
+                    Available Dates *
                   </label>
                   <input
                     id="dates"
@@ -267,7 +267,7 @@ export default function NewTourPage() {
 
               <div className="group">
                 <label htmlFor="location" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
-                  Operational Hub *
+                  Location *
                 </label>
                 <input
                   id="location"
@@ -284,12 +284,12 @@ export default function NewTourPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10 border-t border-slate-50">
               <div className="md:col-span-2">
-                <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-6">Visual Intelligence</h3>
+                <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-6">Media Assets</h3>
               </div>
 
               <div className="pro-card p-6 md:p-8 rounded-2xl border-slate-100">
                 <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-1">
-                  Primary Asset (Banner)
+                  Main Image (Banner)
                 </label>
                 <ImageUpload
                   images={bannerImage ? [bannerImage] : []}
@@ -301,7 +301,7 @@ export default function NewTourPage() {
 
               <div className="pro-card p-6 md:p-8 rounded-2xl border-slate-100">
                 <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-1">
-                  Exhibition Gallery
+                  Gallery Images
                 </label>
                 <ImageUpload
                   images={galleryImages}
@@ -313,7 +313,7 @@ export default function NewTourPage() {
 
               <div className="md:col-span-2 pro-card p-6 md:p-8 rounded-2xl border-slate-100">
                 <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-1">
-                  Motion Media (Video)
+                  Video Links
                 </label>
                 <VideoUpload
                   videos={videoUrls}
@@ -334,7 +334,7 @@ export default function NewTourPage() {
                 ) : (
                   <svg className="w-4 h-4 group-hover:scale-110 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
                 )}
-                {loading ? 'Processing...' : 'Deploy Listing'}
+                {loading ? 'Processing...' : 'Save Tour'}
               </button>
               <button
                 type="button"

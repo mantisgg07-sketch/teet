@@ -61,8 +61,8 @@ export default function AnnouncementForm() {
   return (
     <div className="max-w-2xl pro-card rounded-[2rem] p-6 md:p-10">
       <div className="mb-8">
-        <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter">New Broadcast</h2>
-        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Deploy system-wide signals</p>
+        <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Add Alert</h2>
+        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Post a new announcement</p>
       </div>
       {error && (
         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl text-sm font-bold flex items-center gap-3 mb-8 animate-shake">
@@ -85,7 +85,7 @@ export default function AnnouncementForm() {
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="group">
           <label htmlFor="message" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-indigo-600 transition-colors">
-            Broadcast Content *
+            Alert Text *
           </label>
           <textarea
             id="message"
@@ -94,7 +94,7 @@ export default function AnnouncementForm() {
             required
             rows={4}
             className="w-full px-5 py-4 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none resize-none shadow-inner"
-            placeholder="Type your system announcement here..."
+            placeholder="Type your alert here..."
           />
         </div>
 
@@ -119,7 +119,7 @@ export default function AnnouncementForm() {
                     ${type === 'popup' ? 'bg-slate-900 border-slate-900 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'}`}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C8.67 6.165 8 7.388 8 11v3.159c0 .538-.214 1.055-.595 1.436L6 17h5m0 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-              Overlay
+              Popup
             </button>
           </div>
         </div>
@@ -152,7 +152,7 @@ export default function AnnouncementForm() {
             <div className="w-12 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600 transition-colors"></div>
           </div>
           <label htmlFor="isActive" className="text-[9px] font-black text-slate-900 uppercase tracking-widest cursor-pointer select-none">
-            Deploy Live Immediately
+            Activate Now
           </label>
         </div>
 
@@ -166,7 +166,7 @@ export default function AnnouncementForm() {
           ) : (
             <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
           )}
-          {loading ? 'Deploying...' : 'Authorize Broadcast'}
+          {loading ? 'Saving...' : 'Save Announcement'}
         </button>
       </form>
     </div>

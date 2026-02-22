@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-export default function AnalyticsPage() {
+export default function CustomersPage() {
     const [stats, setStats] = useState({
         totalCustomers: 0,
         returningCustomers: 0,
@@ -77,45 +77,45 @@ export default function AnalyticsPage() {
                     <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
                         Customers
                     </h1>
-                    <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em] mt-2 ml-1">
-                        Audience Intelligence
+                    <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em] mt-2 ml-1">
+                        View all customers
                     </p>
                 </div>
                 <button
                     onClick={fetchAnalytics}
                     className="px-6 py-2.5 bg-white border border-slate-200 text-slate-900 rounded-xl font-black text-[10px] uppercase tracking-widest hover:border-indigo-600 hover:text-indigo-600 transition-all active:scale-95 shadow-sm"
                 >
-                    Recalculate
+                    Refresh
                 </button>
             </div>
             {/* Stats Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
                 <div className="pro-card rounded-2xl p-5 md:p-8">
-                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Base</div>
+                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Customers</div>
                     <div className="flex items-end gap-1.5 md:gap-2">
                         <div className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.totalCustomers}</div>
                         <div className="text-[9px] font-bold text-slate-400 mb-1 uppercase tracking-widest leading-none">Total</div>
                     </div>
                 </div>
                 <div className="pro-card rounded-2xl p-5 md:p-8">
-                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Retention</div>
+                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Repeat</div>
                     <div className="flex items-end gap-1.5 md:gap-2">
                         <div className="text-2xl md:text-3xl font-black text-indigo-600 tracking-tighter">{stats.returningCustomers}</div>
-                        <div className="text-[9px] font-bold text-slate-400 mb-1 uppercase tracking-widest leading-none">Loyal</div>
+                        <div className="text-[9px] font-bold text-slate-400 mb-1 uppercase tracking-widest leading-none">Repeat</div>
                     </div>
                 </div>
                 <div className="pro-card rounded-2xl p-5 md:p-8">
-                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Volume</div>
+                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Orders</div>
                     <div className="flex items-end gap-1.5 md:gap-2">
                         <div className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.totalBookings}</div>
                         <div className="text-[9px] font-bold text-slate-400 mb-1 uppercase tracking-widest leading-none">Orders</div>
                     </div>
                 </div>
                 <div className="pro-card rounded-2xl p-5 md:p-8">
-                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Quality</div>
+                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Ratio</div>
                     <div className="flex items-end gap-1.5 md:gap-2 text-green-600">
                         <div className="text-2xl md:text-3xl font-black tracking-tighter">{stats.confirmedRate}%</div>
-                        <div className="text-[9px] font-black mb-1 uppercase tracking-widest leading-none opacity-60">Ratio</div>
+                        <div className="text-[9px] font-black mb-1 uppercase tracking-widest leading-none opacity-60">Rate</div>
                     </div>
                 </div>
             </div>
@@ -124,8 +124,8 @@ export default function AnalyticsPage() {
             <div className="pro-card rounded-[2rem] overflow-hidden">
                 <div className="px-6 md:px-8 py-5 md:py-6 border-b border-slate-50 bg-slate-50/20 flex items-center justify-between">
                     <div>
-                        <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">Directory</h2>
-                        <p className="text-slate-400 font-bold text-[9px] uppercase tracking-widest mt-0.5">Global audience records</p>
+                        <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">Customer List</h2>
+                        <p className="text-slate-400 font-bold text-[9px] uppercase tracking-widest mt-0.5">All customer data</p>
                     </div>
                 </div>
                 <div className="divide-y divide-gray-50">
@@ -164,14 +164,14 @@ export default function AnalyticsPage() {
                                 {/* High Density Stats */}
                                 <div className="flex items-center gap-4 md:gap-12 w-full md:w-auto py-3 md:py-0 border-y md:border-0 border-slate-50">
                                     <div className="flex-1 md:flex-none flex flex-col items-center md:items-end min-w-[80px]">
-                                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Loyalty</div>
+                                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Orders</div>
                                         <span className={`px-2.5 py-1 rounded-lg text-[9px] font-black tracking-widest border transition-colors ${customer.bookings > 1 ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : 'bg-slate-50 text-slate-500 border-slate-100'}`}>
                                             {customer.bookings} <span className="text-[7px] font-bold opacity-60">X</span>
                                         </span>
                                     </div>
 
                                     <div className="flex-1 md:flex-none flex flex-col items-center md:items-end min-w-[80px]">
-                                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Last Touch</div>
+                                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Last Order</div>
                                         <div className="text-[10px] md:text-xs font-black text-slate-900 uppercase tracking-tighter">
                                             {new Date(customer.lastBooking).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: '2-digit' })}
                                         </div>

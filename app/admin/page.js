@@ -68,11 +68,11 @@ export default function AdminLoginPage() {
                 <span className="text-3xl font-black italic text-indigo-500">G</span>
               </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-black text-white mb-2 uppercase tracking-tighter">
-              Admin <span className="text-indigo-400">Terminal</span>
+            <h1 className="text-3xl md:text-[32px] font-black text-white mb-1 uppercase tracking-tighter">
+              Admin <span className="text-indigo-400">Login</span>
             </h1>
-            <p className="text-slate-500 font-bold uppercase text-[9px] tracking-[0.3em] ml-1">
-              Secure Operations Interface
+            <p className="text-slate-500 font-bold uppercase text-[9px] tracking-[0.2em] ml-1">
+              Secure Management Portal
             </p>
           </div>
 
@@ -88,8 +88,8 @@ export default function AdminLoginPage() {
 
             <div className="space-y-6">
               <div className="group">
-                <label htmlFor="email" className="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-400 transition-colors text-center">
-                  Authentication Identity
+                <label htmlFor="email" className="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1 group-focus-within:text-indigo-400 transition-colors text-center">
+                  Email Address
                 </label>
                 <div className="relative">
                   <input
@@ -110,8 +110,8 @@ export default function AdminLoginPage() {
               </div>
 
               <div className="group">
-                <label htmlFor="password" className="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-400 transition-colors text-center">
-                  Private Access Key
+                <label htmlFor="password" className="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1 group-focus-within:text-indigo-400 transition-colors text-center">
+                  Password
                 </label>
                 <div className="relative">
                   <input
@@ -152,11 +152,11 @@ export default function AdminLoginPage() {
               {loading ? (
                 <span className="flex items-center justify-center gap-3">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Establishing Link...
+                  Logging in...
                 </span>
               ) : (
                 <span className="flex items-center justify-center gap-3">
-                  Initialize Session
+                  Log In
                   <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>

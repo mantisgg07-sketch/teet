@@ -64,15 +64,15 @@ export default function AdminBookingsPage() {
                     <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
                         Bookings
                     </h1>
-                    <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em] mt-2 ml-1">
-                        Transaction flow manager
+                    <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em] mt-2 ml-1">
+                        Manage your booking orders
                     </p>
                 </div>
                 <button
                     onClick={fetchBookings}
                     className="px-6 py-2.5 bg-white border border-slate-200 text-slate-900 rounded-xl font-black text-[10px] uppercase tracking-widest hover:border-indigo-600 hover:text-indigo-600 transition-all active:scale-95 shadow-sm"
                 >
-                    Update Feed
+                    Refresh
                 </button>
             </div>
 
@@ -108,7 +108,7 @@ export default function AdminBookingsPage() {
                             <div className="relative w-full lg:w-80">
                                 <input
                                     type="text"
-                                    placeholder="Search entries..."
+                                    placeholder="Search bookings..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-xs tracking-tight outline-none"
@@ -133,7 +133,7 @@ export default function AdminBookingsPage() {
                                     <div className="flex-shrink-0 w-full md:w-32 border-b md:border-b-0 border-slate-50 pb-3 md:pb-0">
                                         <div className="flex justify-between md:block">
                                             <div>
-                                                <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Reference</div>
+                                                <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Booking ID</div>
                                                 <div className="text-sm md:text-base font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">#{booking.id}</div>
                                             </div>
                                             <div className="text-right md:text-left">
@@ -164,7 +164,7 @@ export default function AdminBookingsPage() {
 
                                     {/* Status Badge */}
                                     <div className="flex-shrink-0 w-full md:w-28 flex md:flex-col justify-between items-center md:items-start border-y md:border-y-0 border-slate-50 py-3 md:py-0">
-                                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest md:mb-1.5">Status</div>
+                                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest md:mb-1">Status</div>
                                         <span className={`px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest border
                                             ${booking.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-100' :
                                                 booking.status === 'cancelled' ? 'bg-rose-50 text-rose-700 border-rose-100' :
@@ -181,7 +181,7 @@ export default function AdminBookingsPage() {
                                                     onClick={() => updateStatus(booking.id, 'confirmed')}
                                                     className="flex-1 md:flex-none px-4 py-2 bg-indigo-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-indigo-700 transition shadow-md shadow-indigo-600/20 active:scale-95"
                                                 >
-                                                    Approve
+                                                    Confirm
                                                 </button>
                                                 <button
                                                     onClick={() => updateStatus(booking.id, 'cancelled')}
@@ -196,7 +196,7 @@ export default function AdminBookingsPage() {
                                                 onClick={() => updateStatus(booking.id, 'pending')}
                                                 className="px-4 py-2 bg-slate-50 border border-slate-200 text-slate-500 rounded-lg text-[9px] font-black uppercase tracking-widest hover:border-slate-400 hover:text-slate-900 transition active:scale-95"
                                             >
-                                                Relist
+                                                Reset
                                             </button>
                                         )}
                                         <Link
