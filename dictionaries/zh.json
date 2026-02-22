@@ -251,8 +251,8 @@
     "sessionExpired": "您的会话已过期。请重新登录。"
   },
   "authSuccess": {
-    "emailVerifiedTitle": "电子邮件已验证！",
-    "emailVerifiedMessage": "您的电子邮件已成功验证。您现在可以访问所有功能。",
+    "emailVerifiedTitle": "已验证！",
+    "emailVerifiedMessage": "您的电子邮件已成功验证。请登录以继续。",
     "emailUpdatedTitle": "电子邮件已更新！",
     "emailUpdatedMessage": "您的电子邮件地址已成功更新。",
     "passwordResetTitle": "密码已重置！",

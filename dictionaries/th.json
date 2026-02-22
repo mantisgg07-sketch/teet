@@ -251,8 +251,8 @@
     "sessionExpired": "เซสชันของคุณหมดอายุแล้ว โปรดเข้าสู่ระบบอีกครั้ง"
   },
   "authSuccess": {
-    "emailVerifiedTitle": "ยืนยันอีเมลแล้ว!",
-    "emailVerifiedMessage": "ยืนยันอีเมลของคุณสำเร็จแล้ว ตอนนี้คุณสามารถเข้าถึงคุณสมบัติทั้งหมดได้",
+    "emailVerifiedTitle": "ยืนยันแล้ว!",
+    "emailVerifiedMessage": "ยืนยันอีเมลของคุณสำเร็จแล้ว โปรดเข้าสู่ระบบเพื่อดำเนินการต่อ",
     "emailUpdatedTitle": "อัปเดตอีเมลแล้ว!",
     "emailUpdatedMessage": "อัปเดตที่อยู่อีเมลของคุณสำเร็จแล้ว",
     "passwordResetTitle": "รีเซ็ตรหัสผ่านแล้ว!",

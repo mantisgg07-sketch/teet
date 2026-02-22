@@ -251,8 +251,8 @@
     "sessionExpired": "Your session has expired. Please log in again."
   },
   "authSuccess": {
-    "emailVerifiedTitle": "Email Verified!",
-    "emailVerifiedMessage": "Your email has been successfully verified. You can now access all features.",
+    "emailVerifiedTitle": "Verified!",
+    "emailVerifiedMessage": "Your email has been successfully verified. Please log in to continue.",
     "emailUpdatedTitle": "Email Updated!",
     "emailUpdatedMessage": "Your email address has been successfully updated.",
     "passwordResetTitle": "Password Reset!",

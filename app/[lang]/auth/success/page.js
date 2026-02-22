@@ -122,13 +122,14 @@ export default function AuthSuccessPage() {
     switch (type) {
       case 'email_verified':
         return {
-          title: dict?.authSuccess?.emailVerifiedTitle || 'Email Verified!',
-          message: dict?.authSuccess?.emailVerifiedMessage || 'Your email has been successfully verified. You can now access all features.',
+          title: dict?.authSuccess?.emailVerifiedTitle || 'Verified!',
+          message: dict?.authSuccess?.emailVerifiedMessage || 'Your email has been successfully verified. Please log in to continue.',
           icon: (
             <svg className="w-16 h-16 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           ),
+          showLogin: true,
           showProfile: true
         }
       case 'email_updated':
