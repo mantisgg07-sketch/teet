@@ -14,7 +14,7 @@ export default function ForgotPasswordPage() {
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const pathname = usePathname()
-  
+
   // Extract lang from pathname
   const lang = pathname?.split('/')[1] || 'en'
 
@@ -31,7 +31,20 @@ export default function ForgotPasswordPage() {
     }
 
     try {
-      // Use environment variable for base URL if available, otherwise fallback to window.location.origin
+      // 1. Check if email exists in public.profiles first
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('email', email)
+        .single();
+
+      if (profileError || !profile) {
+        setError('No account found with this email address. Please check your spelling or sign up.');
+        setLoading(false);
+        return;
+      }
+
+      // 2. Use environment variable for base URL if available, otherwise fallback to window.location.origin
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${baseUrl}/${lang}/login/update-password`,
@@ -51,16 +64,16 @@ export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <main className="flex-grow bg-gradient-to-br from-primary-50 to-secondary-50 py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-md mx-auto">
             <div className="bg-white rounded-2xl shadow-glass p-8">
               {/* Logo */}
               <div className="text-center mb-6">
-                <Image 
-                  src="/img/logo.png" 
-                  alt="GoHoliday Logo" 
+                <Image
+                  src="/img/logo.png"
+                  alt="GoHoliday Logo"
                   width={140}
                   height={40}
                   className="h-10 w-auto mx-auto mb-4"
