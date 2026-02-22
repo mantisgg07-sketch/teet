@@ -43,12 +43,16 @@ export default function AuthSuccessPage() {
             setStatus('error')
             setErrorMessage(error.message || 'Something went wrong.')
           } else {
-            // Success! (Note: if error was 'Auth session missing!', it means they verified in a
-            // new browser and we intentionally stripped the hash so they wouldn't auto-login)
+            // Success! 
             setStatus('success')
 
-            // Broadcast the success event to other tabs/browsers if they ARE logged in
-            if (data?.session?.user?.id) {
+            if (error && error.message.toLowerCase().includes('session missing')) {
+              // The user verified in a new browser and we stripped the hash so they wouldn't auto-login.
+              // To completely guarantee they aren't logged in, we explicitly sign out that ghost session.
+              await supabase.auth.signOut()
+            } else if (data?.session?.user?.id) {
+              // They verified in the SAME browser/tab, so they are logged in. 
+              // Broadcast the success event to their other tabs.
               broadcastAuthEvent(type, data.session.user.id)
             }
           }
