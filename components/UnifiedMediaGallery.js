@@ -49,13 +49,31 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
         setActiveIndex(index);
     }
 
-    const openLightbox = (index) => {
-        setSelectedIndex(index)
-    }
-
     const closeLightbox = useCallback(() => {
         setSelectedIndex(null)
+        // If we have a gallery state in history, go back to clear it
+        if (window.history.state?.gallery) {
+            window.history.back()
+        }
     }, [])
+
+    const openLightbox = (index) => {
+        setSelectedIndex(index)
+        // Push state so back button/gesture closes lightbox instead of page navigation
+        window.history.pushState({ gallery: true }, '')
+    }
+
+    // Handle browser back button / mobile back gesture
+    useEffect(() => {
+        const handlePopState = (e) => {
+            if (selectedIndex !== null) {
+                setSelectedIndex(null)
+            }
+        }
+
+        window.addEventListener('popstate', handlePopState)
+        return () => window.removeEventListener('popstate', handlePopState)
+    }, [selectedIndex])
 
     const handleBackdropClick = (e) => {
         if (e.target === e.currentTarget) {
