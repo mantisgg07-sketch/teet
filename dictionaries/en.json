@@ -120,9 +120,8 @@
     "emailPlaceholder": "Enter your email",
     "sendButton": "Send Reset Link",
     "sending": "Sending...",
-    "successMessage": "Password reset email sent! Please check your inbox and follow the link to reset your password.",
-    "errorNotFound": "No account found with this email address. Please check your spelling or sign up.",
-    "warningNotFound": "Reset request sent. NOTE: This email was not found in our primary profile list. If you do not receive an email, please check your spelling or sign up.",
+    "successMessage": "Reset link has been sent to email.",
+    "errorNotFound": "Account not found in this email.",
     "backToLogin": "Back to Login",
     "backToHome": "Back to Home"
   },

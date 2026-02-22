@@ -47,30 +47,37 @@ export default function ForgotPasswordPage() {
       const trimmedEmail = email.trim();
       console.log('[ForgotPassword] Reset request initiated for:', trimmedEmail);
 
-      // 1. Verify existence in public.profiles first (Case-insensitive)
-      const { data: profile, error: profileError } = await supabase
+      // 1. Verify existence in public.profiles (Fast, index-friendly query)
+      const { data: profiles, error: profileError } = await supabase
         .from('profiles')
         .select('id, email')
         .ilike('email', trimmedEmail)
-        .maybeSingle();
+        .limit(1);
 
-      let isProfileMissing = false;
       if (profileError) {
-        console.error('[ForgotPassword] Database error during profile check:', profileError);
-        // If the table doesn't exist, we'll mark as missing but proceed to Auth attempt
-        isProfileMissing = true;
-      } else if (!profile) {
-        console.warn('[ForgotPassword] Email not found in profiles table:', trimmedEmail);
-        isProfileMissing = true;
+        console.error('[ForgotPassword] Database query error:', profileError);
+        setError(dict?.common?.error || 'A verification error occurred. Please try again.');
+        setLoading(false);
+        return;
       }
 
-      console.log('[ForgotPassword] Profile status:', isProfileMissing ? 'MISSING' : 'FOUND', profile);
+      const profile = profiles?.[0];
+      console.log('[ForgotPassword] Profile lookup result:', profile ? 'MATCH FOUND' : 'NO ACCOUNT FOUND');
+
+      if (!profile) {
+        // User requested strict "Account not found" feedback
+        setError(dict?.forgotPassword?.errorNotFound || 'Account not found in this email.');
+        setLoading(false);
+        return;
+      }
+
+      console.log('[ForgotPassword] Verified account (ID: ' + profile.id + '). Requesting reset link...');
 
       // 2. Determine redirect URL
       const origin = typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL || '';
       const redirectTo = `${origin}/${lang}/login/update-password`
 
-      console.log('[ForgotPassword] Attempting Auth reset for:', trimmedEmail, 'via', redirectTo);
+      console.log('[ForgotPassword] Sending reset email to:', trimmedEmail, 'via', redirectTo);
 
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
         redirectTo: redirectTo,
@@ -87,16 +94,8 @@ export default function ForgotPasswordPage() {
         return;
       }
 
-      console.log('[ForgotPassword] SUCCESS: Reset email sent to Supabase Auth.');
-
-      if (isProfileMissing) {
-        // Warn the user that they might have mispelled or account doesn't exist in our record, 
-        // but we tried anyway to be safe.
-        setMessage(dict?.forgotPassword?.warningNotFound || 'Reset request sent. NOTE: This email was not found in our primary profile list. If you do not receive an email, please check your spelling or sign up.');
-      } else {
-        setMessage(dict?.forgotPassword?.successMessage || 'Password reset email sent! Please check your inbox.');
-      }
-
+      console.log('[ForgotPassword] SUCCESS: Reset link has been sent.');
+      setMessage(dict?.forgotPassword?.successMessage || 'Reset link has been sent to email.');
       setEmail('')
     } catch (err) {
       console.error('[ForgotPassword] UNEXPECTED EXCEPTION:', err);
