@@ -118,25 +118,28 @@ export default function EditTourForm({ tour }) {
   return (
     <div className="max-w-4xl mx-auto">
       {/* Header / Breadcrumbs */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
         <div>
-          <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">
-            <Link href="/admin/dashboard" className="hover:text-primary-600 transition-colors">Tours</Link>
-            <span>/</span>
-            <span className="text-gray-900">Edit Tour</span>
+          <div className="flex items-center gap-2 text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+            <Link href="/admin/dashboard" className="hover:text-indigo-600 transition-colors">Inventory</Link>
+            <span className="opacity-40">/</span>
+            <span className="text-slate-900">Modification</span>
           </div>
-          <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-            Edit <span className="text-primary-600">Tour</span>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
+            Refine <span className="text-indigo-600">Listing</span>
           </h1>
         </div>
       </div>
 
-      <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
-        <div className="px-8 py-6 border-b border-gray-50 bg-gray-50/30">
-          <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Tour Settings</h2>
+      <div className="pro-card rounded-[2rem] overflow-hidden border-slate-100">
+        <div className="px-6 md:px-10 py-5 bg-slate-50/30 border-b border-slate-50 flex items-center justify-between">
+          <div>
+            <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">Tour Settings</h2>
+            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Adjust operational parameters</p>
+          </div>
         </div>
 
-        <div className="p-8 md:p-12">
+        <div className="p-6 md:p-10">
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl text-sm font-bold flex items-center gap-3 mb-10 animate-shake">
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -152,10 +155,10 @@ export default function EditTourForm({ tour }) {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-10">
-            <div className="space-y-8">
+            <div className="space-y-6">
               <div className="group">
-                <label htmlFor="title" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Tour Title *
+                <label htmlFor="title" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
+                  Title Archive *
                 </label>
                 <input
                   id="title"
@@ -164,15 +167,15 @@ export default function EditTourForm({ tour }) {
                   value={formData.title}
                   onChange={handleChange}
                   required
-                  className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none"
+                  className="w-full px-5 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner"
                   placeholder="e.g. ULTRA-PREMIUM MALDIVES ESCAPE"
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="group">
-                  <label htmlFor="price" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Tour Price *
+                  <label htmlFor="price" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    Base Valuation *
                   </label>
                   <div className="relative">
                     <input
@@ -184,38 +187,43 @@ export default function EditTourForm({ tour }) {
                       value={formData.price}
                       onChange={handleChange}
                       required
-                      className="w-full pl-6 pr-16 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none"
+                      className="w-full pl-5 pr-14 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner"
                       placeholder="0.00"
                     />
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-gray-400 uppercase tracking-widest">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">
                       {formData.currency}
                     </div>
                   </div>
                 </div>
 
                 <div className="group">
-                  <label htmlFor="currency" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Currency *
+                  <label htmlFor="currency" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    Currency Unit *
                   </label>
-                  <select
-                    id="currency"
-                    name="currency"
-                    value={formData.currency}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none cursor-pointer appearance-none"
-                  >
-                    <option value="USD">USD - US Dollar</option>
-                    <option value="INR">INR - Indian Rupee</option>
-                    <option value="THB">THB - Thai Baht</option>
-                    <option value="NPR">NPR - Nepali Rupee</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      id="currency"
+                      name="currency"
+                      value={formData.currency}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-5 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none cursor-pointer appearance-none shadow-inner"
+                    >
+                      <option value="USD">USD - US Dollar</option>
+                      <option value="INR">INR - Indian Rupee</option>
+                      <option value="THB">THB - Thai Baht</option>
+                      <option value="NPR">NPR - Nepali Rupee</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <div className="group">
-                <label htmlFor="description" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Tour Description *
+                <label htmlFor="description" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
+                  Narrative Brief *
                 </label>
                 <textarea
                   id="description"
@@ -223,16 +231,16 @@ export default function EditTourForm({ tour }) {
                   value={formData.description}
                   onChange={handleChange}
                   required
-                  rows={6}
-                  className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none resize-none"
+                  rows={4}
+                  className="w-full px-5 py-4 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none resize-none shadow-inner"
                   placeholder="Describe the tour details..."
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="group">
-                  <label htmlFor="duration" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Duration *
+                  <label htmlFor="duration" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    Timeframe *
                   </label>
                   <input
                     id="duration"
@@ -241,14 +249,14 @@ export default function EditTourForm({ tour }) {
                     value={formData.duration}
                     onChange={handleChange}
                     required
-                    className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none"
+                    className="w-full px-5 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner"
                     placeholder="e.g. 7 DAYS / 6 NIGHTS"
                   />
                 </div>
 
                 <div className="group">
-                  <label htmlFor="dates" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Available Dates *
+                  <label htmlFor="dates" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
+                    Deployment Window *
                   </label>
                   <input
                     id="dates"
@@ -257,15 +265,15 @@ export default function EditTourForm({ tour }) {
                     value={formData.dates}
                     onChange={handleChange}
                     required
-                    className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none"
+                    className="w-full px-5 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner"
                     placeholder="e.g. Q3 2026, SELECT DATES"
                   />
                 </div>
               </div>
 
               <div className="group">
-                <label htmlFor="location" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Location *
+                <label htmlFor="location" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
+                  Operational Hub *
                 </label>
                 <input
                   id="location"
@@ -274,72 +282,70 @@ export default function EditTourForm({ tour }) {
                   value={formData.location}
                   onChange={handleChange}
                   required
-                  className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none"
+                  className="w-full px-5 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner"
                   placeholder="e.g. MALE, MALDIVES"
                 />
               </div>
             </div>
 
-            <div className="space-y-12 pt-12 border-t border-gray-50">
-              <div>
-                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-1">
-                  Banner Image
-                </label>
-                <div className="bg-gray-50 p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200">
-                  <ImageUpload
-                    images={bannerImage ? [bannerImage] : []}
-                    onUpload={handleBannerUpload}
-                    onRemove={handleBannerRemove}
-                    isBanner={true}
-                  />
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10 border-t border-slate-50">
+              <div className="md:col-span-2">
+                <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-6">Visual Intelligence</h3>
               </div>
 
-              <div>
-                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-1">
-                  Gallery Images
+              <div className="pro-card p-6 md:p-8 rounded-2xl border-slate-100">
+                <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-1">
+                  Primary Asset (Banner)
                 </label>
-                <div className="bg-gray-50 p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200">
-                  <ImageUpload
-                    images={galleryImages}
-                    onUpload={handleGalleryUpload}
-                    onRemove={handleGalleryRemove}
-                    isBanner={false}
-                  />
-                </div>
+                <ImageUpload
+                  images={bannerImage ? [bannerImage] : []}
+                  onUpload={handleBannerUpload}
+                  onRemove={handleBannerRemove}
+                  isBanner={true}
+                />
               </div>
 
-              <div>
-                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-1">
-                  Tour Video
+              <div className="pro-card p-6 md:p-8 rounded-2xl border-slate-100">
+                <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-1">
+                  Exhibition Gallery
                 </label>
-                <div className="bg-gray-50 p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200">
-                  <VideoUpload
-                    videos={videoUrls}
-                    onUpload={handleVideoUpload}
-                    onRemove={handleVideoRemove}
-                  />
-                </div>
+                <ImageUpload
+                  images={galleryImages}
+                  onUpload={handleGalleryUpload}
+                  onRemove={handleGalleryRemove}
+                  isBanner={false}
+                />
+              </div>
+
+              <div className="md:col-span-2 pro-card p-6 md:p-8 rounded-2xl border-slate-100">
+                <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-1">
+                  Motion Media (Video)
+                </label>
+                <VideoUpload
+                  videos={videoUrls}
+                  onUpload={handleVideoUpload}
+                  onRemove={handleVideoRemove}
+                />
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 pt-12 border-t border-gray-50">
+            <div className="flex flex-col sm:flex-row gap-4 pt-10 border-t border-slate-50">
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-5 bg-gray-900 text-white rounded-2xl hover:bg-black transition-all font-black text-xs uppercase tracking-[0.2em] disabled:bg-gray-200 disabled:cursor-not-allowed shadow-xl active:scale-[0.98] group flex items-center justify-center gap-3"
+                className="flex-[2] py-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all font-black text-[10px] uppercase tracking-[0.2em] disabled:bg-slate-200 disabled:cursor-not-allowed shadow-xl shadow-indigo-600/20 active:scale-[0.98] group flex items-center justify-center gap-3"
               >
                 {loading ? (
-                  <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
-                  <svg className="w-5 h-5 group-hover:scale-110 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                  <svg className="w-4 h-4 group-hover:scale-110 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                 )}
-                {loading ? 'Updating...' : 'Update Tour'}
+                {loading ? 'Processing...' : 'Sync Listing'}
               </button>
               <button
                 type="button"
                 onClick={() => router.push('/admin/dashboard')}
-                className="px-10 py-5 bg-white border-2 border-gray-100 text-gray-400 hover:text-gray-900 hover:border-gray-900 rounded-2xl transition-all font-black text-xs uppercase tracking-[0.2em] active:scale-[0.98]"
+                className="flex-1 py-4 bg-white border border-slate-200 text-slate-400 hover:text-slate-900 hover:border-slate-900 rounded-xl transition-all font-black text-[10px] uppercase tracking-[0.2em] active:scale-[0.98]"
               >
                 Cancel
               </button>

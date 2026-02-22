@@ -59,20 +59,20 @@ export default function AdminBookingsPage() {
 
     return (
         <div className="max-w-[1600px] mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                 <div>
-                    <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
+                    <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
                         Bookings
                     </h1>
-                    <p className="text-gray-500 font-medium text-lg">
-                        Manage and track all tour bookings.
+                    <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em] mt-2 ml-1">
+                        Transaction flow manager
                     </p>
                 </div>
                 <button
                     onClick={fetchBookings}
-                    className="px-8 py-3.5 bg-white border-2 border-gray-100 text-gray-900 rounded-2xl font-black text-xs uppercase tracking-widest hover:border-primary-600 hover:text-primary-600 transition-all active:scale-95 shadow-sm"
+                    className="px-6 py-2.5 bg-white border border-slate-200 text-slate-900 rounded-xl font-black text-[10px] uppercase tracking-widest hover:border-indigo-600 hover:text-indigo-600 transition-all active:scale-95 shadow-sm"
                 >
-                    Refresh
+                    Update Feed
                 </button>
             </div>
 
@@ -85,19 +85,19 @@ export default function AdminBookingsPage() {
                     No bookings found yet.
                 </div>
             ) : (
-                <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden mb-10">
-                    <div className="px-8 py-6 border-b border-gray-50">
-                        <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
+                <div className="pro-card rounded-[2rem] overflow-hidden mb-10">
+                    <div className="px-5 md:px-8 py-4 md:py-6 border-b border-slate-50 bg-slate-50/20">
+                        <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
                             <div className="flex items-center gap-3 w-full lg:w-auto">
-                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest min-w-fit">Filter by</span>
-                                <div className="flex flex-wrap gap-2">
+                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest min-w-fit">Filter</span>
+                                <div className="flex flex-wrap gap-1.5">
                                     {['all', 'pending', 'confirmed', 'cancelled'].map((status) => (
                                         <button
                                             key={status}
                                             onClick={() => setStatusFilter(status)}
-                                            className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === status
-                                                ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/20'
-                                                : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
+                                            className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${statusFilter === status
+                                                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'
+                                                : 'bg-white border border-slate-200 text-slate-500 hover:border-slate-300'
                                                 }`}
                                         >
                                             {status}
@@ -105,16 +105,16 @@ export default function AdminBookingsPage() {
                                     ))}
                                 </div>
                             </div>
-                            <div className="relative w-full lg:w-96">
+                            <div className="relative w-full lg:w-80">
                                 <input
                                     type="text"
-                                    placeholder="Search by ID, Name or Email..."
+                                    placeholder="Search entries..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-transparent rounded-[1.25rem] focus:bg-white focus:border-primary-600 transition-all font-bold text-sm tracking-tight outline-none"
+                                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-xs tracking-tight outline-none"
                                 />
-                                <svg className="w-5 h-5 text-gray-300 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                <svg className="w-4 h-4 text-slate-300 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </div>
                         </div>
@@ -128,83 +128,82 @@ export default function AdminBookingsPage() {
                             </div>
                         ) : (
                             filteredBookings.map((booking) => (
-                                <div key={booking.id} className="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 hover:bg-gray-50/50 transition-colors group">
+                                <div key={booking.id} className="p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8 hover:bg-slate-50/50 transition-colors group">
                                     {/* ID & Date */}
-                                    <div className="flex-shrink-0 w-full md:w-32">
-                                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Booking ID</div>
-                                        <div className="text-lg font-black text-gray-900 tracking-tighter group-hover:text-primary-600 transition-colors">#{booking.id}</div>
-                                        <div className="text-[10px] font-bold text-gray-500 uppercase">{new Date(booking.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                                    <div className="flex-shrink-0 w-full md:w-32 border-b md:border-b-0 border-slate-50 pb-3 md:pb-0">
+                                        <div className="flex justify-between md:block">
+                                            <div>
+                                                <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Reference</div>
+                                                <div className="text-sm md:text-base font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">#{booking.id}</div>
+                                            </div>
+                                            <div className="text-right md:text-left">
+                                                <div className="text-[8px] font-bold text-slate-400 uppercase md:hidden">Date</div>
+                                                <div className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mt-0.5 md:mt-1">{new Date(booking.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: '2-digit' })}</div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     {/* Client Info */}
-                                    <div className="flex-1 min-w-0 w-full md:w-auto">
-                                        <div className="flex items-center gap-3 mb-1">
+                                    <div className="flex-1 min-w-0 w-full md:w-auto py-1">
+                                        <div className="flex items-center gap-2 mb-1">
                                             <Link href={`/admin/bookings/${booking.id}`} className="block truncate">
-                                                <h3 className="text-xl font-black text-gray-900 uppercase tracking-tighter group-hover:text-primary-600 transition-colors">
+                                                <h3 className="text-base md:text-lg font-black text-slate-900 uppercase tracking-tighter group-hover:text-indigo-600 transition-colors">
                                                     {booking.name}
                                                 </h3>
                                             </Link>
                                             {booking.user_id && (
-                                                <span className="flex-shrink-0 w-2 h-2 rounded-full bg-blue-500 animate-pulse" title="Registered User"></span>
+                                                <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" title="Verified Member"></div>
                                             )}
                                         </div>
-                                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm font-medium text-gray-500">
-                                            <span className="truncate">{booking.email}</span>
-                                            <span className="text-gray-300">/</span>
-                                            <span className="text-primary-600 font-bold uppercase text-[10px] tracking-widest">Tour #{booking.tour_id}</span>
+                                        <div className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-slate-400">
+                                            <span className="truncate max-w-[150px] md:max-w-none">{booking.email}</span>
+                                            <span className="w-1 h-1 rounded-full bg-slate-200"></span>
+                                            <span className="text-indigo-500 uppercase tracking-widest font-black text-[9px]">Tour #{booking.tour_id}</span>
                                         </div>
                                     </div>
 
                                     {/* Status Badge */}
-                                    <div className="flex-shrink-0 w-full md:w-32 text-center md:text-left">
-                                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Status</div>
-                                        <span className={`inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm
-                                            ${booking.status === 'confirmed' ? 'bg-green-100 text-green-700' :
-                                                booking.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                                                    'bg-yellow-100 text-yellow-700'}`}>
+                                    <div className="flex-shrink-0 w-full md:w-28 flex md:flex-col justify-between items-center md:items-start border-y md:border-y-0 border-slate-50 py-3 md:py-0">
+                                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest md:mb-1.5">Status</div>
+                                        <span className={`px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest border
+                                            ${booking.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-100' :
+                                                booking.status === 'cancelled' ? 'bg-rose-50 text-rose-700 border-rose-100' :
+                                                    'bg-amber-50 text-amber-700 border-amber-100'}`}>
                                             {booking.status}
                                         </span>
                                     </div>
 
                                     {/* Quick Actions */}
-                                    <div className="flex-shrink-0 w-full md:w-auto flex flex-wrap md:flex-nowrap gap-2 justify-center">
+                                    <div className="flex-shrink-0 w-full md:w-auto flex gap-1.5 pt-2 md:pt-0">
                                         {booking.status === 'pending' && (
                                             <>
                                                 <button
                                                     onClick={() => updateStatus(booking.id, 'confirmed')}
-                                                    className="px-5 py-2.5 bg-green-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-green-700 transition shadow-lg shadow-green-600/10 active:scale-95"
+                                                    className="flex-1 md:flex-none px-4 py-2 bg-indigo-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-indigo-700 transition shadow-md shadow-indigo-600/20 active:scale-95"
                                                 >
                                                     Approve
                                                 </button>
                                                 <button
                                                     onClick={() => updateStatus(booking.id, 'cancelled')}
-                                                    className="px-5 py-2.5 bg-white border-2 border-red-50 text-red-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-50 transition active:scale-95"
+                                                    className="w-10 h-10 md:w-9 md:h-9 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center hover:bg-rose-600 hover:text-white transition-all active:scale-95 group/btn"
                                                 >
-                                                    Reject
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
                                                 </button>
                                             </>
                                         )}
-                                        {booking.status === 'confirmed' && (
-                                            <button
-                                                onClick={() => updateStatus(booking.id, 'cancelled')}
-                                                className="px-5 py-2.5 bg-white border-2 border-red-50 text-red-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-50 transition active:scale-95"
-                                            >
-                                                Cancel order
-                                            </button>
-                                        )}
-                                        {booking.status === 'cancelled' && (
+                                        {booking.status !== 'pending' && (
                                             <button
                                                 onClick={() => updateStatus(booking.id, 'pending')}
-                                                className="px-5 py-2.5 bg-white border-2 border-gray-200 text-gray-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition active:scale-95"
+                                                className="px-4 py-2 bg-slate-50 border border-slate-200 text-slate-500 rounded-lg text-[9px] font-black uppercase tracking-widest hover:border-slate-400 hover:text-slate-900 transition active:scale-95"
                                             >
-                                                Restart
+                                                Relist
                                             </button>
                                         )}
                                         <Link
                                             href={`/admin/bookings/${booking.id}`}
-                                            className="px-5 py-2.5 bg-gray-50 text-gray-900 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition active:scale-95 flex items-center justify-center font-black"
+                                            className="w-10 h-10 md:w-9 md:h-9 bg-slate-900 text-white rounded-lg flex items-center justify-center hover:bg-black transition-all shadow-lg active:scale-95"
                                         >
-                                            View Details
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
                                         </Link>
                                     </div>
                                 </div>

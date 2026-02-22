@@ -50,19 +50,19 @@ export default function AdminSidebar({ isOpen, setIsOpen, currentPath }) {
     }
 
     return (
-        <aside className={`fixed lg:sticky top-0 left-0 h-screen w-72 bg-gray-900 text-white z-50 transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <aside className={`fixed lg:sticky top-0 left-0 h-screen w-72 bg-slate-900 text-white z-50 transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'} border-r border-slate-800`}>
             <div className="flex flex-col h-full px-4 py-8">
                 {/* Logo */}
                 <div className="px-4 mb-10 flex items-center justify-between">
-                    <Link href="/admin/dashboard" className="flex items-center gap-2">
-                        <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center font-black text-xl italic shadow-lg shadow-primary-600/20">
+                    <Link href="/admin/dashboard" className="flex items-center gap-3 group">
+                        <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-black text-xl italic shadow-lg shadow-indigo-600/40 group-hover:scale-110 transition-transform">
                             G
                         </div>
-                        <span className="text-xl font-black uppercase tracking-tighter">Admin Panel</span>
+                        <span className="text-xl font-black uppercase tracking-tighter text-slate-100 group-hover:text-white transition-colors">Admin <span className="text-indigo-400">Hub</span></span>
                     </Link>
-                    <button onClick={() => setIsOpen(false)} className="lg:hidden p-2 hover:bg-white/10 rounded-lg">
+                    <button onClick={() => setIsOpen(false)} className="lg:hidden p-2 hover:bg-slate-800 rounded-xl transition-colors text-slate-400 hover:text-white">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
@@ -76,15 +76,18 @@ export default function AdminSidebar({ isOpen, setIsOpen, currentPath }) {
                                 key={item.name}
                                 href={item.href}
                                 onClick={() => setIsOpen(false)}
-                                className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-200 group ${isActive
-                                    ? 'bg-primary-600 text-white font-bold shadow-lg shadow-primary-600/20'
-                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative ${isActive
+                                    ? 'bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-600/20'
+                                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
                                     }`}
                             >
-                                <span className={isActive ? 'text-white' : 'text-gray-500 group-hover:text-primary-400'}>
+                                <span className={isActive ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400 transition-colors'}>
                                     {item.icon}
                                 </span>
-                                <span className="text-sm uppercase tracking-widest font-black">{item.name}</span>
+                                <span className={`text-[11px] uppercase tracking-[0.2em] font-black ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'}`}>{item.name}</span>
+                                {isActive && (
+                                    <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+                                )}
                             </Link>
                         )
                     })}
@@ -94,12 +97,12 @@ export default function AdminSidebar({ isOpen, setIsOpen, currentPath }) {
                 <div className="mt-auto pt-6 border-t border-white/5">
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-red-400 hover:bg-red-400/10 hover:text-red-300 transition-all duration-200"
+                        className="w-full flex items-center gap-4 px-4 py-4 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 group"
                     >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
-                        <span className="text-sm uppercase tracking-widest font-black">Logout</span>
+                        <span className="text-[11px] uppercase tracking-[0.2em] font-black">Exit Terminal</span>
                     </button>
                 </div>
             </div>

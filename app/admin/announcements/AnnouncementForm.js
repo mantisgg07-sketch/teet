@@ -59,7 +59,11 @@ export default function AnnouncementForm() {
   }
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl pro-card rounded-[2rem] p-6 md:p-10">
+      <div className="mb-8">
+        <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter">New Broadcast</h2>
+        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Deploy system-wide signals</p>
+      </div>
       {error && (
         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl text-sm font-bold flex items-center gap-3 mb-8 animate-shake">
           <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,8 +84,8 @@ export default function AnnouncementForm() {
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="group">
-          <label htmlFor="message" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-            Announcement Message *
+          <label htmlFor="message" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-indigo-600 transition-colors">
+            Broadcast Content *
           </label>
           <textarea
             id="message"
@@ -89,32 +93,32 @@ export default function AnnouncementForm() {
             onChange={(e) => setMessage(e.target.value)}
             required
             rows={4}
-            className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-[1.5rem] focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none resize-none"
+            className="w-full px-5 py-4 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none resize-none shadow-inner"
             placeholder="Type your system announcement here..."
           />
         </div>
 
         <div>
-          <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 ml-1">
-            Show as *
+          <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+            Display Mode *
           </label>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setType('banner')}
-              className={`px-6 py-4 rounded-2xl border-2 transition-all flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-widest
-                    ${type === 'banner' ? 'bg-gray-900 border-gray-900 text-white shadow-xl' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-200'}`}
+              className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
+                    ${type === 'banner' ? 'bg-slate-900 border-slate-900 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'}`}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
               Banner
             </button>
             <button
               type="button"
               onClick={() => setType('popup')}
-              className={`px-6 py-4 rounded-2xl border-2 transition-all flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-widest
-                    ${type === 'popup' ? 'bg-gray-900 border-gray-900 text-white shadow-xl' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-200'}`}
+              className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
+                    ${type === 'popup' ? 'bg-slate-900 border-slate-900 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'}`}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C8.67 6.165 8 7.388 8 11v3.159c0 .538-.214 1.055-.595 1.436L6 17h5m0 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C8.67 6.165 8 7.388 8 11v3.159c0 .538-.214 1.055-.595 1.436L6 17h5m0 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
               Overlay
             </button>
           </div>
@@ -122,24 +126,21 @@ export default function AnnouncementForm() {
 
         {type === 'popup' && (
           <div className="animate-fade-in">
-            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 ml-1">
-              Image (Optional)
+            <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+              Visual Asset
             </label>
-            <div className="bg-gray-50 p-6 rounded-[2rem] border-2 border-dashed border-gray-200">
+            <div className="bg-slate-50 p-6 rounded-2xl border border-dashed border-slate-200">
               <ImageUpload
                 images={imageUrl ? [imageUrl] : []}
                 onUpload={(url) => setImageUrl(url)}
                 onRemove={() => setImageUrl('')}
                 isBanner={true}
               />
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-4 text-center">
-                Recommended 1200x600px for optimal impact
-              </p>
             </div>
           </div>
         )}
 
-        <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-[1.5rem] border border-gray-100">
+        <div className="flex items-center gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-100">
           <div className="relative inline-flex items-center cursor-pointer">
             <input
               id="isActive"
@@ -148,27 +149,24 @@ export default function AnnouncementForm() {
               onChange={(e) => setIsActive(e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-600 transition-colors"></div>
+            <div className="w-12 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600 transition-colors"></div>
           </div>
-          <label htmlFor="isActive" className="text-[10px] font-black text-gray-900 uppercase tracking-widest cursor-pointer select-none">
-            Make this active now
+          <label htmlFor="isActive" className="text-[9px] font-black text-slate-900 uppercase tracking-widest cursor-pointer select-none">
+            Deploy Live Immediately
           </label>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-5 bg-gray-900 text-white rounded-2xl hover:bg-black transition-all font-black text-xs uppercase tracking-[0.2em] disabled:bg-gray-200 disabled:cursor-not-allowed shadow-xl active:scale-[0.98] group flex items-center justify-center gap-3"
+          className="w-full py-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all font-black text-[10px] uppercase tracking-[0.3em] disabled:bg-slate-200 disabled:cursor-not-allowed shadow-xl shadow-indigo-600/20 active:scale-[0.98] group flex items-center justify-center gap-3"
         >
           {loading ? (
-            <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
+            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
           ) : (
-            <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+            <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
           )}
-          {loading ? 'Creating...' : 'Create Announcement'}
+          {loading ? 'Deploying...' : 'Authorize Broadcast'}
         </button>
       </form>
     </div>

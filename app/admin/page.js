@@ -51,48 +51,45 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 relative overflow-hidden">
-      {/* Background Accents */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gray-900"></div>
-      <div className="absolute -top-[10%] -right-[5%] w-[40%] h-[60%] bg-gray-50 rounded-full blur-[120px] opacity-50"></div>
-      <div className="absolute -bottom-[10%] -left-[5%] w-[40%] h-[60%] bg-primary-50 rounded-full blur-[120px] opacity-30"></div>
+    <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center px-4 relative overflow-hidden">
+      {/* Dynamic Background */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-indigo-600 shadow-[0_0_20px_rgba(79,70,229,0.5)] z-20"></div>
+      <div className="absolute -top-[20%] -right-[10%] w-[60%] h-[80%] bg-indigo-600/10 rounded-full blur-[120px] animate-pulse"></div>
+      <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[80%] bg-blue-600/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(15,23,42,0)_0%,rgba(15,23,42,1)_100%)] z-10"></div>
 
-      <div className="max-w-md w-full relative z-10">
-        <div className="bg-white p-10 md:p-12">
-          <div className="text-center mb-12">
-            <div className="flex justify-center mb-8">
-              <div className="p-4 bg-gray-900 rounded-[2rem] shadow-2xl">
-                <Image
-                  src="/img/logo.png"
-                  alt="GoHoliday Logo"
-                  width={120}
-                  height={50}
-                  className="h-10 w-auto brightness-0 invert"
-                />
+      <div className="max-w-[420px] w-full relative z-20">
+        <div className="pro-card rounded-[2.5rem] p-8 md:p-12 border-slate-800 bg-slate-900/50 backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-1 bg-indigo-600/20 group-hover:bg-indigo-600/40 transition-colors"></div>
+
+          <div className="text-center mb-10">
+            <div className="flex justify-center mb-10">
+              <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center shadow-xl border border-slate-700 group-hover:scale-110 transition-transform duration-500">
+                <span className="text-3xl font-black italic text-indigo-500">G</span>
               </div>
             </div>
-            <h1 className="text-5xl font-black text-gray-900 mb-2 uppercase tracking-tighter">
-              Admin <span className="text-primary-600">Log In</span>
+            <h1 className="text-3xl md:text-4xl font-black text-white mb-2 uppercase tracking-tighter">
+              Admin <span className="text-indigo-400">Terminal</span>
             </h1>
-            <p className="text-gray-400 font-bold uppercase text-[10px] tracking-[0.3em] ml-1">
-              Sign in to manage your tours
+            <p className="text-slate-500 font-bold uppercase text-[9px] tracking-[0.3em] ml-1">
+              Secure Operations Interface
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {error && (
-              <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl text-sm font-bold flex items-center gap-3 animate-shake">
-                <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-5 py-3.5 rounded-xl text-[11px] font-bold flex items-center gap-3 mb-8 animate-shake">
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 {error}
               </div>
             )}
 
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="group">
-                <label htmlFor="email" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Email Address
+                <label htmlFor="email" className="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-400 transition-colors text-center">
+                  Authentication Identity
                 </label>
                 <div className="relative">
                   <input
@@ -101,20 +98,20 @@ export default function AdminLoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none"
-                    placeholder="admin@goholiday.com"
+                    className="w-full px-6 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl focus:bg-slate-800 focus:border-indigo-500 transition-all font-bold text-white text-center text-sm outline-none shadow-inner"
+                    placeholder="admin@terminal.io"
                   />
-                  <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none opacity-20">
+                  <div className="absolute inset-y-0 right-6 flex items-center pointer-events-none opacity-20">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </div>
                 </div>
               </div>
 
               <div className="group">
-                <label htmlFor="password" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Password
+                <label htmlFor="password" className="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-400 transition-colors text-center">
+                  Private Access Key
                 </label>
                 <div className="relative">
                   <input
@@ -123,13 +120,13 @@ export default function AdminLoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 pr-14 outline-none"
+                    className="w-full px-6 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl focus:bg-slate-800 focus:border-indigo-500 transition-all font-bold text-white text-center text-sm pr-14 outline-none shadow-inner"
                     placeholder="••••••••"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-900 transition-colors"
+                    className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
                   >
                     {showPassword ? (
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -149,19 +146,17 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-5 bg-gray-900 text-white rounded-2xl hover:bg-black transition-all font-black text-xs uppercase tracking-[0.2em] disabled:bg-gray-200 disabled:cursor-not-allowed shadow-xl active:scale-[0.98] group"
+              className="w-full py-5 bg-indigo-600 text-white rounded-2xl hover:bg-indigo-700 transition-all font-black text-[10px] uppercase tracking-[0.2em] disabled:bg-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed shadow-xl shadow-indigo-600/20 active:scale-[0.98] group relative overflow-hidden"
             >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
               {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Logging in...
+                <span className="flex items-center justify-center gap-3">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Establishing Link...
                 </span>
               ) : (
-                <span className="flex items-center justify-center gap-2">
-                  Log In
+                <span className="flex items-center justify-center gap-3">
+                  Initialize Session
                   <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
@@ -171,9 +166,9 @@ export default function AdminLoginPage() {
           </form>
 
           <div className="mt-12 text-center">
-            <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest leading-loose">
-              Admin Dashboard V2.0<br />
-              Secure Admin Access
+            <p className="text-[9px] font-black text-slate-600 uppercase tracking-[0.3em] leading-loose">
+              System Node: ADMIN_v2.5<br />
+              <span className="text-indigo-900/40">Encrypted Channel Active</span>
             </p>
           </div>
         </div>

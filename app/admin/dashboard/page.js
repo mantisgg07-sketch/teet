@@ -49,101 +49,102 @@ export default async function AdminDashboardPage() {
   return (
     <div className="max-w-[1600px] mx-auto">
       {/* Welcome Section */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
         <div>
-          <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-            Control Center
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
+            Control <span className="text-indigo-600">Center</span>
           </h1>
-          <p className="text-gray-500 font-medium text-lg">
-            Monitor and manage your holiday experiences.
+          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-2 ml-1">
+            Real-time operations management
           </p>
         </div>
         <Link
           href="/admin/tours/new"
-          className="px-8 py-3.5 bg-primary-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-primary-500 transition-all shadow-xl shadow-primary-600/20 active:scale-95 text-center"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 active:scale-95 text-center flex items-center justify-center gap-2"
         >
-          + Create New Tour
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
+          Create New Tour
         </Link>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300">
-          <div className="flex flex-col gap-4">
-            <div className="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
+        <div className="pro-card rounded-2xl p-5 md:p-8">
+          <div className="flex flex-col gap-3 md:gap-4">
+            <div className="w-10 h-10 md:w-14 md:h-14 bg-indigo-50 rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-3xl shadow-sm">
               🏖️
             </div>
             <div>
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">Portfolio</p>
-              <p className="text-3xl font-black text-gray-900 tracking-tighter">{stats.totalTours} <span className="text-xs text-gray-400 font-bold ml-1 uppercase">Tours</span></p>
+              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Portfolio</p>
+              <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.totalTours} <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">Tours</span></p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300">
-          <div className="flex flex-col gap-4">
-            <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm">
+        <div className="pro-card rounded-2xl p-5 md:p-8">
+          <div className="flex flex-col gap-3 md:gap-4">
+            <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-50 rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-3xl shadow-sm">
               📢
             </div>
             <div>
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">Marketing</p>
-              <p className="text-3xl font-black text-gray-900 tracking-tighter">{stats.activeAnnouncements} <span className="text-xs text-gray-400 font-bold ml-1 uppercase">Active</span></p>
+              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Marketing</p>
+              <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.activeAnnouncements} <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">Active</span></p>
             </div>
           </div>
         </div>
 
-        <Link href="/admin/bookings" className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:shadow-primary-100 transition-all duration-300 group">
-          <div className="flex flex-col gap-4">
-            <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm group-hover:bg-green-100 transition-colors">
+        <Link href="/admin/bookings" className="pro-card rounded-2xl p-5 md:p-8 hover:border-indigo-200 group">
+          <div className="flex flex-col gap-3 md:gap-4">
+            <div className="w-10 h-10 md:w-14 md:h-14 bg-green-50 rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-3xl shadow-sm group-hover:bg-green-100 transition-colors">
               📅
             </div>
             <div>
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">Revenue Queue</p>
-              <p className="text-3xl font-black text-gray-900 tracking-tighter group-hover:text-primary-600 transition-colors">{stats.pendingBookings} <span className="text-xs text-gray-400 font-bold ml-1 uppercase">Pending</span></p>
+              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Queue</p>
+              <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">{stats.pendingBookings} <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">Pending</span></p>
             </div>
           </div>
         </Link>
 
-        <Link href="/admin/customers" className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 hover:shadow-xl hover:shadow-indigo-100 transition-all duration-300 group">
-          <div className="flex flex-col gap-4">
-            <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm group-hover:bg-indigo-100 transition-colors">
+        <Link href="/admin/customers" className="pro-card rounded-2xl p-5 md:p-8 hover:border-indigo-200 group">
+          <div className="flex flex-col gap-3 md:gap-4">
+            <div className="w-10 h-10 md:w-14 md:h-14 bg-slate-50 rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-3xl shadow-sm group-hover:bg-indigo-50 transition-colors">
               👥
             </div>
             <div>
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">Growth</p>
-              <p className="text-3xl font-black text-gray-900 tracking-tighter group-hover:text-indigo-600 transition-colors">Insights <span className="text-xs text-gray-400 font-bold ml-1 uppercase">&rar;</span></p>
+              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Growth</p>
+              <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">Stats <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">&rarr;</span></p>
             </div>
           </div>
         </Link>
       </div>
 
       {/* Tours Section */}
-      <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
-        <div className="px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gray-50/30">
+      <div className="pro-card rounded-[2rem] overflow-hidden">
+        <div className="px-6 md:px-8 py-5 md:py-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
           <div>
-            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">All Tours</h2>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Manage your active tour listings</p>
+            <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">Inventory</h2>
+            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Manage live listings</p>
           </div>
           <Link
             href="/admin/tours/new"
-            className="px-6 py-3 bg-gray-900 text-white rounded-2xl hover:bg-black transition-all font-black text-[10px] uppercase tracking-widest flex items-center gap-2 group shadow-lg active:scale-95"
+            className="w-10 h-10 md:w-auto md:px-6 md:py-3 bg-slate-900 text-white rounded-xl md:rounded-2xl hover:bg-black transition-all font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 group shadow-lg active:scale-95"
           >
             <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
             </svg>
-            Create New Tour
+            <span className="hidden md:inline">Create Tour</span>
           </Link>
         </div>
 
         {tours.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 p-8 md:p-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 p-4 md:p-8">
             {tours.map((tour) => (
               <div
                 key={tour.id}
-                className="group relative bg-gray-50 border-2 border-transparent hover:border-primary-600 hover:bg-white rounded-[2rem] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-primary-600/10"
+                className="group relative bg-slate-50/50 border border-slate-100 hover:border-indigo-600 hover:bg-white rounded-2xl md:rounded-[2rem] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-600/10"
               >
                 {/* Image Section */}
-                <div className="relative h-56 w-full overflow-hidden">
+                <div className="relative h-40 md:h-56 w-full overflow-hidden">
                   {tour.banner_image ? (
                     <Image
                       src={tour.banner_image}
@@ -153,47 +154,47 @@ export default async function AdminDashboardPage() {
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center text-4xl grayscale grayscale-100 group-hover:grayscale-0 transition-all">
-                      🏖️
+                    <div className="w-full h-full bg-slate-200 flex items-center justify-center text-4xl grayscale grayscale-100 group-hover:grayscale-0 transition-all italic font-black text-slate-400">
+                      NULL
                     </div>
                   )}
                   {/* Badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-lg text-[10px] font-black text-gray-900 uppercase tracking-widest shadow-sm">
+                  <div className="absolute top-3 left-3">
+                    <span className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-lg text-[8px] font-black text-slate-900 uppercase tracking-widest shadow-sm">
                       #{tour.id}
                     </span>
                   </div>
                 </div>
 
                 {/* Content Section */}
-                <div className="p-6 pt-8 relative">
-                  <div className="text-[10px] font-black text-primary-600 uppercase tracking-[0.2em] mb-2">{tour.duration} experience</div>
-                  <h3 className="text-xl font-black text-gray-900 uppercase tracking-tighter mb-4 line-clamp-1 group-hover:text-primary-600 transition-colors">
+                <div className="p-4 md:p-6 pt-6 md:pt-8 relative">
+                  <div className="text-[8px] md:text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-1.5 md:mb-2">{tour.duration} experience</div>
+                  <h3 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter mb-3 md:mb-4 line-clamp-1 group-hover:text-indigo-600 transition-colors">
                     {tour.title_en || tour.title}
                   </h3>
 
-                  <div className="flex items-center gap-4 mb-8">
+                  <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
                     <div className="flex-1">
-                      <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Investment</div>
-                      <div className="text-2xl font-black text-gray-900">
+                      <div className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Pricing</div>
+                      <div className="text-xl md:text-2xl font-black text-slate-900 leading-none">
                         <TourPriceDisplay price={tour.price} currency={tour.currency} />
                       </div>
                     </div>
-                    <div className="flex-1">
-                      <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Location</div>
-                      <div className="text-sm font-black text-gray-700 uppercase tracking-tight truncate">
+                    <div className="flex-1 overflow-hidden">
+                      <div className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Station</div>
+                      <div className="text-xs md:text-sm font-black text-slate-700 uppercase tracking-tight truncate">
                         {tour.location_en || tour.location}
                       </div>
                     </div>
                   </div>
 
                   {/* Actions Bar */}
-                  <div className="flex gap-2 pt-6 border-t border-gray-100">
+                  <div className="flex gap-2 pt-4 md:pt-6 border-t border-slate-100">
                     <Link
                       href={`/admin/tours/edit/${tour.id}`}
-                      className="flex-1 px-4 py-3 bg-gray-900 text-white rounded-xl font-black text-[10px] uppercase tracking-[0.15em] text-center hover:bg-primary-600 transition-all active:scale-95"
+                      className="flex-1 px-4 py-2.5 bg-slate-900 text-white rounded-xl font-black text-[9px] uppercase tracking-widest text-center hover:bg-indigo-600 transition-all active:scale-95"
                     >
-                      Configure
+                      Config
                     </Link>
                     <DeleteTourButton tourId={tour.id} tourTitle={tour.title_en || tour.title} />
                   </div>
