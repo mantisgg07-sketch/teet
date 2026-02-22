@@ -313,19 +313,10 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
                             <span>BACK</span>
                         </button>
 
-                        <div className="hidden md:flex items-center gap-4">
+                        <div className="flex items-center gap-4">
                             <div className="text-white/90 font-black bg-black/40 px-4 py-2 rounded-full backdrop-blur-md border border-white/10 text-xs tracking-widest">
                                 {selectedIndex + 1} / {activeMedia.length}
                             </div>
-                            <button
-                                onClick={closeLightbox}
-                                className="p-3 bg-white/10 hover:bg-red-500/20 hover:text-red-400 rounded-full transition-all border border-white/10 text-white pointer-events-auto"
-                                aria-label="Close"
-                            >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
                         </div>
 
                         {/* Mobile Only Counter */}
