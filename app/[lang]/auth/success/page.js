@@ -31,41 +31,34 @@ export default function AuthSuccessPage() {
   // Handle Session Refresh & Broadcast
   useEffect(() => {
     const handleSession = async () => {
-      if (type === 'email_updated' || type === 'email_verified') {
-        if (!supabase) return
+      if (!supabase) return
 
+      if (type === 'email_updated') {
+        // For email updates, the layout script strips the hash to prevent auto-login in new browsers.
+        // The original browser tab will detect the update via its own Window Focus listener.
+        setStatus('success')
+
+        // If we are already logged in (original browser), broadcast the change to other tabs
+        // to force an immediate update without waiting for focus.
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.user?.id) {
+          broadcastAuthEvent(type, session.user.id)
+        }
+        return
+      }
+
+      if (type === 'email_verified') {
         try {
-          // Force a session refresh to finalize the token hash from the URL
+          // Finalize session refresh for new accounts/sign-ups
           const { data, error } = await supabase.auth.refreshSession()
 
-          if (error && !error.message.toLowerCase().includes('session missing')) {
+          if (error) {
             console.error('Session refresh error:', error)
             setStatus('error')
             setErrorMessage(error.message || 'Something went wrong.')
           } else {
-            // Success! 
             setStatus('success')
-
-            if (type === 'email_updated') {
-              // Check if this browser was the one that requested the email change
-              const isOriginalBrowser = localStorage.getItem('is_original_browser')
-
-              if (!isOriginalBrowser) {
-                // This is a NEW browser (like Brave). They clicked the link here.
-                // Supabase automatically parsed the URL hash and logged them in locally.
-                // We MUST sign them out locally so they don't stay unexpectedly logged in!
-                await supabase.auth.signOut({ scope: 'local' })
-              } else {
-                // This is the ORIGINAL browser. The session belongs here!
-                // Clear the flag so it doesn't leak to future requests
-                localStorage.removeItem('is_original_browser')
-
-                // Broadcast the success event to their other tabs in this browser
-                if (data?.session?.user?.id) {
-                  broadcastAuthEvent(type, data.session.user.id)
-                }
-              }
-            } else if (data?.session?.user?.id) {
+            if (data?.session?.user?.id) {
               broadcastAuthEvent(type, data.session.user.id)
             }
           }
@@ -75,7 +68,7 @@ export default function AuthSuccessPage() {
           setErrorMessage('An unexpected error occurred.')
         }
       } else {
-        // For other types (like password reset), just show success directly
+        // Password resets and other types show success immediately
         setStatus('success')
       }
     }

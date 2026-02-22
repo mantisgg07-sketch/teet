@@ -29,6 +29,9 @@ export default function RootLayout({ children }) {
 
         if (hash.includes('type=email_change')) {
           successType = 'email_updated';
+          // Strictly strip the hash so the new browser NEVER handles the tokens.
+          // The original tab will refresh its own session via the window focus listener.
+          appendHash = '';
         } else if (hash.includes('type=recovery')) {
           window.location.replace('/' + lang + '/login/update-password' + hash);
           return;

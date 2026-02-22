@@ -243,9 +243,6 @@ export default function SettingsPage() {
 
       if (error) throw error
 
-      // Mark this browser as the original browser so we know NOT to sign it out on success
-      localStorage.setItem('is_original_browser', 'true')
-
       setEmailUpdateMessage({
         type: 'success',
         text: dict?.settings?.emailUpdateSuccessShort || dict?.profile?.emailUpdateSuccess || 'Confirmation links have been sent to both your old and new email addresses. This page will update automatically once confirmed.'
