@@ -60,14 +60,15 @@ export default function ForgotPasswordPage() {
       }
 
       if (!profile) {
-        setError(dict?.forgotPassword?.errorNotFound || 'No account found with this email address. Please check your spelling or sign up.');
-        setLoading(false);
-        return;
+        console.log('Account not found in public.profiles, falling back to silent Supabase reset attempt for security/sync resilience.');
+        // Instead of erroring out, we proceed to call resetPasswordForEmail.
+        // Supabase will handle it: if user exists in auth.users, they get an email.
+        // If they don't, nothing happens (prevents user enumeration).
       }
 
       // 2. Use environment variable for base URL if available, otherwise fallback to window.location.origin
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
-      console.log('Sending reset email to:', email.trim(), 'with redirect:', `${baseUrl}/${lang}/login/update-password`);
+      console.log('Sending reset email attempt to:', email.trim());
 
       const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
         redirectTo: `${baseUrl}/${lang}/login/update-password`,
@@ -78,7 +79,7 @@ export default function ForgotPasswordPage() {
         throw error;
       }
 
-      console.log('Reset email sent successfully');
+      console.log('Reset request processed');
       setMessage(dict?.forgotPassword?.successMessage || 'Password reset email sent! Please check your inbox and follow the link to reset your password.')
       setEmail('')
     } catch (error) {

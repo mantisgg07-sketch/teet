@@ -5,7 +5,7 @@ export async function GET(request) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
   const type = requestUrl.searchParams.get('type') // email_verified, password_reset, etc.
-  
+
   // Get the lang from the request or default to 'en'
   const lang = requestUrl.searchParams.get('lang') || 'en'
 
@@ -39,7 +39,7 @@ export async function GET(request) {
   } else if (requestUrl.searchParams.get('token_hash')) {
     // Handle email change confirmations (token_hash flow)
     const token_hash = requestUrl.searchParams.get('token_hash')
-    
+
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -56,9 +56,17 @@ export async function GET(request) {
         return NextResponse.redirect(new URL(`/${lang}/login?error=auth_failed`, requestUrl.origin))
       }
 
-      let successType = 'email_verified'
       if (type === 'email_change') {
         successType = 'email_updated'
+
+        // Sync the new email to the public.profiles table
+        const { data: { user }, error: userError } = await supabase.auth.getUser()
+        if (!userError && user) {
+          await supabase
+            .from('profiles')
+            .update({ email: user.email })
+            .eq('id', user.id)
+        }
       }
 
       return NextResponse.redirect(new URL(`/${lang}/auth/success?type=${successType}`, requestUrl.origin))
