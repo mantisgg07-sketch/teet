@@ -150,7 +150,7 @@ export default function ProfilePage() {
 
   const handleSignOut = async () => {
     if (supabase) {
-      await supabase.auth.signOut({ scope: 'local' })
+      await supabase.auth.signOut({ scope: "local" })
       router.push(`/${lang}`)
     }
   }
