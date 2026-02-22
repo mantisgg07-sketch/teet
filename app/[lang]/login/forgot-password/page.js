@@ -25,11 +25,11 @@ export default function ForgotPasswordPage() {
     getDictionary(lang).then(setDict)
   }, [lang])
 
-  // Clear error/message when user starts typing again
-  useEffect(() => {
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
     if (error) setError('')
     if (message) setMessage('')
-  }, [email])
+  }
 
   const handleResetPassword = async (e) => {
     e.preventDefault()
@@ -138,7 +138,7 @@ export default function ForgotPasswordPage() {
                     id="email"
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={handleEmailChange}
                     required
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     placeholder={dict.forgotPassword.emailPlaceholder}
