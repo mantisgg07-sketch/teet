@@ -14,7 +14,7 @@ export default function AdminLoginPage() {
 
   // Redirect if already logged in via iron-session
   useEffect(() => {
-    fetch('/api/customers') // Any protected API to check session
+    fetch('/api/admin/session') // Use dedicated session check API
       .then(res => {
         if (res.ok) router.push('/admin/dashboard')
       })

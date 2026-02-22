@@ -12,8 +12,11 @@ export default function AdminLayout({ children }) {
 
     // Client-side auth guard for session expiry
     useEffect(() => {
-        // We do a lightweight check to a protected API to see if session is still alive
-        fetch('/api/customers')
+        // Skip check if we are already on the login page
+        if (pathname === '/admin') return;
+
+        // Use the dedicated session check API
+        fetch('/api/admin/session')
             .then(res => {
                 if (!res.ok && res.status === 401) {
                     router.push('/admin')
