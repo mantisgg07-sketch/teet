@@ -44,33 +44,63 @@ export default function ForgotPasswordPage() {
     }
 
     try {
-      console.log('Sending forgot password request to Supabase Auth for:', email.trim());
+      const trimmedEmail = email.trim();
+      console.log('[ForgotPassword] Reset request initiated for:', trimmedEmail);
 
-      // Use environment variable for base URL if available, otherwise fallback to window.location.origin
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
+      // 1. Verify existence in public.profiles first (Case-insensitive)
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('id, email')
+        .ilike('email', trimmedEmail)
+        .maybeSingle();
 
-      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-        redirectTo: `${baseUrl}/${lang}/login/update-password`,
+      let isProfileMissing = false;
+      if (profileError) {
+        console.error('[ForgotPassword] Database error during profile check:', profileError);
+        // If the table doesn't exist, we'll mark as missing but proceed to Auth attempt
+        isProfileMissing = true;
+      } else if (!profile) {
+        console.warn('[ForgotPassword] Email not found in profiles table:', trimmedEmail);
+        isProfileMissing = true;
+      }
+
+      console.log('[ForgotPassword] Profile status:', isProfileMissing ? 'MISSING' : 'FOUND', profile);
+
+      // 2. Determine redirect URL
+      const origin = typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL || '';
+      const redirectTo = `${origin}/${lang}/login/update-password`
+
+      console.log('[ForgotPassword] Attempting Auth reset for:', trimmedEmail, 'via', redirectTo);
+
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
+        redirectTo: redirectTo,
       })
 
-      if (error) {
-        console.error('Supabase reset error:', error);
-        // Map common Supabase errors to user-friendly messages
-        const errMsg = error.message?.toLowerCase() || '';
+      if (resetError) {
+        console.error('[ForgotPassword] Supabase Auth service error:', resetError);
+        const errMsg = resetError.message?.toLowerCase() || '';
         if (errMsg.includes('rate limit')) {
           setError(dict?.errors?.rateLimitExceeded || 'Too many attempts. Please try again later.');
         } else {
-          setError(error.message);
+          setError(resetError.message);
         }
         return;
       }
 
-      console.log('Reset request successfully accepted by Supabase Auth');
-      setMessage(dict?.forgotPassword?.successMessage || 'If an account exists with this email, we have sent a password reset link. Please check your inbox.')
+      console.log('[ForgotPassword] SUCCESS: Reset email sent to Supabase Auth.');
+
+      if (isProfileMissing) {
+        // Warn the user that they might have mispelled or account doesn't exist in our record, 
+        // but we tried anyway to be safe.
+        setMessage(dict?.forgotPassword?.warningNotFound || 'Reset request sent. NOTE: This email was not found in our primary profile list. If you do not receive an email, please check your spelling or sign up.');
+      } else {
+        setMessage(dict?.forgotPassword?.successMessage || 'Password reset email sent! Please check your inbox.');
+      }
+
       setEmail('')
-    } catch (error) {
-      console.error('Unexpected error in forgot password flow:', error);
-      setError(error.message || 'An unexpected error occurred. Please try again.')
+    } catch (err) {
+      console.error('[ForgotPassword] UNEXPECTED EXCEPTION:', err);
+      setError(err.message || 'An unexpected error occurred. Please try again.')
     } finally {
       setLoading(false)
     }
