@@ -237,6 +237,8 @@ export default function SettingsPage() {
       // If password is correct, proceed with email update
       const { error } = await supabase.auth.updateUser({
         email: newEmail
+      }, {
+        emailRedirectTo: `${window.location.origin}/${lang}/auth/success?type=email_updated`
       })
 
       if (error) throw error
