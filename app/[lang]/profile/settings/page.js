@@ -219,7 +219,25 @@ export default function SettingsPage() {
     setEmailUpdateMessage({ type: '', text: '' })
 
     try {
-      // Verify the current password first
+      // 1. Check if the new email is already in use in profiles to give immediate feedback
+      const { data: existingProfile, error: profileCheckError } = await supabase
+        .from('profiles')
+        .select('id')
+        .ilike('email', newEmail.trim())
+        .maybeSingle()
+
+      if (profileCheckError) {
+        console.error('Error checking email availability:', profileCheckError)
+      } else if (existingProfile) {
+        setEmailUpdateMessage({
+          type: 'error',
+          text: dict?.errors?.emailAlreadyInUse || 'This email is already in use. Please use a different email address.'
+        })
+        setIsUpdatingEmail(false)
+        return
+      }
+
+      // 2. Verify the current password first
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email: user.email,
         password: emailPassword
@@ -234,14 +252,26 @@ export default function SettingsPage() {
         return
       }
 
-      // If password is correct, proceed with email update
-      const { error } = await supabase.auth.updateUser({
-        email: newEmail
+      // 3. If password is correct, proceed with email update in Supabase Auth
+      const { error: authUpdateError } = await supabase.auth.updateUser({
+        email: newEmail.trim()
       }, {
         emailRedirectTo: `${window.location.origin}/${lang}/auth/success?type=email_updated`
       })
 
-      if (error) throw error
+      if (authUpdateError) throw authUpdateError
+
+      // 4. Proactively update the profile email so Forgot Password works immediately
+      // This is safe because we already checked for existence above.
+      const { error: profileUpdateError } = await supabase
+        .from('profiles')
+        .update({ email: newEmail.trim() })
+        .eq('id', user.id)
+
+      if (profileUpdateError) {
+        console.warn('Auth updated but profile sync failed:', profileUpdateError)
+        // We don't throw here as the main auth update succeeded
+      }
 
       setEmailUpdateMessage({
         type: 'success',
