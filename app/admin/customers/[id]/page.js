@@ -98,17 +98,17 @@ export default function AdminCustomerDetailPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                 <div>
                     <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">
-                        <Link href="/admin/customers" className="hover:text-primary-600 transition-colors">Analytics</Link>
+                        <Link href="/admin/customers" className="hover:text-primary-600 transition-colors">Customers</Link>
                         <span>/</span>
-                        <span className="text-gray-900">Customer Profile</span>
+                        <span className="text-gray-900">Customer Details</span>
                     </div>
                     <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-                        Client <span className="text-primary-600">Identity</span>
+                        Customer <span className="text-primary-600">Info</span>
                     </h1>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="text-right hidden md:block">
-                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Lifetime Value</div>
+                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Spent</div>
                         <div className="text-2xl font-black text-primary-600 tracking-tighter">${stats.totalSpend.toLocaleString()}</div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@ export default function AdminCustomerDetailPage() {
 
                             <div className="space-y-6 pt-8 border-t border-gray-50">
                                 <div>
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Primary Contact</label>
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Phone Number</label>
                                     <a href={`tel:${customer.phone}`} className="text-sm font-black text-gray-900 hover:text-primary-600 transition-colors flex items-center gap-2">
                                         <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center">
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
@@ -142,7 +142,7 @@ export default function AdminCustomerDetailPage() {
                                     </a>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Acquisition Date</label>
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Joined</label>
                                     <div className="text-sm font-black text-gray-900 flex items-center gap-2">
                                         <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center">
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
@@ -154,11 +154,11 @@ export default function AdminCustomerDetailPage() {
 
                             <div className="mt-10 grid grid-cols-2 gap-4">
                                 <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Orders</div>
+                                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Bookings</div>
                                     <div className="text-xl font-black text-gray-900 tracking-tighter">{stats.totalBookings}</div>
                                 </div>
                                 <div className="p-4 bg-green-50 rounded-2xl border border-green-100/50">
-                                    <div className="text-[10px] font-black text-green-600 uppercase tracking-widest mb-1">Success</div>
+                                    <div className="text-[10px] font-black text-green-600 uppercase tracking-widest mb-1">Completed</div>
                                     <div className="text-xl font-black text-green-700 tracking-tighter">{Math.round((stats.completedBookings / stats.totalBookings) * 100) || 0}%</div>
                                 </div>
                             </div>
@@ -170,17 +170,17 @@ export default function AdminCustomerDetailPage() {
                 <div className="lg:col-span-8">
                     <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
                         <div className="px-8 py-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
-                            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Order History</h2>
-                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Digital Ledger</span>
+                            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Booking History</h2>
+                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">History</span>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead className="text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-50">
                                     <tr>
-                                        <th className="px-8 py-5">Verification</th>
-                                        <th className="px-8 py-5">Deployment</th>
+                                        <th className="px-8 py-5">Booking ID</th>
+                                        <th className="px-8 py-5">Tour</th>
                                         <th className="px-8 py-5">Status</th>
-                                        <th className="px-8 py-5 text-right">Revenue</th>
+                                        <th className="px-8 py-5 text-right">Price</th>
                                         <th className="px-8 py-5"></th>
                                     </tr>
                                 </thead>

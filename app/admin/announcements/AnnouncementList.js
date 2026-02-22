@@ -70,11 +70,11 @@ export default function AnnouncementList({ announcements }) {
         <table className="w-full text-left">
           <thead className="text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-50">
             <tr>
-              <th className="px-6 py-5">Communication Content</th>
-              <th className="px-6 py-5">Protocol</th>
-              <th className="px-6 py-5">Deployment</th>
-              <th className="px-6 py-5">Timestamp</th>
-              <th className="px-6 py-5 text-right">Operations</th>
+              <th className="px-6 py-5">Announcement</th>
+              <th className="px-6 py-5">Type</th>
+              <th className="px-6 py-5">Status</th>
+              <th className="px-6 py-5">Date</th>
+              <th className="px-6 py-5 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
@@ -105,7 +105,7 @@ export default function AnnouncementList({ announcements }) {
                       ? 'bg-green-100 text-green-700'
                       : 'bg-gray-100 text-gray-400'
                     }`}>
-                    {announcement.is_active ? 'Live' : 'Standby'}
+                    {announcement.is_active ? 'Active' : 'Inactive'}
                   </span>
                 </td>
                 <td className="px-6 py-6">
@@ -123,7 +123,7 @@ export default function AnnouncementList({ announcements }) {
                           ? 'bg-amber-50 text-amber-600 hover:bg-amber-100'
                           : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-600/20'}`}
                     >
-                      {actionLoading === announcement.id ? '...' : announcement.is_active ? 'Decommission' : 'Deploy'}
+                      {actionLoading === announcement.id ? '...' : announcement.is_active ? 'Stop' : 'Start'}
                     </button>
                     <button
                       onClick={() => handleDelete(announcement.id, announcement.message_en || announcement.message)}

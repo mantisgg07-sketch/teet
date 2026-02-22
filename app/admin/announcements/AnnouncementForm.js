@@ -81,7 +81,7 @@ export default function AnnouncementForm() {
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="group">
           <label htmlFor="message" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-            Broadcast Content *
+            Announcement Message *
           </label>
           <textarea
             id="message"
@@ -96,7 +96,7 @@ export default function AnnouncementForm() {
 
         <div>
           <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 ml-1">
-            Deployment Type *
+            Show as *
           </label>
           <div className="grid grid-cols-2 gap-4">
             <button
@@ -123,7 +123,7 @@ export default function AnnouncementForm() {
         {type === 'popup' && (
           <div className="animate-fade-in">
             <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 ml-1">
-              Visual Narrative (Optional)
+              Image (Optional)
             </label>
             <div className="bg-gray-50 p-6 rounded-[2rem] border-2 border-dashed border-gray-200">
               <ImageUpload
@@ -151,7 +151,7 @@ export default function AnnouncementForm() {
             <div className="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-600 transition-colors"></div>
           </div>
           <label htmlFor="isActive" className="text-[10px] font-black text-gray-900 uppercase tracking-widest cursor-pointer select-none">
-            Establish as Immediate Priority (Live Deploys)
+            Make this active now
           </label>
         </div>
 
@@ -168,7 +168,7 @@ export default function AnnouncementForm() {
           ) : (
             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
           )}
-          {loading ? 'Initializing...' : 'Authorize Broadcast'}
+          {loading ? 'Creating...' : 'Create Announcement'}
         </button>
       </form>
     </div>

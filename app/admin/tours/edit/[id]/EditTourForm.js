@@ -123,17 +123,17 @@ export default function EditTourForm({ tour }) {
           <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">
             <Link href="/admin/dashboard" className="hover:text-primary-600 transition-colors">Tours</Link>
             <span>/</span>
-            <span className="text-gray-900">Modify Experience</span>
+            <span className="text-gray-900">Edit Tour</span>
           </div>
           <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-            Edit <span className="text-primary-600">Protocol</span>
+            Edit <span className="text-primary-600">Tour</span>
           </h1>
         </div>
       </div>
 
       <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
         <div className="px-8 py-6 border-b border-gray-50 bg-gray-50/30">
-          <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Configuration Matrix</h2>
+          <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Tour Settings</h2>
         </div>
 
         <div className="p-8 md:p-12">
@@ -155,7 +155,7 @@ export default function EditTourForm({ tour }) {
             <div className="space-y-8">
               <div className="group">
                 <label htmlFor="title" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Experience Designation (Title) *
+                  Tour Title *
                 </label>
                 <input
                   id="title"
@@ -172,7 +172,7 @@ export default function EditTourForm({ tour }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="group">
                   <label htmlFor="price" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Fiduciary Scale (Price) *
+                    Tour Price *
                   </label>
                   <div className="relative">
                     <input
@@ -195,7 +195,7 @@ export default function EditTourForm({ tour }) {
 
                 <div className="group">
                   <label htmlFor="currency" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Monetary Unit *
+                    Currency *
                   </label>
                   <select
                     id="currency"
@@ -215,7 +215,7 @@ export default function EditTourForm({ tour }) {
 
               <div className="group">
                 <label htmlFor="description" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Operational Intel (Description) *
+                  Tour Description *
                 </label>
                 <textarea
                   id="description"
@@ -225,14 +225,14 @@ export default function EditTourForm({ tour }) {
                   required
                   rows={6}
                   className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none resize-none"
-                  placeholder="Describe the full experience parameters..."
+                  placeholder="Describe the tour details..."
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="group">
                   <label htmlFor="duration" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Mission Span (Duration) *
+                    Duration *
                   </label>
                   <input
                     id="duration"
@@ -248,7 +248,7 @@ export default function EditTourForm({ tour }) {
 
                 <div className="group">
                   <label htmlFor="dates" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Availability Windows *
+                    Available Dates *
                   </label>
                   <input
                     id="dates"
@@ -265,7 +265,7 @@ export default function EditTourForm({ tour }) {
 
               <div className="group">
                 <label htmlFor="location" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Deployment Coordinates (Location) *
+                  Location *
                 </label>
                 <input
                   id="location"
@@ -283,7 +283,7 @@ export default function EditTourForm({ tour }) {
             <div className="space-y-12 pt-12 border-t border-gray-50">
               <div>
                 <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-1">
-                  Primary Visual (Banner)
+                  Banner Image
                 </label>
                 <div className="bg-gray-50 p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200">
                   <ImageUpload
@@ -297,7 +297,7 @@ export default function EditTourForm({ tour }) {
 
               <div>
                 <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-1">
-                  Asset Gallery
+                  Gallery Images
                 </label>
                 <div className="bg-gray-50 p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200">
                   <ImageUpload
@@ -311,7 +311,7 @@ export default function EditTourForm({ tour }) {
 
               <div>
                 <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-1">
-                  Motion Assets (Video)
+                  Tour Video
                 </label>
                 <div className="bg-gray-50 p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200">
                   <VideoUpload
@@ -334,7 +334,7 @@ export default function EditTourForm({ tour }) {
                 ) : (
                   <svg className="w-5 h-5 group-hover:scale-110 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                 )}
-                {loading ? 'Syncing...' : 'Authorize Update'}
+                {loading ? 'Updating...' : 'Update Tour'}
               </button>
               <button
                 type="button"

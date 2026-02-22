@@ -75,47 +75,47 @@ export default function AnalyticsPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                 <div>
                     <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-                        Customer Insights
+                        Customers
                     </h1>
                     <p className="text-gray-500 font-medium text-lg">
-                        Analyze behavior and manage your client base.
+                        Manage your customers and view their booking history.
                     </p>
                 </div>
                 <button
                     onClick={fetchAnalytics}
                     className="px-8 py-3.5 bg-white border-2 border-gray-100 text-gray-900 rounded-2xl font-black text-xs uppercase tracking-widest hover:border-primary-600 hover:text-primary-600 transition-all active:scale-95 shadow-sm"
                 >
-                    Update Analytics
+                    Refresh
                 </button>
             </div>
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300">
-                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Total Audience</div>
+                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Total Customers</div>
                     <div className="flex items-end gap-2">
                         <div className="text-4xl font-black text-gray-900 tracking-tighter">{stats.totalCustomers}</div>
-                        <div className="text-xs font-bold text-gray-400 mb-1 uppercase tracking-widest">Profiles</div>
+                        <div className="text-xs font-bold text-gray-400 mb-1 uppercase tracking-widest">Total</div>
                     </div>
                 </div>
                 <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl hover:shadow-primary-100 transition-all duration-300">
-                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Loyalty Rate</div>
+                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Returning Customers</div>
                     <div className="flex items-end gap-2">
                         <div className="text-4xl font-black text-primary-600 tracking-tighter">{stats.returningCustomers}</div>
-                        <div className="text-xs font-bold text-gray-400 mb-1 uppercase tracking-widest">Returning</div>
+                        <div className="text-xs font-bold text-gray-400 mb-1 uppercase tracking-widest">Customers</div>
                     </div>
                     <div className="mt-4 px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-[10px] font-black uppercase tracking-widest inline-block">
                         {stats.totalCustomers ? Math.round((stats.returningCustomers / stats.totalCustomers) * 100) : 0}% retention
                     </div>
                 </div>
                 <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300">
-                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Historical Orders</div>
+                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Total Bookings</div>
                     <div className="flex items-end gap-2">
                         <div className="text-4xl font-black text-gray-900 tracking-tighter">{stats.totalBookings}</div>
                         <div className="text-xs font-bold text-gray-400 mb-1 uppercase tracking-widest">Total</div>
                     </div>
                 </div>
                 <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl hover:shadow-green-100 transition-all duration-300">
-                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Success Rate</div>
+                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Completion Rate</div>
                     <div className="flex items-end gap-2 text-green-600">
                         <div className="text-4xl font-black tracking-tighter">{stats.confirmedRate}%</div>
                         <div className="text-xs font-black mb-1 uppercase tracking-widest opacity-60">Verified</div>
@@ -127,15 +127,15 @@ export default function AnalyticsPage() {
             <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
                 <div className="px-8 py-6 border-b border-gray-50 flex items-center justify-between">
                     <div>
-                        <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tighter">Client Directory</h2>
-                        <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mt-1">Showing top performing segments</p>
+                        <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tighter">All Customers</h2>
+                        <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mt-1">List of all customers who have booked tours</p>
                     </div>
                 </div>
                 <div className="divide-y divide-gray-50">
                     {loading ? (
-                        <div className="py-20 text-center text-gray-400 font-bold uppercase text-xs tracking-widest">Loading audience data...</div>
+                        <div className="py-20 text-center text-gray-400 font-bold uppercase text-xs tracking-widest">Loading customers...</div>
                     ) : stats.customers.length === 0 ? (
-                        <div className="py-20 text-center grayscale opacity-40 uppercase font-black text-xl tracking-tighter">No clients registered yet</div>
+                        <div className="py-20 text-center grayscale opacity-40 uppercase font-black text-xl tracking-tighter">No customers found</div>
                     ) : (
                         stats.customers.map((customer, index) => (
                             <div
@@ -166,7 +166,7 @@ export default function AnalyticsPage() {
 
                                 {/* Stats Badge */}
                                 <div className="flex flex-row md:flex-col gap-2 md:gap-1 items-center md:items-end min-w-[120px]">
-                                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest md:mb-1">Volume</div>
+                                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest md:mb-1">Bookings</div>
                                     <span className={`px-4 py-1 rounded-xl text-xs font-black tracking-tighter ${customer.bookings > 1 ? 'bg-indigo-50 text-indigo-700' : 'bg-gray-100 text-gray-600'}`}>
                                         {customer.bookings} <span className="text-[9px] uppercase tracking-widest ml-1 font-bold">Orders</span>
                                     </span>

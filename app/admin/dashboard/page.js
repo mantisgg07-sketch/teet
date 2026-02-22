@@ -117,29 +117,26 @@ export default async function AdminDashboardPage() {
         </Link>
       </div>
 
-      {/* Tours Management Section */}
-      <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 p-8 md:p-12">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10 pb-10 border-b border-gray-100">
+      {/* Tours Section */}
+      <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
+        <div className="px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gray-50/30">
           <div>
-            <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter mb-2">Inventory Management</h2>
-            <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">Manage your experiences and availability</p>
+            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">All Tours</h2>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Manage your active tour listings</p>
           </div>
-          <div className="flex items-center gap-3 w-full md:w-auto">
-            <div className="relative flex-1 md:w-64">
-              <input
-                type="text"
-                placeholder="Find a tour..."
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary-600 transition-all font-bold text-sm tracking-tight outline-none"
-              />
-              <svg className="w-5 h-5 text-gray-300 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-          </div>
+          <Link
+            href="/admin/tours/new"
+            className="px-6 py-3 bg-gray-900 text-white rounded-2xl hover:bg-black transition-all font-black text-[10px] uppercase tracking-widest flex items-center gap-2 group shadow-lg active:scale-95"
+          >
+            <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+            </svg>
+            Create New Tour
+          </Link>
         </div>
 
         {tours.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 p-8 md:p-12">
             {tours.map((tour) => (
               <div
                 key={tour.id}

@@ -62,17 +62,17 @@ export default function AdminBookingsPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                 <div>
                     <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-                        Booking Orders
+                        Bookings
                     </h1>
                     <p className="text-gray-500 font-medium text-lg">
-                        Process and track your customer requests.
+                        Manage and track all tour bookings.
                     </p>
                 </div>
                 <button
                     onClick={fetchBookings}
                     className="px-8 py-3.5 bg-white border-2 border-gray-100 text-gray-900 rounded-2xl font-black text-xs uppercase tracking-widest hover:border-primary-600 hover:text-primary-600 transition-all active:scale-95 shadow-sm"
                 >
-                    Refresh Sync
+                    Refresh
                 </button>
             </div>
 
@@ -131,7 +131,7 @@ export default function AdminBookingsPage() {
                                 <div key={booking.id} className="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 hover:bg-gray-50/50 transition-colors group">
                                     {/* ID & Date */}
                                     <div className="flex-shrink-0 w-full md:w-32">
-                                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Order Ref</div>
+                                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Booking ID</div>
                                         <div className="text-lg font-black text-gray-900 tracking-tighter group-hover:text-primary-600 transition-colors">#{booking.id}</div>
                                         <div className="text-[10px] font-bold text-gray-500 uppercase">{new Date(booking.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</div>
                                     </div>
@@ -157,7 +157,7 @@ export default function AdminBookingsPage() {
 
                                     {/* Status Badge */}
                                     <div className="flex-shrink-0 w-full md:w-32 text-center md:text-left">
-                                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Stage</div>
+                                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Status</div>
                                         <span className={`inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm
                                             ${booking.status === 'confirmed' ? 'bg-green-100 text-green-700' :
                                                 booking.status === 'cancelled' ? 'bg-red-100 text-red-700' :
@@ -204,7 +204,7 @@ export default function AdminBookingsPage() {
                                             href={`/admin/bookings/${booking.id}`}
                                             className="px-5 py-2.5 bg-gray-50 text-gray-900 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition active:scale-95 flex items-center justify-center font-black"
                                         >
-                                            View Full details
+                                            View Details
                                         </Link>
                                     </div>
                                 </div>

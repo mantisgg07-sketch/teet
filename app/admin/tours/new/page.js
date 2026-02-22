@@ -117,17 +117,17 @@ export default function NewTourPage() {
           <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">
             <Link href="/admin/dashboard" className="hover:text-primary-600 transition-colors">Tours</Link>
             <span>/</span>
-            <span className="text-gray-900">New Deployment</span>
+            <span className="text-gray-900">Add New Tour</span>
           </div>
           <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-            Architect <span className="text-primary-600">Experience</span>
+            Create New <span className="text-primary-600">Tour</span>
           </h1>
         </div>
       </div>
 
       <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
         <div className="px-8 py-6 border-b border-gray-50 bg-gray-50/30">
-          <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Technical Specifications</h2>
+          <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Tour Details</h2>
         </div>
 
         <div className="p-8 md:p-12">
@@ -149,7 +149,7 @@ export default function NewTourPage() {
             <div className="space-y-8">
               <div className="group">
                 <label htmlFor="title" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Project Designation (Title) *
+                  Tour Title *
                 </label>
                 <input
                   id="title"
@@ -166,7 +166,7 @@ export default function NewTourPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="group">
                   <label htmlFor="price" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Base Valuation *
+                    Tour Price *
                   </label>
                   <div className="relative">
                     <input
@@ -189,7 +189,7 @@ export default function NewTourPage() {
 
                 <div className="group">
                   <label htmlFor="currency" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Fiduciary Unit *
+                    Currency *
                   </label>
                   <select
                     id="currency"
@@ -209,7 +209,7 @@ export default function NewTourPage() {
 
               <div className="group">
                 <label htmlFor="description" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Operational Details (Description) *
+                  Tour Description *
                 </label>
                 <textarea
                   id="description"
@@ -219,14 +219,14 @@ export default function NewTourPage() {
                   required
                   rows={6}
                   className="w-full px-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-gray-900 transition-all font-bold text-gray-900 outline-none resize-none"
-                  placeholder="Outline the full experience scope..."
+                  placeholder="Outline the full tour details..."
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="group">
                   <label htmlFor="duration" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Temporal Window (Duration) *
+                    Duration *
                   </label>
                   <input
                     id="duration"
@@ -242,7 +242,7 @@ export default function NewTourPage() {
 
                 <div className="group">
                   <label htmlFor="dates" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                    Availability Cycles *
+                    Available Dates *
                   </label>
                   <input
                     id="dates"
@@ -259,7 +259,7 @@ export default function NewTourPage() {
 
               <div className="group">
                 <label htmlFor="location" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-primary-600 transition-colors">
-                  Geographical Coordinates (Location) *
+                  Location *
                 </label>
                 <input
                   id="location"
@@ -277,7 +277,7 @@ export default function NewTourPage() {
             <div className="space-y-12 pt-12 border-t border-gray-50">
               <div>
                 <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-1">
-                  Primary Visual (Banner)
+                  Banner Image
                 </label>
                 <div className="bg-gray-50 p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200">
                   <ImageUpload
@@ -291,7 +291,7 @@ export default function NewTourPage() {
 
               <div>
                 <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-1">
-                  Experience Gallery
+                  Gallery Images
                 </label>
                 <div className="bg-gray-50 p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200">
                   <ImageUpload
@@ -305,7 +305,7 @@ export default function NewTourPage() {
 
               <div>
                 <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-1">
-                  Cinematic Assets (Video)
+                  Tour Video
                 </label>
                 <div className="bg-gray-50 p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200">
                   <VideoUpload
@@ -328,14 +328,14 @@ export default function NewTourPage() {
                 ) : (
                   <svg className="w-5 h-5 group-hover:scale-110 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
                 )}
-                {loading ? 'Initializing...' : 'Authorize Deployment'}
+                {loading ? 'Creating...' : 'Create Tour'}
               </button>
               <button
                 type="button"
                 onClick={() => router.push('/admin/dashboard')}
                 className="px-10 py-5 bg-white border-2 border-gray-100 text-gray-400 hover:text-gray-900 hover:border-gray-900 rounded-2xl transition-all font-black text-xs uppercase tracking-[0.2em] active:scale-[0.98]"
               >
-                Abort
+                Cancel
               </button>
             </div>
           </form>

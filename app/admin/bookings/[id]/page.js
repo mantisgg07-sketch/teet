@@ -117,7 +117,7 @@ export default function BookingDetailPage({ params }) {
                     <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">
                         <Link href="/admin/bookings" className="hover:text-primary-600 transition-colors">Bookings</Link>
                         <span>/</span>
-                        <span className="text-gray-900">Order Details</span>
+                        <span className="text-gray-900">Booking Details</span>
                     </div>
                     <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
                         Booking <span className="text-primary-600">#{booking.id}</span>
@@ -145,7 +145,7 @@ export default function BookingDetailPage({ params }) {
                         <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="space-y-6">
                                 <div>
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Tour Reference</label>
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Tour</label>
                                     <div className="text-xl font-black text-gray-900 tracking-tighter">#{booking.tour_id}</div>
                                     <Link href={`/en/tours/${booking.tour_id}`} target="_blank" className="mt-2 inline-flex items-center text-primary-600 font-bold text-xs uppercase tracking-wide hover:underline gap-1">
                                         View Live Page
@@ -155,11 +155,11 @@ export default function BookingDetailPage({ params }) {
                                 <div className="p-6 bg-gray-50 rounded-3xl border border-gray-100">
                                     <div className="grid grid-cols-2 gap-6">
                                         <div>
-                                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Group Size</div>
-                                            <div className="text-2xl font-black text-gray-900 tracking-tighter">{booking.guests || 1} <span className="text-sm text-gray-500 font-bold">Pax</span></div>
+                                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Guests</div>
+                                            <div className="text-2xl font-black text-gray-900 tracking-tighter">{booking.guests || 1} <span className="text-sm text-gray-500 font-bold">People</span></div>
                                         </div>
                                         <div>
-                                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Revenue</div>
+                                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Price</div>
                                             <div className="text-2xl font-black text-primary-600 tracking-tighter">
                                                 {booking.total_price ? `$${booking.total_price.toLocaleString()}` : '$0'}
                                             </div>
@@ -169,7 +169,7 @@ export default function BookingDetailPage({ params }) {
                             </div>
                             <div className="space-y-6">
                                 <div>
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Submission Date</label>
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Booking Date</label>
                                     <div className="text-lg font-black text-gray-900 tracking-tighter">
                                         {new Date(booking.created_at).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}
                                     </div>
@@ -184,12 +184,12 @@ export default function BookingDetailPage({ params }) {
                     {/* Customer Details Card */}
                     <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
                         <div className="px-8 py-6 border-b border-gray-50 bg-gray-50/30">
-                            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Client Profile</h2>
+                            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Customer Details</h2>
                         </div>
                         <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
                             <div className="space-y-6">
                                 <div>
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Full Identity</label>
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Name</label>
                                     <div className="text-2xl font-black text-gray-900 uppercase tracking-tighter">{booking.name}</div>
                                     {booking.user_id && (
                                         <span className="mt-2 inline-flex items-center px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-blue-100">
@@ -198,7 +198,7 @@ export default function BookingDetailPage({ params }) {
                                     )}
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Communication</label>
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Contact Information</label>
                                     <div className="space-y-3">
                                         <a href={`mailto:${booking.email}`} className="flex items-center gap-3 text-gray-600 hover:text-primary-600 transition-colors font-bold group">
                                             <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-primary-50">
@@ -219,7 +219,7 @@ export default function BookingDetailPage({ params }) {
                             </div>
                             <div className="space-y-6">
                                 <div>
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Preferred Gateway</label>
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Preferred Contact Method</label>
                                     <div className="flex items-center gap-3">
                                         {booking.contact_method === 'whatsapp' ? (
                                             <div className="flex items-center gap-3 px-5 py-3 bg-green-50 text-green-700 rounded-2xl border border-green-100">
@@ -253,7 +253,7 @@ export default function BookingDetailPage({ params }) {
                     {booking.message && (
                         <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
                             <div className="px-8 py-6 border-b border-gray-50 bg-gray-50/30">
-                                <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Request Details</h2>
+                                <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Message from Customer</h2>
                             </div>
                             <div className="p-8">
                                 <div className="bg-gray-50 p-8 rounded-[2rem] text-lg font-medium text-gray-700 leading-relaxed border border-gray-100 italic relative">
@@ -268,9 +268,9 @@ export default function BookingDetailPage({ params }) {
 
                 {/* Sidebar Column */}
                 <div className="lg:col-span-4 space-y-10">
-                    {/* Management Actions */}
+                    {/* Admin Actions */}
                     <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 p-8 sticky top-24">
-                        <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter mb-8 text-center uppercase">Management Panel</h2>
+                        <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter mb-8 text-center uppercase">Admin Actions</h2>
 
                         <div className="space-y-4 mb-10">
                             <button
@@ -282,7 +282,7 @@ export default function BookingDetailPage({ params }) {
                                         : 'bg-green-600 text-white hover:bg-green-700 shadow-green-600/10'}`}
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                                {booking.status === 'confirmed' ? 'Verified' : 'Approve Order'}
+                                {booking.status === 'confirmed' ? 'Verified' : 'Approve Booking'}
                             </button>
 
                             <button
@@ -294,7 +294,7 @@ export default function BookingDetailPage({ params }) {
                                         : 'bg-white border-2 border-yellow-100 text-yellow-600 hover:bg-yellow-50 shadow-yellow-600/5'}`}
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                Set Pending
+                                Move to Pending
                             </button>
 
                             <button
@@ -306,16 +306,16 @@ export default function BookingDetailPage({ params }) {
                                         : 'bg-white border-2 border-red-50 text-red-600 hover:bg-red-50 shadow-red-600/5'}`}
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                                Reject Order
+                                Cancel Booking
                             </button>
                         </div>
 
                         <div className="pt-8 border-t border-gray-50">
-                            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 ml-1">Internal Protocol (Notes)</h3>
+                            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 ml-1">Internal Notes</h3>
                             <textarea
                                 value={adminNote}
                                 onChange={(e) => setAdminNote(e.target.value)}
-                                placeholder="Logs and observations..."
+                                placeholder="Add private notes here..."
                                 className="w-full h-40 p-5 bg-gray-50 border-2 border-transparent rounded-[1.5rem] focus:bg-white focus:border-primary-600 transition-all font-bold text-sm outline-none resize-none mb-4"
                             />
                             <button
@@ -323,7 +323,7 @@ export default function BookingDetailPage({ params }) {
                                 disabled={noteSaving}
                                 className="w-full py-4 bg-gray-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all disabled:opacity-30 active:scale-95"
                             >
-                                {noteSaving ? 'Saving...' : 'Sync Protocol'}
+                                {noteSaving ? 'Saving...' : 'Save Notes'}
                             </button>
                         </div>
                     </div>

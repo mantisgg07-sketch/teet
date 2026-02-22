@@ -31,10 +31,10 @@ export default async function AnnouncementsPage() {
     <div className="max-w-5xl mx-auto">
       <div className="mb-12">
         <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-          System <span className="text-primary-600">Broadcasts</span>
+          Announcements
         </h1>
         <p className="text-gray-400 font-bold uppercase text-[10px] tracking-[0.3em] mt-2 ml-1">
-          Manage Global Site Notifications
+          Manage your site's main alerts and updates
         </p>
       </div>
 
@@ -42,18 +42,17 @@ export default async function AnnouncementsPage() {
         {/* Add New Announcement Form */}
         <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
           <div className="px-8 py-6 border-b border-gray-50 bg-gray-50/30">
-            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Create New Protocol</h2>
+            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">New Announcement</h2>
           </div>
           <div className="p-8">
-            <AnnouncementForm />
+            <AnnouncementForm onCreated={() => window.location.reload()} />
           </div>
         </div>
 
         {/* Announcements List */}
         <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
-          <div className="px-8 py-6 border-b border-gray-50 bg-gray-50/30 flex justify-between items-center">
-            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Active History</h2>
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Global Log</span>
+          <div className="px-8 py-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
+            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">Announcement History</h2>
           </div>
           <div className="p-2 md:p-8">
             <AnnouncementList announcements={announcements} />

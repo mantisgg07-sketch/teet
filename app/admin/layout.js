@@ -27,12 +27,12 @@ export default function AdminLayout({ children }) {
 
     // Define page titles based on pathname
     const getPageTitle = (path) => {
-        if (path.includes('/dashboard')) return 'Dashboard Overview'
-        if (path.includes('/bookings')) return 'Manage Bookings'
-        if (path.includes('/customers')) return 'Customer Analytics'
-        if (path.includes('/tours')) return 'Tour Management'
+        if (path.includes('/dashboard')) return 'Dashboard'
+        if (path.includes('/bookings')) return 'Bookings'
+        if (path.includes('/customers')) return 'Customers'
+        if (path.includes('/tours')) return 'Tours'
         if (path.includes('/announcements')) return 'Announcements'
-        return 'Admin Panel'
+        return 'Admin'
     }
 
     return (
