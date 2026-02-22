@@ -11,6 +11,7 @@ import Footer from '@/components/Footer'
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true)
+  const [signupAttempts, setSignupAttempts] = useState(0)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -58,6 +59,13 @@ export default function LoginPage() {
     setError('')
     setMessage('')
 
+    // Rate limit for signup
+    if (!isLogin && signupAttempts >= 2) {
+      setError(dict?.errors?.rateLimitExceeded || 'Too many attempts. Please wait a few minutes before trying again.');
+      setLoading(false);
+      return;
+    }
+
     if (!supabase) {
       setError('Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.')
       setLoading(false)
@@ -83,6 +91,21 @@ export default function LoginPage() {
           setLoading(false)
           return
         }
+
+        // Proactive check for existing email in profiles
+        const { data: existingProfile, error: profileError } = await supabase
+          .from('profiles')
+          .select('id')
+          .ilike('email', email.trim())
+          .maybeSingle()
+
+        if (existingProfile) {
+          setError(dict?.errors?.emailAlreadyInUse || 'This email is already registered. Please sign in or use a different email.')
+          setLoading(false)
+          return
+        }
+
+        setSignupAttempts(prev => prev + 1)
 
         const { error } = await supabase.auth.signUp({
           email,

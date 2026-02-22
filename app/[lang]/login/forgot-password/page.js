@@ -12,6 +12,7 @@ import Footer from '@/components/Footer'
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
+  const [attempts, setAttempts] = useState(0)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [dict, setDict] = useState(null)
@@ -57,6 +58,12 @@ export default function ForgotPasswordPage() {
     setError('')
     setMessage('')
 
+    if (attempts >= 2) {
+      setError(dict?.errors?.rateLimitExceeded || 'Too many attempts. Please wait a few minutes before trying again.');
+      setLoading(false);
+      return;
+    }
+
     if (!supabase) {
       setError(dict?.reviews?.errorConfig || 'Supabase is not configured.')
       setLoading(false)
@@ -64,6 +71,7 @@ export default function ForgotPasswordPage() {
     }
 
     try {
+      setAttempts(prev => prev + 1);
       const trimmedEmail = email.trim();
       console.log('[ForgotPassword] Reset request initiated for:', trimmedEmail);
 
