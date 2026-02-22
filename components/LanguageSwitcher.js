@@ -119,7 +119,7 @@ export default function LanguageSwitcher({ mobile = false }) {
       {/* Desktop Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="hidden md:flex items-center gap-2 px-3 py-2 rounded-2xl text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 border border-transparent hover:border-primary-200"
+        className="hidden md:flex items-center gap-2 px-1.5 py-2 rounded-2xl text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 border border-transparent hover:border-primary-200"
         aria-label={`Select language - Current: ${currentConfig.name}`}
         aria-expanded={isOpen}
       >

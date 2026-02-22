@@ -100,7 +100,7 @@ export default function Header({ lang = 'en', dict }) {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-3">
+          <nav className="hidden md:flex items-center gap-1">
             {/* Main Navigation Links */}
             <div className="flex items-center">
               <Link href={`/${lang}/tours`} className="relative text-gray-700 hover:text-primary-600 transition-colors font-bold group">
@@ -110,7 +110,7 @@ export default function Header({ lang = 'en', dict }) {
             </div>
 
             {/* Action Items */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <CurrencySwitcher />
               <LanguageSwitcher />
 

@@ -103,7 +103,7 @@ export default function CurrencySwitcher({ mobile = false }) {
       {/* Desktop Button - shows flag + symbol */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-2xl text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 border border-transparent hover:border-primary-200"
+        className="hidden md:flex items-center gap-1.5 px-1.5 py-2 rounded-2xl text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 border border-transparent hover:border-primary-200"
         aria-label={`Select currency - Current: ${currency}`}
         aria-expanded={isOpen}
       >
