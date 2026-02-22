@@ -185,7 +185,7 @@ export default function Header({ lang = 'en', dict }) {
         {isMenuOpen && (
           <div
             ref={menuRef}
-            className="md:hidden pb-4 animate-slide-down bg-white absolute right-4 top-16 w-52 shadow-2xl border border-gray-100 rounded-2xl z-[60]"
+            className="md:hidden pb-4 animate-slide-down bg-white absolute right-4 top-14 w-52 shadow-2xl border border-gray-100 rounded-2xl z-[60]"
           >
             {/* Navigation Links Section */}
             <div className="px-2 py-2 space-y-1">
