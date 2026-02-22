@@ -13,18 +13,13 @@ export default function AdminLoginPage() {
   const router = useRouter()
 
   // Redirect if already logged in via iron-session
-  // Since we don't have a direct 'getSession' client-side for iron-session without an API call,
-  // we can either check a 'logged_in' cookie or just do a quick health check to /api/customers etc.
-  // But a better way is to check the response of a dedicated check-session API or just let the middleware handle it.
-  // However, the user specifically asked for "buggy" login fix, and flashing is one.
-  // Let's add a client-side check.
-  useState(() => {
-    fetch('/api/customers') // Any protected API
+  useEffect(() => {
+    fetch('/api/customers') // Any protected API to check session
       .then(res => {
         if (res.ok) router.push('/admin/dashboard')
       })
       .catch(() => { })
-  }, [])
+  }, [router])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -41,7 +36,9 @@ export default function AdminLoginPage() {
       const data = await response.json()
 
       if (response.ok) {
-        router.push('/admin/dashboard')
+        // FORCE full page reload to ensure iron-session cookie is correctly
+        // picked up by the middleware and server components instantly.
+        window.location.href = '/admin/dashboard'
       } else {
         setError(data.error || 'Login failed')
       }
