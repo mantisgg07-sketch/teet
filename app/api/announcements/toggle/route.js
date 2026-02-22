@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/auth'
-import { getTurso } from '@/lib/turso'
+import { getDb } from '@/lib/turso'
+import { announcements as announcementsSchema } from '@/lib/schema'
+import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 export async function POST(request) {
@@ -23,12 +25,11 @@ export async function POST(request) {
       )
     }
 
-    const turso = getTurso();
+    const db = getDb();
 
-    await turso.execute({
-      sql: 'UPDATE announcements SET is_active = ? WHERE id = ?',
-      args: [is_active ? 1 : 0, id]
-    });
+    await db.update(announcementsSchema)
+      .set({ is_active: is_active ? 1 : 0 })
+      .where(eq(announcementsSchema.id, id));
 
     revalidatePath('/admin/announcements')
     revalidatePath('/')

@@ -1,17 +1,16 @@
 import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
-import { getTurso } from '@/lib/turso'
+import { getDb } from '@/lib/turso'
+import { announcements as announcementsSchema } from '@/lib/schema'
+import { desc } from 'drizzle-orm'
 import AnnouncementForm from './AnnouncementForm'
 import AnnouncementList from './AnnouncementList'
 
 async function getAllAnnouncements() {
   try {
-    const turso = getTurso();
-    const result = await turso.execute({
-      sql: 'SELECT * FROM announcements ORDER BY created_at DESC',
-      args: []
-    });
-    return JSON.parse(JSON.stringify(result.rows));
+    const db = getDb();
+    const result = await db.select().from(announcementsSchema).orderBy(desc(announcementsSchema.created_at));
+    return JSON.parse(JSON.stringify(result));
   } catch (error) {
     console.error('Error fetching announcements:', error);
     return [];

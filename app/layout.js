@@ -1,7 +1,14 @@
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
 import { CurrencyProvider } from '@/components/CurrencyProvider'
+import { AuthProvider } from '@/components/AuthProvider'
 import ProgressBar from '@/components/ProgressBar'
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://goholiday.com'),
@@ -53,12 +60,14 @@ export default function RootLayout({ children }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: hashInterceptScript }} />
       </head>
-      <body className="font-sans" suppressHydrationWarning>
-        <CurrencyProvider>
-          <ProgressBar />
-          {children}
-          <WhatsAppFloat />
-        </CurrencyProvider>
+      <body className={plusJakartaSans.className} suppressHydrationWarning>
+        <AuthProvider>
+          <CurrencyProvider>
+            <ProgressBar />
+            {children}
+            <WhatsAppFloat />
+          </CurrencyProvider>
+        </AuthProvider>
       </body>
     </html>
   )

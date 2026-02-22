@@ -2,7 +2,9 @@ import { Suspense } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import TourSearch from '@/components/TourSearch'
-import { getTurso } from '@/lib/turso'
+import { getDb } from '@/lib/turso'
+import { tours as toursSchema } from '@/lib/schema'
+import { desc } from 'drizzle-orm'
 import { getDictionary } from '@/lib/i18n'
 import Skeleton from '@/components/Skeleton'
 
@@ -40,14 +42,29 @@ export async function generateMetadata({ params }) {
 
 async function getAllTours(lang) {
   try {
-    const turso = getTurso();
-    const result = await turso.execute({
-      sql: `SELECT id, title, title_en, title_th, title_zh, description, description_en, description_th, description_zh, 
-             price, currency, location, location_en, location_th, location_zh, duration, banner_image, dates, created_at 
-             FROM tours ORDER BY created_at DESC`,
-      args: []
-    });
-    return result.rows.map(row => JSON.parse(JSON.stringify(row)));
+    const db = getDb();
+    const result = await db.select({
+      id: toursSchema.id,
+      title: toursSchema.title,
+      title_en: toursSchema.title_en,
+      title_th: toursSchema.title_th,
+      title_zh: toursSchema.title_zh,
+      description: toursSchema.description,
+      description_en: toursSchema.description_en,
+      description_th: toursSchema.description_th,
+      description_zh: toursSchema.description_zh,
+      price: toursSchema.price,
+      currency: toursSchema.currency,
+      location: toursSchema.location,
+      location_en: toursSchema.location_en,
+      location_th: toursSchema.location_th,
+      location_zh: toursSchema.location_zh,
+      duration: toursSchema.duration,
+      banner_image: toursSchema.banner_image,
+      dates: toursSchema.dates,
+      created_at: toursSchema.created_at
+    }).from(toursSchema).orderBy(desc(toursSchema.created_at));
+    return result.map(row => JSON.parse(JSON.stringify(row)));
   } catch (error) {
     console.error('Error fetching tours:', error);
     return [];

@@ -2,22 +2,24 @@ import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getTurso } from '@/lib/turso'
+import { getDb } from '@/lib/turso'
+import { tours as toursSchema, announcements as announcementsSchema, bookings as bookingsSchema } from '@/lib/schema'
+import { eq, desc, count } from 'drizzle-orm'
 import DeleteTourButton from './DeleteTourButton'
 import TourPriceDisplay from './TourPriceDisplay'
 import Skeleton from '@/components/Skeleton'
 
 async function getStats() {
   try {
-    const turso = getTurso();
-    const toursResult = await turso.execute('SELECT COUNT(*) as count FROM tours');
-    const announcementsResult = await turso.execute('SELECT COUNT(*) as count FROM announcements WHERE is_active = 1');
-    const bookingsResult = await turso.execute('SELECT COUNT(*) as count FROM bookings WHERE status = "pending"');
+    const db = getDb();
+    const toursResult = await db.select({ value: count() }).from(toursSchema);
+    const announcementsResult = await db.select({ value: count() }).from(announcementsSchema).where(eq(announcementsSchema.is_active, 1));
+    const bookingsResult = await db.select({ value: count() }).from(bookingsSchema).where(eq(bookingsSchema.status, "pending"));
 
     return {
-      totalTours: toursResult.rows[0].count,
-      activeAnnouncements: announcementsResult.rows[0].count,
-      pendingBookings: bookingsResult.rows[0].count,
+      totalTours: toursResult[0]?.value || 0,
+      activeAnnouncements: announcementsResult[0]?.value || 0,
+      pendingBookings: bookingsResult[0]?.value || 0,
     };
   } catch (error) {
     console.error('Error fetching stats:', error);
@@ -27,9 +29,9 @@ async function getStats() {
 
 async function getAllTours() {
   try {
-    const turso = getTurso();
-    const result = await turso.execute('SELECT * FROM tours ORDER BY created_at DESC');
-    return result.rows;
+    const db = getDb();
+    const result = await db.select().from(toursSchema).orderBy(desc(toursSchema.created_at));
+    return result.map(row => JSON.parse(JSON.stringify(row)));
   } catch (error) {
     console.error('Error fetching tours:', error);
     return [];

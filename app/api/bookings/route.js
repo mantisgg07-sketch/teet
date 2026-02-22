@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getTurso } from '@/lib/turso';
+import { getDb } from '@/lib/turso';
+import { bookings as bookingsSchema } from '@/lib/schema';
+import { eq, desc } from 'drizzle-orm';
 import { isAuthenticated } from '@/lib/auth';
 
 // Valid booking status values
@@ -39,12 +41,17 @@ export async function POST(request) {
         const safeGuests = Math.max(1, Math.min(100, parseInt(body.guests) || 1));
         const safeTotalPrice = Math.max(0, parseFloat(body.total_price) || 0);
 
-        const turso = getTurso();
-
-        await turso.execute({
-            sql: `INSERT INTO bookings (tour_id, user_id, name, email, phone, contact_method, message, guests, total_price) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            args: [tour_id, user_id || null, safeName, safeEmail, safePhone, contact_method, safeMessage, safeGuests, safeTotalPrice]
+        const db = getDb();
+        await db.insert(bookingsSchema).values({
+            tour_id: tour_id,
+            user_id: user_id || null,
+            name: safeName,
+            email: safeEmail,
+            phone: safePhone,
+            contact_method: contact_method,
+            message: safeMessage,
+            guests: safeGuests,
+            total_price: safeTotalPrice
         });
 
         return NextResponse.json(
@@ -71,12 +78,10 @@ export async function GET(request) {
             );
         }
 
-        const turso = getTurso();
-        const result = await turso.execute('SELECT * FROM bookings ORDER BY created_at DESC');
+        const db = getDb();
+        const result = await db.select().from(bookingsSchema).orderBy(desc(bookingsSchema.created_at));
 
-        const bookings = result.rows.map(row => {
-            return JSON.parse(JSON.stringify(row));
-        });
+        const bookings = result.map(row => JSON.parse(JSON.stringify(row)));
 
         return NextResponse.json({ bookings });
     } catch (error) {
@@ -124,31 +129,18 @@ export async function PUT(request) {
             );
         }
 
-        const turso = getTurso();
-        const updates = [];
-        const args = [];
+        const db = getDb();
+        const updates = {};
 
         if (status) {
-            updates.push('status = ?');
-            args.push(status);
+            updates.status = status;
         }
 
         if (admin_note !== undefined) {
-            // Sanitize admin note
-            const safeNote = String(admin_note).trim().slice(0, 5000);
-            updates.push('admin_note = ?');
-            args.push(safeNote);
+            updates.admin_note = String(admin_note).trim().slice(0, 5000);
         }
 
-        updates.push('updated_at = CURRENT_TIMESTAMP');
-        args.push(id);
-
-        const sql = `UPDATE bookings SET ${updates.join(', ')} WHERE id = ?`;
-
-        await turso.execute({
-            sql: sql,
-            args: args
-        });
+        await db.update(bookingsSchema).set(updates).where(eq(bookingsSchema.id, id));
 
         return NextResponse.json({ success: true });
     } catch (error) {

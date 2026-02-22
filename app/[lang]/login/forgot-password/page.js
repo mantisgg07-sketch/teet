@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase'
 import { getDictionary } from '@/lib/i18n'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { useAuth } from '@/components/AuthProvider'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
@@ -18,6 +19,7 @@ export default function ForgotPasswordPage() {
   const [dict, setDict] = useState(null)
   const pathname = usePathname()
   const router = useRouter()
+  const { user, loading: authLoading } = useAuth()
 
   // Extract lang from pathname
   const lang = pathname?.split('/')[1] || 'en'
@@ -29,22 +31,10 @@ export default function ForgotPasswordPage() {
 
   // Redirect if already logged in
   useEffect(() => {
-    if (supabase) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session) {
-          router.replace(`/${lang}`)
-        }
-      })
-
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-        if (session && event === 'SIGNED_IN') {
-          router.replace(`/${lang}`)
-        }
-      })
-
-      return () => subscription.unsubscribe()
+    if (!authLoading && user) {
+      router.replace(`/${lang}`)
     }
-  }, [supabase, router, lang])
+  }, [user, authLoading, router, lang])
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value)
@@ -73,7 +63,6 @@ export default function ForgotPasswordPage() {
     try {
       setAttempts(prev => prev + 1);
       const trimmedEmail = email.trim();
-      console.log('[ForgotPassword] Reset request initiated for:', trimmedEmail);
 
       // 1. Verify existence in public.profiles (Fast, index-friendly query)
       const { data: profiles, error: profileError } = await supabase
@@ -90,7 +79,6 @@ export default function ForgotPasswordPage() {
       }
 
       const profile = profiles?.[0];
-      console.log('[ForgotPassword] Profile lookup result:', profile ? 'MATCH FOUND' : 'NO ACCOUNT FOUND');
 
       if (!profile) {
         // User requested strict "Account not found" feedback
@@ -99,13 +87,9 @@ export default function ForgotPasswordPage() {
         return;
       }
 
-      console.log('[ForgotPassword] Verified account (ID: ' + profile.id + '). Requesting reset link...');
-
       // 2. Determine redirect URL
       const origin = typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL || '';
       const redirectTo = `${origin}/${lang}/login/update-password`
-
-      console.log('[ForgotPassword] Sending reset email to:', trimmedEmail, 'via', redirectTo);
 
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
         redirectTo: redirectTo,
@@ -122,7 +106,6 @@ export default function ForgotPasswordPage() {
         return;
       }
 
-      console.log('[ForgotPassword] SUCCESS: Reset link has been sent.');
       setMessage(dict?.forgotPassword?.successMessage || 'Reset link has been sent to email.');
       setEmail('')
     } catch (err) {

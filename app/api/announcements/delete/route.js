@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/auth'
-import { getTurso } from '@/lib/turso'
+import { getDb } from '@/lib/turso'
+import { announcements as announcementsSchema } from '@/lib/schema'
+import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 export async function POST(request) {
   try {
     const authenticated = await isAuthenticated();
-    
+
     if (!authenticated) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -23,11 +25,8 @@ export async function POST(request) {
       )
     }
 
-    const turso = getTurso();
-    await turso.execute({
-      sql: 'DELETE FROM announcements WHERE id = ?',
-      args: [id]
-    });
+    const db = getDb();
+    await db.delete(announcementsSchema).where(eq(announcementsSchema.id, id));
 
     revalidatePath('/admin/announcements')
     revalidatePath('/')

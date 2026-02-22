@@ -2,34 +2,27 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import CurrencySwitcher from './CurrencySwitcher'
 import LanguageSwitcher from './LanguageSwitcher'
 import { supabase } from '@/lib/supabase'
 import { getUserDisplayName } from '@/lib/userUtils'
 import { useAuthSync } from '@/lib/useAuthSync'
+import { useAuth } from '@/components/AuthProvider'
 
 export default function Header({ lang = 'en', dict }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [user, setUser] = useState(null)
+  const { user } = useAuth()
+  const router = useRouter()
   const menuRef = useRef(null)
   const menuButtonRef = useRef(null)
 
   // Handle auth events from other tabs
   const handleAuthEvent = useCallback(async (event) => {
-    if (event.type === 'email_updated' || event.type === 'email_verified') {
-      if (supabase) {
-        try {
-          const { data: { user: freshUser }, error } = await supabase.auth.getUser()
-          if (!error && freshUser) {
-            setUser(freshUser)
-          }
-        } catch (err) {
-          // Silently handle errors
-        }
-      }
-    }
+    // Rely on AuthProvider and useAuthSync for session updates
+    // In AuthProvider it will re-fetch if this tab is active
   }, [])
 
   // Cross-tab sync via Supabase Realtime
@@ -89,22 +82,6 @@ export default function Header({ lang = 'en', dict }) {
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [isMenuOpen])
-
-  useEffect(() => {
-    // Check current session
-    if (supabase) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        setUser(session?.user ?? null)
-      })
-
-      // Listen for auth changes
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-        setUser(session?.user ?? null)
-      })
-
-      return () => subscription.unsubscribe()
-    }
-  }, [])
 
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-morphism shadow-glass' : 'bg-white/95 backdrop-blur-md border-b border-gray-100'}`}>
@@ -243,7 +220,7 @@ export default function Header({ lang = 'en', dict }) {
                   onClick={async () => {
                     await supabase.auth.signOut({ scope: 'local' });
                     toggleMenu(false);
-                    window.location.reload();
+                    router.refresh();
                   }}
                   className="w-full flex items-center gap-2.5 px-3 py-2 text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 font-bold group"
                 >

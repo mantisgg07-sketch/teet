@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/auth'
-import { getTurso } from '@/lib/turso'
+import { getDb } from '@/lib/turso'
+import { tours as toursSchema } from '@/lib/schema'
+import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { translateTourFields } from '@/lib/translate'
 
@@ -29,35 +31,25 @@ export async function POST(request) {
     // Translate tour fields to Thai and Chinese
     const translatedFields = await translateTourFields({ title, description, location });
 
-    const turso = getTurso();
-    await turso.execute({
-      sql: `UPDATE tours 
-            SET title_en = ?, title_th = ?, title_zh = ?, 
-                description_en = ?, description_th = ?, description_zh = ?, 
-                location_en = ?, location_th = ?, location_zh = ?,
-                price = ?, currency = ?, duration = ?, dates = ?, 
-                banner_image = ?, image_urls = ?, video_urls = ?, updated_at = CURRENT_TIMESTAMP
-            WHERE id = ?`,
-      args: [
-        translatedFields.title_en,
-        translatedFields.title_th,
-        translatedFields.title_zh,
-        translatedFields.description_en,
-        translatedFields.description_th,
-        translatedFields.description_zh,
-        translatedFields.location_en,
-        translatedFields.location_th,
-        translatedFields.location_zh,
-        price,
-        currency || 'USD',
-        duration,
-        dates,
-        banner_image || null,
-        image_urls || '[]',
-        video_urls || '[]',
-        id
-      ]
-    });
+    const db = getDb();
+    await db.update(toursSchema).set({
+      title_en: translatedFields.title_en,
+      title_th: translatedFields.title_th,
+      title_zh: translatedFields.title_zh,
+      description_en: translatedFields.description_en,
+      description_th: translatedFields.description_th,
+      description_zh: translatedFields.description_zh,
+      location_en: translatedFields.location_en,
+      location_th: translatedFields.location_th,
+      location_zh: translatedFields.location_zh,
+      price: price,
+      currency: currency || 'USD',
+      duration: duration,
+      dates: dates,
+      banner_image: banner_image || null,
+      image_urls: image_urls || '[]',
+      video_urls: video_urls || '[]'
+    }).where(eq(toursSchema.id, id));
 
     revalidatePath('/admin/dashboard')
     revalidatePath('/tours')

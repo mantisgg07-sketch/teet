@@ -1,4 +1,6 @@
-import { getTurso } from '@/lib/turso'
+import { getDb } from '@/lib/turso'
+import { tours as toursSchema } from '@/lib/schema'
+import { eq } from 'drizzle-orm'
 import { getDictionary, getLocalizedField } from '@/lib/i18n'
 import BookingForm from '@/components/BookingForm'
 import Header from '@/components/Header'
@@ -9,12 +11,20 @@ import { notFound } from 'next/navigation'
 
 async function getTour(id) {
     try {
-        const turso = getTurso();
-        const result = await turso.execute({
-            sql: `SELECT id, title, title_en, title_th, title_zh, price, currency, duration, banner_image FROM tours WHERE id = ?`,
-            args: [id]
-        });
-        const row = result.rows[0] || null;
+        const db = getDb();
+        const result = await db.select({
+            id: toursSchema.id,
+            title: toursSchema.title,
+            title_en: toursSchema.title_en,
+            title_th: toursSchema.title_th,
+            title_zh: toursSchema.title_zh,
+            price: toursSchema.price,
+            currency: toursSchema.currency,
+            duration: toursSchema.duration,
+            banner_image: toursSchema.banner_image
+        }).from(toursSchema).where(eq(toursSchema.id, Number(id)));
+
+        const row = result[0] || null;
         return row ? JSON.parse(JSON.stringify(row)) : null;
     } catch (error) {
         console.error('Error fetching tour:', error);

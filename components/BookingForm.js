@@ -2,93 +2,97 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 import { supabase } from '@/lib/supabase'
 import { useCurrency } from '@/components/CurrencyProvider'
+import { useAuth } from '@/components/AuthProvider'
+
+const bookingSchema = z.object({
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    email: z.string().email('Please enter a valid email address'),
+    phone: z.string().min(6, 'Please enter a valid phone number'),
+    guests: z.number().min(1, 'At least 1 adult guest is required'),
+    children: z.number().min(0),
+    contact_method: z.enum(['whatsapp', 'email']),
+})
 
 export default function BookingForm({ tourId, tourTitle, basePrice, currency = 'USD', dict, onClose }) {
     const router = useRouter()
     const { convertPrice } = useCurrency()
     const b = dict?.booking || {}
 
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        guests: 1,
-        children: 0,
-        contact_method: 'whatsapp',
-        message: ''
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+        resolver: zodResolver(bookingSchema),
+        defaultValues: {
+            name: '',
+            email: '',
+            phone: '',
+            guests: 1,
+            children: 0,
+            contact_method: 'whatsapp'
+        }
     })
+
+    // Watch values to compute total price
+    const guestsWatch = watch('guests', 1)
+    const childrenWatch = watch('children', 0)
+    const contactMethodWatch = watch('contact_method', 'whatsapp')
     const [totalPrice, setTotalPrice] = useState(basePrice)
 
     // Update total price when guests or children change
     useEffect(() => {
-        const adultTotal = formData.guests * basePrice
-        const childTotal = formData.children * (basePrice * 0.5)
+        const adultTotal = (guestsWatch || 1) * basePrice
+        const childTotal = (childrenWatch || 0) * (basePrice * 0.5)
         setTotalPrice(adultTotal + childTotal)
-    }, [formData.guests, formData.children, basePrice])
+    }, [guestsWatch, childrenWatch, basePrice])
 
-    const [user, setUser] = useState(null)
+    const { user } = useAuth()
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState('')
 
     useEffect(() => {
-        if (supabase) {
-            supabase.auth.getSession().then(async ({ data: { session } }) => {
-                if (session?.user) {
-                    setUser(session.user)
+        const loadProfile = async () => {
+            if (user) {
+                let phone =
+                    user.phone ||
+                    user.user_metadata?.phone ||
+                    user.user_metadata?.phone_number ||
+                    user.user_metadata?.mobile ||
+                    user.app_metadata?.phone ||
+                    '';
 
-                    let phone =
-                        session.user.phone ||
-                        session.user.user_metadata?.phone ||
-                        session.user.user_metadata?.phone_number ||
-                        session.user.user_metadata?.mobile ||
-                        session.user.app_metadata?.phone ||
-                        '';
+                const { data: profileData, error: profileError } = await supabase
+                    .from('profiles')
+                    .select('phone_number')
+                    .eq('id', user.id)
+                    .single();
 
-                    const { data: profileData, error: profileError } = await supabase
-                        .from('profiles')
-                        .select('phone_number')
-                        .eq('id', session.user.id)
-                        .single();
-
-                    if (profileData?.phone_number) {
-                        phone = profileData.phone_number;
-                    }
-
-                    setFormData(prev => ({
-                        ...prev,
-                        email: session.user.email || '',
-                        name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || '',
-                        phone: phone
-                    }))
+                if (profileData?.phone_number) {
+                    phone = profileData.phone_number;
                 }
-            })
-        }
-    }, [])
 
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
-    }
+                if (user.email) setValue('email', user.email)
+                if (user.user_metadata?.full_name || user.user_metadata?.name) {
+                    setValue('name', user.user_metadata?.full_name || user.user_metadata?.name)
+                }
+                if (phone) setValue('phone', phone)
+            }
+        }
+        loadProfile()
+    }, [user, setValue])
 
     const handleGuestsChange = (change) => {
-        setFormData(prev => {
-            const newGuests = Math.max(1, prev.guests + change)
-            return { ...prev, guests: newGuests }
-        })
+        setValue('guests', Math.max(1, guestsWatch + change), { shouldValidate: true })
     }
 
     const handleChildrenChange = (change) => {
-        setFormData(prev => {
-            const newChildren = Math.max(0, prev.children + change)
-            return { ...prev, children: newChildren }
-        })
+        setValue('children', Math.max(0, childrenWatch + change), { shouldValidate: true })
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    const onSubmit = async (data) => {
         setLoading(true)
         setError('')
 
@@ -100,11 +104,11 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                     tour_id: tourId,
                     user_id: user?.id,
                     total_price: totalPrice,
-                    ...formData
+                    ...data
                 })
             })
 
-            const data = await response.json()
+            const responseData = await response.json()
 
             if (response.ok) {
                 setSuccess(true)
@@ -112,7 +116,7 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                     if (onClose) onClose()
                 }, 3000)
             } else {
-                setError(data.error || (b.errorMessage || 'Failed to submit booking'))
+                setError(responseData.error || (b.errorMessage || 'Failed to submit booking'))
             }
         } catch (err) {
             setError(b.errorMessage || 'An error occurred. Please try again.')
@@ -130,7 +134,7 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                     </svg>
                 </div>
                 <h3 className="text-2xl font-bold text-green-800 mb-2">{b.successTitle || 'Booking Request Sent!'}</h3>
-                <p className="text-green-700">{b.successMessage || 'We will contact you shortly via'} {formData.contact_method}.</p>
+                <p className="text-green-700">{b.successMessage || 'We will contact you shortly via'} {contactMethodWatch}.</p>
             </div>
         )
     }
@@ -154,7 +158,7 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 {/* Guests Counter Section */}
                 <div className="bg-gray-50/50 p-5 rounded-3xl border border-gray-200/60 space-y-4">
                     {/* Adults Row */}
@@ -171,7 +175,7 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M20 12H4" /></svg>
                             </button>
-                            <span className="text-xl font-black text-gray-900 w-6 text-center">{formData.guests}</span>
+                            <span className="text-xl font-black text-gray-900 w-6 text-center">{guestsWatch}</span>
                             <button
                                 type="button"
                                 onClick={() => handleGuestsChange(1)}
@@ -196,7 +200,7 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M20 12H4" /></svg>
                             </button>
-                            <span className="text-xl font-black text-gray-900 w-6 text-center">{formData.children}</span>
+                            <span className="text-xl font-black text-gray-900 w-6 text-center">{childrenWatch}</span>
                             <button
                                 type="button"
                                 onClick={() => handleChildrenChange(1)}
@@ -214,13 +218,11 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                         <input
                             type="text"
                             id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                            className="w-full px-5 py-3.5 bg-gray-50 border-2 border-transparent rounded-[1.25rem] focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/5 transition-all outline-none font-bold text-gray-900 placeholder-gray-300"
+                            {...register('name')}
+                            className={`w-full px-5 py-3.5 bg-gray-50 border-2 rounded-[1.25rem] focus:bg-white focus:ring-4 transition-all outline-none font-bold placeholder-gray-300 ${errors.name ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10 text-red-900' : 'border-transparent focus:border-primary-600 focus:ring-primary-600/5 text-gray-900'}`}
                             placeholder={b.fullNamePlaceholder || 'e.g. John Doe'}
                         />
+                        {errors.name && <p className="mt-1 text-xs text-red-500 font-bold px-2">{errors.name.message}</p>}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -229,26 +231,22 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                             <input
                                 type="email"
                                 id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-5 py-3.5 bg-gray-50 border-2 border-transparent rounded-[1.25rem] focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/5 transition-all outline-none font-bold text-gray-900 placeholder-gray-300"
+                                {...register('email')}
+                                className={`w-full px-5 py-3.5 bg-gray-50 border-2 rounded-[1.25rem] focus:bg-white focus:ring-4 transition-all outline-none font-bold placeholder-gray-300 ${errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10 text-red-900' : 'border-transparent focus:border-primary-600 focus:ring-primary-600/5 text-gray-900'}`}
                                 placeholder="name@email.com"
                             />
+                            {errors.email && <p className="mt-1 text-xs text-red-500 font-bold px-2">{errors.email.message}</p>}
                         </div>
                         <div>
                             <label htmlFor="phone" className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 px-1">{b.phone || 'Phone'}</label>
                             <input
                                 type="tel"
                                 id="phone"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-5 py-3.5 bg-gray-50 border-2 border-transparent rounded-[1.25rem] focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/5 transition-all outline-none font-bold text-gray-900 placeholder-gray-300"
+                                {...register('phone')}
+                                className={`w-full px-5 py-3.5 bg-gray-50 border-2 rounded-[1.25rem] focus:bg-white focus:ring-4 transition-all outline-none font-bold placeholder-gray-300 ${errors.phone ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10 text-red-900' : 'border-transparent focus:border-primary-600 focus:ring-primary-600/5 text-gray-900'}`}
                                 placeholder={b.phonePlaceholder || '+66 00 000 0000'}
                             />
+                            {errors.phone && <p className="mt-1 text-xs text-red-500 font-bold px-2">{errors.phone.message}</p>}
                         </div>
                     </div>
                 </div>
@@ -258,8 +256,8 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                     <div className="flex gap-4">
                         <button
                             type="button"
-                            onClick={() => setFormData(prev => ({ ...prev, contact_method: 'whatsapp' }))}
-                            className={`flex-1 group px-4 py-3 rounded-2xl flex items-center justify-center gap-3 border-2 transition-all active:scale-95 ${formData.contact_method === 'whatsapp'
+                            onClick={() => setValue('contact_method', 'whatsapp', { shouldValidate: true })}
+                            className={`flex-1 group px-4 py-3 rounded-2xl flex items-center justify-center gap-3 border-2 transition-all active:scale-95 ${contactMethodWatch === 'whatsapp'
                                 ? 'bg-[#25D366] border-[#25D366] text-white shadow-xl shadow-green-600/20'
                                 : 'bg-white border-gray-100 text-gray-500 hover:border-gray-200'
                                 }`}
@@ -271,8 +269,8 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                         </button>
                         <button
                             type="button"
-                            onClick={() => setFormData(prev => ({ ...prev, contact_method: 'email' }))}
-                            className={`flex-1 group px-4 py-3 rounded-2xl flex items-center justify-center gap-3 border-2 transition-all active:scale-95 ${formData.contact_method === 'email'
+                            onClick={() => setValue('contact_method', 'email', { shouldValidate: true })}
+                            className={`flex-1 group px-4 py-3 rounded-2xl flex items-center justify-center gap-3 border-2 transition-all active:scale-95 ${contactMethodWatch === 'email'
                                 ? 'bg-primary-600 border-primary-600 text-white shadow-xl shadow-primary-600/20'
                                 : 'bg-white border-gray-100 text-gray-500 hover:border-gray-200'
                                 }`}

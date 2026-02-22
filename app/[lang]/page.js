@@ -5,17 +5,16 @@ import AnnouncementBanner from '@/components/AnnouncementBanner'
 import AnnouncementPopup from '@/components/AnnouncementPopup'
 import Link from 'next/link'
 import Image from 'next/image'
-import { getTurso } from '@/lib/turso'
+import { getDb } from '@/lib/turso'
+import { announcements as announcementsSchema, tours as toursSchema } from '@/lib/schema'
+import { eq, desc } from 'drizzle-orm'
 import { getDictionary, getLocalizedField } from '@/lib/i18n'
 
 async function getActiveAnnouncements(lang) {
   try {
-    const turso = getTurso();
-    const result = await turso.execute({
-      sql: 'SELECT * FROM announcements WHERE is_active = 1',
-      args: []
-    });
-    return result.rows.map(row => JSON.parse(JSON.stringify(row)));
+    const db = getDb();
+    const result = await db.select().from(announcementsSchema).where(eq(announcementsSchema.is_active, 1));
+    return result.map(row => JSON.parse(JSON.stringify(row)));
   } catch (error) {
     console.error('Error fetching announcements:', error);
     return [];
@@ -24,14 +23,29 @@ async function getActiveAnnouncements(lang) {
 
 async function getFeaturedTours(lang) {
   try {
-    const turso = getTurso();
-    const result = await turso.execute({
-      sql: `SELECT id, title, title_en, title_th, title_zh, description, description_en, description_th, description_zh, 
-             price, currency, location, location_en, location_th, location_zh, duration, banner_image, dates, created_at 
-             FROM tours ORDER BY created_at DESC LIMIT 6`,
-      args: []
-    });
-    return result.rows.map(row => JSON.parse(JSON.stringify(row)));
+    const db = getDb();
+    const result = await db.select({
+      id: toursSchema.id,
+      title: toursSchema.title,
+      title_en: toursSchema.title_en,
+      title_th: toursSchema.title_th,
+      title_zh: toursSchema.title_zh,
+      description: toursSchema.description,
+      description_en: toursSchema.description_en,
+      description_th: toursSchema.description_th,
+      description_zh: toursSchema.description_zh,
+      price: toursSchema.price,
+      currency: toursSchema.currency,
+      location: toursSchema.location,
+      location_en: toursSchema.location_en,
+      location_th: toursSchema.location_th,
+      location_zh: toursSchema.location_zh,
+      duration: toursSchema.duration,
+      banner_image: toursSchema.banner_image,
+      dates: toursSchema.dates,
+      created_at: toursSchema.created_at
+    }).from(toursSchema).orderBy(desc(toursSchema.created_at)).limit(6);
+    return result.map(row => JSON.parse(JSON.stringify(row)));
   } catch (error) {
     console.error('Error fetching tours:', error);
     return [];

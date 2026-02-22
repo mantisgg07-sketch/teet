@@ -5,7 +5,9 @@ import Link from 'next/link'
 import UnifiedMediaGallery from '@/components/UnifiedMediaGallery'
 import TourDetailSidebar from '@/components/TourDetailSidebar'
 import TourReviews from '@/components/TourReviews'
-import { getTurso } from '@/lib/turso'
+import { getDb } from '@/lib/turso'
+import { tours as toursSchema } from '@/lib/schema'
+import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import { getDictionary, getLocalizedField } from '@/lib/i18n'
 import MobileBookingBar from '@/components/MobileBookingBar'
@@ -17,14 +19,32 @@ import MobileBookingBar from '@/components/MobileBookingBar'
 
 async function getTour(id) {
   try {
-    const turso = getTurso();
-    const result = await turso.execute({
-      sql: `SELECT id, title, title_en, title_th, title_zh, description, description_en, description_th, description_zh,
-             price, currency, location, location_en, location_th, location_zh, duration, banner_image, image_urls, video_urls, dates, created_at
-             FROM tours WHERE id = ?`,
-      args: [id]
-    });
-    const row = result.rows[0] || null;
+    const db = getDb();
+    const result = await db.select({
+      id: toursSchema.id,
+      title: toursSchema.title,
+      title_en: toursSchema.title_en,
+      title_th: toursSchema.title_th,
+      title_zh: toursSchema.title_zh,
+      description: toursSchema.description,
+      description_en: toursSchema.description_en,
+      description_th: toursSchema.description_th,
+      description_zh: toursSchema.description_zh,
+      price: toursSchema.price,
+      currency: toursSchema.currency,
+      location: toursSchema.location,
+      location_en: toursSchema.location_en,
+      location_th: toursSchema.location_th,
+      location_zh: toursSchema.location_zh,
+      duration: toursSchema.duration,
+      banner_image: toursSchema.banner_image,
+      image_urls: toursSchema.image_urls,
+      video_urls: toursSchema.video_urls,
+      dates: toursSchema.dates,
+      created_at: toursSchema.created_at
+    }).from(toursSchema).where(eq(toursSchema.id, Number(id)));
+
+    const row = result[0] || null;
     return row ? JSON.parse(JSON.stringify(row)) : null;
   } catch (error) {
     console.error('Error fetching tour:', error);

@@ -2,10 +2,11 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { memo } from 'react'
 import { useCurrency } from './CurrencyProvider'
 import { getLocalizedField } from '@/lib/i18n'
 
-export default function TourCard({ tour, lang = 'en', dict }) {
+const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
   const { convertPrice } = useCurrency()
   const truncateDescription = (text, maxLength = 100) => {
     if (text.length <= maxLength) return text
@@ -96,4 +97,6 @@ export default function TourCard({ tour, lang = 'en', dict }) {
       </div>
     </Link>
   )
-}
+})
+
+export default TourCard
