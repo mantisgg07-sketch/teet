@@ -44,16 +44,16 @@ export default function LanguageSwitcher({ mobile = false }) {
       <div className="relative w-full">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 border border-transparent hover:border-primary-200"
+          className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 border border-transparent hover:border-primary-200"
           aria-label={`Select language - Current: ${currentConfig.name}`}
           aria-expanded={isOpen}
         >
           <Image
             src={currentConfig.flag}
             alt={currentConfig.name}
-            width={40}
-            height={40}
-            className="w-10 h-10 object-contain"
+            width={32}
+            height={32}
+            className="w-8 h-8 object-contain"
             priority
           />
           <span className="flex-1 text-left font-medium">{currentConfig.name}</span>

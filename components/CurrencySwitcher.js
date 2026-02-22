@@ -39,7 +39,7 @@ export default function CurrencySwitcher({ mobile = false }) {
       <div className="relative w-full">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 border border-transparent hover:border-primary-200"
+          className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 border border-transparent hover:border-primary-200"
           aria-label={`Select currency - Current: ${currentCurrency.code}`}
           aria-expanded={isOpen}
         >
