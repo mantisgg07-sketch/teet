@@ -5,10 +5,11 @@ import { sessionOptions } from '@/lib/auth';
 const locales = ['en', 'th', 'zh'];
 const defaultLocale = 'en';
 
-// Paths that should not be localized
+// Paths that should not be localized (no [lang] prefix)
 const publicPaths = [
   '/api',
   '/admin',
+  '/auth',
   '/_next',
   '/favicon.ico',
   '/logo.png',

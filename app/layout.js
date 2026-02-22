@@ -19,7 +19,8 @@ export default function RootLayout({ children }) {
   const hashInterceptScript = `
     if (typeof window !== 'undefined' && window.location.hash) {
       var hash = window.location.hash;
-      var lang = window.location.pathname.split('/')[1] || 'en';
+      var seg = window.location.pathname.split('/')[1];
+      var lang = (seg === 'en' || seg === 'th' || seg === 'zh') ? seg : 'en';
       if (hash.includes('type=email_change')) {
         window.location.replace('/' + lang + '/auth/success?type=email_updated');
         return;
