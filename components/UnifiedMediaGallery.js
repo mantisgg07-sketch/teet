@@ -301,7 +301,7 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
                     onTouchEnd={onTouchEnd}
                 >
                     {/* Header/Close */}
-                    <div className="absolute top-0 left-0 right-0 p-4 md:p-8 pt-10 md:pt-8 flex justify-between items-center z-[110] pointer-events-none">
+                    <div className="absolute top-0 left-0 right-0 p-4 md:p-8 pt-20 md:pt-10 flex justify-between items-center z-[110] pointer-events-none">
                         <button
                             onClick={closeLightbox}
                             className="flex items-center gap-2 px-5 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-2xl border border-white/20 rounded-2xl text-white text-sm font-black transition-all pointer-events-auto shadow-2xl active:scale-95 group"
