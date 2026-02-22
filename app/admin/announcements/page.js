@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
-import AdminNav from '@/components/AdminNav'
 import { getTurso } from '@/lib/turso'
 import AnnouncementForm from './AnnouncementForm'
 import AnnouncementList from './AnnouncementList'

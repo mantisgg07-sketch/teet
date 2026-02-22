@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
-import AdminNav from '@/components/AdminNav'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getTurso } from '@/lib/turso'

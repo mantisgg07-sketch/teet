@@ -1,13 +1,24 @@
-'use client'
-
-import { useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import AdminSidebar from '@/components/AdminSidebar'
 import AdminHeader from '@/components/AdminHeader'
 
 export default function AdminLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const pathname = usePathname()
+    const router = useRouter()
+
+    // Client-side auth guard for session expiry
+    useEffect(() => {
+        // We do a lightweight check to a protected API to see if session is still alive
+        fetch('/api/customers')
+            .then(res => {
+                if (!res.ok && res.status === 401) {
+                    router.push('/admin')
+                }
+            })
+            .catch(() => { })
+    }, [pathname, router])
 
     // Define page titles based on pathname
     const getPageTitle = (path) => {
