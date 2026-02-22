@@ -27,7 +27,7 @@ export default function Footer({ lang = 'en', dict }) {
           {/* Internal Links */}
           <nav className="flex items-center gap-x-8">
             {[
-              { label: dict?.footer?.home || 'Home', href: `/${lang}` },
+
               { label: dict?.footer?.tours || 'Destinations', href: `/${lang}/tours` },
               { label: dict?.footer?.contact || 'Get In Touch', href: `/${lang}/contact` },
               { label: dict?.footer?.privacy || 'Privacy Policy', href: `/${lang}/privacy` }
