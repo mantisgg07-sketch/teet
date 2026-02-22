@@ -19,15 +19,16 @@ export default function RootLayout({ children }) {
   const hashInterceptScript = `
     if (typeof window !== 'undefined' && window.location.hash) {
       var hash = window.location.hash;
+      var lang = window.location.pathname.split('/')[1] || 'en';
+      if (hash.includes('type=email_change')) {
+        window.location.replace('/' + lang + '/auth/success?type=email_updated');
+        return;
+      }
       if (hash.includes('access_token=') || hash.includes('type=recovery')) {
-        var lang = window.location.pathname.split('/')[1] || 'en';
         if (hash.includes('type=recovery')) {
           window.location.replace('/' + lang + '/login/update-password' + hash);
           return;
         }
-        
-        // For other implicit flows like initial email verification (sign up),
-        // we can still redirect to success page with the hash.
         if (hash.includes('access_token=')) {
           window.location.replace('/' + lang + '/auth/success?type=email_verified' + hash);
         }
