@@ -45,7 +45,7 @@ export default function CurrencySwitcher({ mobile = false }) {
         >
           <span className="text-2xl leading-none">{CURRENCY_FLAGS[currency]}</span>
           <span className="flex-1 text-left font-medium">
-            <span className="text-base">{CURRENCY_SYMBOLS[currency]}</span> {currentCurrency.code} - {currentCurrency.name}
+            <span className="text-base">{CURRENCY_SYMBOLS[currency]}</span> {currentCurrency.code}
           </span>
           <svg
             className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
@@ -80,7 +80,7 @@ export default function CurrencySwitcher({ mobile = false }) {
                     >
                       <span className="text-lg">{CURRENCY_FLAGS[curr.code]}</span>
                       <span className="text-lg">{CURRENCY_SYMBOLS[curr.code]}</span>
-                      <span className="flex-1 text-left">{curr.code} - {curr.name}</span>
+                      <span className="flex-1 text-left">{curr.code}</span>
                       {isActive && (
                         <svg className="w-4 h-4 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
