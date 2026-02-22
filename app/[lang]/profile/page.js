@@ -59,13 +59,16 @@ export default function ProfilePage() {
             if (profileData) {
               setProfile(profileData)
             }
+
+            // Soft refresh the page to update internal Server Components without losing client state
+            router.refresh()
           }
         } catch (err) {
           console.error('Error refreshing user after auth event:', err)
         }
       }
     }
-  }, [])
+  }, [router])
 
   // Cross-tab sync via Supabase Realtime
   useAuthSync({

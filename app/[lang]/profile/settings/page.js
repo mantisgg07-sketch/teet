@@ -87,13 +87,16 @@ export default function SettingsPage() {
             bannerTimeoutRef.current = setTimeout(() => {
               setEmailConfirmedBanner(null)
             }, 8000)
+
+            // Soft refresh the page to update Server Components without losing client state (like the banner)
+            router.refresh()
           }
         } catch (err) {
           console.error('Error refreshing user after auth event:', err)
         }
       }
     }
-  }, [dict])
+  }, [dict, router])
 
   // Cross-tab sync hook via Supabase Realtime
   useAuthSync({
