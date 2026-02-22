@@ -56,7 +56,7 @@ export default function Header({ lang = 'en', dict }) {
         menuButtonRef.current &&
         !menuButtonRef.current.contains(e.target)
       ) {
-        setIsMenuOpen(false)
+        toggleMenu(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -65,6 +65,29 @@ export default function Header({ lang = 'en', dict }) {
       document.removeEventListener('mousedown', handleClickOutside)
       document.removeEventListener('touchstart', handleClickOutside)
     }
+  }, [isMenuOpen])
+
+  // Browser Back support for Mobile Menu
+  const toggleMenu = useCallback((open) => {
+    if (open) {
+      setIsMenuOpen(true)
+      window.history.pushState({ menu: true }, '')
+    } else {
+      setIsMenuOpen(false)
+      if (window.history.state?.menu) {
+        window.history.back()
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    const handlePopState = (e) => {
+      if (isMenuOpen) {
+        setIsMenuOpen(false)
+      }
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
   }, [isMenuOpen])
 
   useEffect(() => {
@@ -143,7 +166,7 @@ export default function Header({ lang = 'en', dict }) {
               <Link
                 href={`/${lang}/profile`}
                 className="p-2 text-gray-700 hover:text-primary-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => toggleMenu(false)}
               >
                 <div className="w-9 h-9 rounded-full bg-primary-50 flex items-center justify-center text-primary-700 border border-primary-100">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +178,7 @@ export default function Header({ lang = 'en', dict }) {
               <Link
                 href={`/${lang}/login`}
                 className="p-2 text-gray-700 hover:text-primary-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => toggleMenu(false)}
               >
                 <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -166,7 +189,7 @@ export default function Header({ lang = 'en', dict }) {
             {/* Hamburger Button */}
             <button
               ref={menuButtonRef}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => toggleMenu(!isMenuOpen)}
               className="p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
               aria-label="Toggle menu"
             >
@@ -192,7 +215,7 @@ export default function Header({ lang = 'en', dict }) {
               <Link
                 href={`/${lang}/tours`}
                 className="flex items-center gap-2.5 px-3 py-2 text-gray-900 hover:bg-primary-50 rounded-xl transition-all duration-200 font-bold"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => toggleMenu(false)}
               >
                 <span className="p-1.5 bg-primary-100 text-primary-600 rounded-lg">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,7 +242,7 @@ export default function Header({ lang = 'en', dict }) {
                 <button
                   onClick={async () => {
                     await supabase.auth.signOut({ scope: 'local' });
-                    setIsMenuOpen(false);
+                    toggleMenu(false);
                     window.location.reload();
                   }}
                   className="w-full flex items-center gap-2.5 px-3 py-2 text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 font-bold group"
