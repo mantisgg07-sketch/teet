@@ -19,7 +19,16 @@ export default function RootLayout({ children }) {
   const hashInterceptScript = `
     if (typeof window !== 'undefined' && window.location.hash) {
       var hash = window.location.hash;
-      var lang = window.location.pathname.split('/')[1] || 'en';
+      var pathname = window.location.pathname;
+      var lang = pathname.split('/')[1] || 'en';
+      var allowedLangs = ['en', 'th', 'zh'];
+      if (!allowedLangs.includes(lang)) lang = 'en';
+
+      // Prevent infinite loops if we are already on the success or update-password page
+      if (pathname.includes('/auth/success') || pathname.includes('/login/update-password')) {
+        return;
+      }
+
       // Email change: go to success without storing tokens so this browser does not auto-login
       if (hash.includes('type=email_change')) {
         window.location.replace('/' + lang + '/auth/success?type=email_updated');
