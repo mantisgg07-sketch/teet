@@ -238,7 +238,7 @@ export default function SettingsPage() {
       const { error } = await supabase.auth.updateUser({
         email: newEmail
       }, {
-        emailRedirectTo: `${window.location.origin}/${lang}/auth/success?type=email_updated`
+        emailRedirectTo: `${window.location.origin}/auth/callback?type=email_change&lang=${lang}`
       })
 
       if (error) throw error
