@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import AdminSidebar from '@/components/AdminSidebar'
