@@ -44,12 +44,16 @@ export default function ForgotPasswordPage() {
     }
 
     try {
+      console.log('Forgot Password attempt for:', email.trim());
+
       // 1. Check if email exists in public.profiles first (Case-insensitive check)
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('id')
         .ilike('email', email.trim())
         .maybeSingle();
+
+      console.log('Profile check result:', { profile, profileError });
 
       if (profileError) {
         throw new Error(profileError.message);
@@ -63,15 +67,22 @@ export default function ForgotPasswordPage() {
 
       // 2. Use environment variable for base URL if available, otherwise fallback to window.location.origin
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
+      console.log('Sending reset email to:', email.trim(), 'with redirect:', `${baseUrl}/${lang}/login/update-password`);
+
       const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
         redirectTo: `${baseUrl}/${lang}/login/update-password`,
       })
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase reset error:', error);
+        throw error;
+      }
 
+      console.log('Reset email sent successfully');
       setMessage(dict?.forgotPassword?.successMessage || 'Password reset email sent! Please check your inbox and follow the link to reset your password.')
       setEmail('')
     } catch (error) {
+      console.error('Handled forgot password error:', error);
       setError(error.message)
     } finally {
       setLoading(false)

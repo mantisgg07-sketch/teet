@@ -11,6 +11,7 @@ const publicPaths = [
   '/admin',
   '/_next',
   '/favicon.ico',
+  '/icon.png',
   '/logo.png',
   '/images',
   '/img',
