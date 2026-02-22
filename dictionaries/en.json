@@ -113,6 +113,18 @@
     "or": "or",
     "googleLogin": "Continue with Google"
   },
+  "forgotPassword": {
+    "title": "Forgot Password?",
+    "subtitle": "Enter your email and we'll send you a link to reset your password",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "Enter your email",
+    "sendButton": "Send Reset Link",
+    "sending": "Sending...",
+    "successMessage": "Password reset email sent! Please check your inbox and follow the link to reset your password.",
+    "errorNotFound": "No account found with this email address. Please check your spelling or sign up.",
+    "backToLogin": "Back to Login",
+    "backToHome": "Back to Home"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",

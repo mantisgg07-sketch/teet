@@ -1,10 +1,9 @@
-'use client'
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
+import { getDictionary } from '@/lib/i18n'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -13,10 +12,16 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
+  const [dict, setDict] = useState(null)
   const pathname = usePathname()
 
   // Extract lang from pathname
   const lang = pathname?.split('/')[1] || 'en'
+
+  // Load dictionary
+  useEffect(() => {
+    getDictionary(lang).then(setDict)
+  }, [lang])
 
   const handleResetPassword = async (e) => {
     e.preventDefault()
@@ -25,34 +30,34 @@ export default function ForgotPasswordPage() {
     setMessage('')
 
     if (!supabase) {
-      setError('Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.')
+      setError(dict?.reviews?.errorConfig || 'Supabase is not configured.')
       setLoading(false)
       return
     }
 
     try {
-      // 1. Check if email exists in public.profiles first
+      // 1. Check if email exists in public.profiles first (Case-insensitive check)
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('id')
-        .eq('email', email)
-        .single();
+        .ilike('email', email.trim())
+        .maybeSingle();
 
       if (profileError || !profile) {
-        setError('No account found with this email address. Please check your spelling or sign up.');
+        setError(dict?.forgotPassword?.errorNotFound || 'No account found with this email address. Please check your spelling or sign up.');
         setLoading(false);
         return;
       }
 
       // 2. Use environment variable for base URL if available, otherwise fallback to window.location.origin
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
         redirectTo: `${baseUrl}/${lang}/login/update-password`,
       })
 
       if (error) throw error
 
-      setMessage('Password reset email sent! Please check your inbox and follow the link to reset your password.')
+      setMessage(dict?.forgotPassword?.successMessage || 'Password reset email sent! Please check your inbox and follow the link to reset your password.')
       setEmail('')
     } catch (error) {
       setError(error.message)
@@ -61,9 +66,11 @@ export default function ForgotPasswordPage() {
     }
   }
 
+  if (!dict) return null;
+
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header lang={lang} dict={dict} />
 
       <main className="flex-grow bg-gradient-to-br from-primary-50 to-secondary-50 py-12">
         <div className="container mx-auto px-4">
@@ -79,10 +86,10 @@ export default function ForgotPasswordPage() {
                   className="h-10 w-auto mx-auto mb-4"
                 />
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                  Forgot Password?
+                  {dict.forgotPassword.title}
                 </h1>
                 <p className="text-gray-600">
-                  Enter your email and we'll send you a link to reset your password
+                  {dict.forgotPassword.subtitle}
                 </p>
               </div>
 
@@ -102,7 +109,7 @@ export default function ForgotPasswordPage() {
               <form onSubmit={handleResetPassword} className="space-y-4">
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                    Email Address
+                    {dict.forgotPassword.emailLabel}
                   </label>
                   <input
                     id="email"
@@ -111,7 +118,7 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    placeholder="Enter your email"
+                    placeholder={dict.forgotPassword.emailPlaceholder}
                   />
                 </div>
 
@@ -120,21 +127,21 @@ export default function ForgotPasswordPage() {
                   disabled={loading}
                   className="w-full py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Sending...' : 'Send Reset Link'}
+                  {loading ? dict.forgotPassword.sending : dict.forgotPassword.sendButton}
                 </button>
               </form>
 
               {/* Back to Login */}
               <div className="mt-6 text-center">
                 <Link href={`/${lang}/login`} className="text-primary-600 hover:text-primary-700 font-medium">
-                  ← Back to Login
+                  ← {dict.forgotPassword.backToLogin}
                 </Link>
               </div>
 
               {/* Back to Home */}
               <div className="mt-4 text-center">
                 <Link href={`/${lang}`} className="text-gray-600 hover:text-gray-800 text-sm">
-                  ← Back to Home
+                  ← {dict.forgotPassword.backToHome}
                 </Link>
               </div>
             </div>
@@ -142,7 +149,7 @@ export default function ForgotPasswordPage() {
         </div>
       </main>
 
-      <Footer />
+      <Footer lang={lang} dict={dict} />
     </div>
   )
 }
