@@ -14,6 +14,7 @@ const publicPaths = [
   '/logo.png',
   '/images',
   '/img',
+  '/auth',
 ];
 
 function getLocaleFromRequest(request) {

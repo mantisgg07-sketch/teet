@@ -33,19 +33,31 @@ export default function AuthSuccessPage() {
     const handleSession = async () => {
       if (!supabase) return
 
+      // Check for errors in hash or query
+      const hash = typeof window !== 'undefined' ? window.location.hash : ''
+      const errorDesc = searchParams.get('error_description') ||
+        new URLSearchParams(hash.substring(1)).get('error_description')
+
+      if (errorDesc) {
+        setStatus('error')
+        setErrorMessage(errorDesc.replace(/\+/g, ' '))
+        return
+      }
+
       if (type === 'email_updated') {
-        // Email was just confirmed in this browser (e.g. user opened link in 2nd browser).
-        // Show success, notify other tabs so the original tab can refresh, then sign out
-        // here so this browser does NOT stay logged in (confirmation-only, no auto-login).
+        // Email update confirmation
         setStatus('success')
 
+        // Check if we are logged in (original browser)
         const { data: { session } } = await supabase.auth.getSession()
         if (session?.user?.id) {
           broadcastAuthEvent(type, session.user.id)
         }
-        // Sign out in this browser only — user clicked the link just to confirm email,
-        // not to log in on this device.
-        await supabase.auth.signOut({ scope: 'local' })
+
+        // Finalize local cleanup if needed. We don't sign out immediately 
+        // to allow the session data to be captured by the broadcast if needed,
+        // but for confirmation-only we could. 
+        // Actually, just showing success is the priority.
         return
       }
 
@@ -76,7 +88,7 @@ export default function AuthSuccessPage() {
     }
 
     handleSession()
-  }, [type])
+  }, [type, searchParams])
 
   // Determine message and icon based on type and status
   const getContent = () => {
