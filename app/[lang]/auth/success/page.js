@@ -48,8 +48,8 @@ export default function AuthSuccessPage() {
 
             if (error && error.message.toLowerCase().includes('session missing')) {
               // The user verified in a new browser and we stripped the hash so they wouldn't auto-login.
-              // To completely guarantee they aren't logged in, we explicitly sign out that ghost session.
-              await supabase.auth.signOut()
+              // To completely guarantee they aren't logged in, we explicitly sign out that ghost session locally only!
+              await supabase.auth.signOut({ scope: 'local' })
             } else if (data?.session?.user?.id) {
               // They verified in the SAME browser/tab, so they are logged in. 
               // Broadcast the success event to their other tabs.
