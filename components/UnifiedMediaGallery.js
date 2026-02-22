@@ -11,6 +11,8 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
     const [activeMedia, setActiveMedia] = useState([])
     const [activeIndex, setActiveIndex] = useState(0)
     const [loading, setLoading] = useState(true)
+    const [touchStart, setTouchStart] = useState(null)
+    const [touchEnd, setTouchEnd] = useState(null)
     const scrollRef = useRef(null)
 
     // Combine videos and images into a single media array
@@ -82,6 +84,25 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
     }, [selectedIndex, closeLightbox, goToPrevious, goToNext])
+
+    // Touch Swipe handling
+    const minSwipeDistance = 50
+
+    const onTouchStart = (e) => {
+        setTouchEnd(null)
+        setTouchStart(e.targetTouches[0].clientX)
+    }
+
+    const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
+
+    const onTouchEnd = () => {
+        if (!touchStart || !touchEnd) return
+        const distance = touchStart - touchEnd
+        const isLeftSwipe = distance > minSwipeDistance
+        const isRightSwipe = distance < -minSwipeDistance
+        if (isLeftSwipe) goToNext()
+        if (isRightSwipe) goToPrevious()
+    }
 
     // Prevent body scroll when lightbox is open
     useEffect(() => {
@@ -273,8 +294,11 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
             {/* Lightbox Modal */}
             {selectedIndex !== null && (
                 <div
-                    className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-4"
+                    className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-4 touch-none"
                     onClick={handleBackdropClick}
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
                 >
                     {/* Header/Close */}
                     <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-20 pointer-events-none">
@@ -317,21 +341,23 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
                         )}
                     </div>
 
-                    {/* Navigation Controls (Desktop Only) */}
-                    <div className="hidden md:block">
+                    {/* Navigation Controls */}
+                    <div className="contents">
                         <button
                             onClick={(e) => { e.stopPropagation(); goToPrevious(); }}
-                            className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-white/5 hover:bg-white/10 rounded-full transition-all hover:scale-110 active:scale-95"
+                            className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 p-3 md:p-4 bg-white/10 hover:bg-white/20 rounded-full transition-all hover:scale-110 active:scale-95 pointer-events-auto z-30"
+                            aria-label="Previous"
                         >
-                            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <button
                             onClick={(e) => { e.stopPropagation(); goToNext(); }}
-                            className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-white/5 hover:bg-white/10 rounded-full transition-all hover:scale-110 active:scale-95"
+                            className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 p-3 md:p-4 bg-white/10 hover:bg-white/20 rounded-full transition-all hover:scale-110 active:scale-95 pointer-events-auto z-30"
+                            aria-label="Next"
                         >
-                            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
