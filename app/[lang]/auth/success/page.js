@@ -15,7 +15,7 @@ export default function AuthSuccessPage() {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const type = searchParams.get('type') || 'email_verified'
-  
+
   // Status can be: 'processing', 'success', 'error'
   const [status, setStatus] = useState('processing')
   const [errorMessage, setErrorMessage] = useState('')
@@ -38,15 +38,16 @@ export default function AuthSuccessPage() {
           // Force a session refresh to finalize the token hash from the URL
           const { data, error } = await supabase.auth.refreshSession()
 
-          if (error) {
+          if (error && !error.message.toLowerCase().includes('session missing')) {
             console.error('Session refresh error:', error)
             setStatus('error')
             setErrorMessage(error.message || 'Something went wrong.')
           } else {
-            // Success!
+            // Success! (Note: if error was 'Auth session missing!', it means they verified in a
+            // new browser and we intentionally stripped the hash so they wouldn't auto-login)
             setStatus('success')
-            
-            // Broadcast the success event to other tabs/browsers
+
+            // Broadcast the success event to other tabs/browsers if they ARE logged in
             if (data?.session?.user?.id) {
               broadcastAuthEvent(type, data.session.user.id)
             }
@@ -195,7 +196,7 @@ export default function AuthSuccessPage() {
                     {dict?.authSuccess?.goToLogin || 'Go to Login'}
                   </Link>
                 )}
-                
+
                 {content.showProfile && (
                   <Link
                     href={`/${lang}/profile`}
