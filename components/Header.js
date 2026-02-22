@@ -211,7 +211,8 @@ export default function Header({ lang = 'en', dict }) {
               {user ? (
                 <button
                   onClick={async () => {
-                    await supabase.auth.signOut({ scope: "local" });
+                    // scope: 'local' = clear only this browser's session; do not revoke refresh token (other browsers stay logged in)
+                    await supabase.auth.signOut({ scope: 'local' });
                     setIsMenuOpen(false);
                     window.location.reload();
                   }}

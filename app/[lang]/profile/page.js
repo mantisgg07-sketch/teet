@@ -150,7 +150,8 @@ export default function ProfilePage() {
 
   const handleSignOut = async () => {
     if (supabase) {
-      await supabase.auth.signOut({ scope: "local" })
+      // scope: 'local' = logout only in this browser; other browsers/tabs keep their session
+      await supabase.auth.signOut({ scope: 'local' })
       router.push(`/${lang}`)
     }
   }

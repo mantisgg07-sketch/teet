@@ -34,16 +34,18 @@ export default function AuthSuccessPage() {
       if (!supabase) return
 
       if (type === 'email_updated') {
-        // For email updates, the server consumes the tokens and redirects here without them.
-        // Brave/New Browsers stay logged out. The original tab updates via its own
-        // Window Focus/Realtime listeners.
+        // Email was just confirmed in this browser (e.g. user opened link in 2nd browser).
+        // Show success, notify other tabs so the original tab can refresh, then sign out
+        // here so this browser does NOT stay logged in (confirmation-only, no auto-login).
         setStatus('success')
 
-        // If we are already logged in (original browser), broadcast the change to other tabs.
         const { data: { session } } = await supabase.auth.getSession()
         if (session?.user?.id) {
           broadcastAuthEvent(type, session.user.id)
         }
+        // Sign out in this browser only — user clicked the link just to confirm email,
+        // not to log in on this device.
+        await supabase.auth.signOut({ scope: 'local' })
         return
       }
 
