@@ -59,18 +59,18 @@ export default function AdminBookingsPage() {
 
     return (
         <div className="max-w-[1600px] mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
+                    <h1 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
                         Bookings
                     </h1>
-                    <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em] mt-2 ml-1">
-                        Manage your booking orders
+                    <p className="text-slate-400 font-bold uppercase text-[9px] tracking-[0.2em] mt-1 ml-1">
+                        Manage orders
                     </p>
                 </div>
                 <button
                     onClick={fetchBookings}
-                    className="px-6 py-2.5 bg-white border border-slate-200 text-slate-900 rounded-xl font-black text-[10px] uppercase tracking-widest hover:border-indigo-600 hover:text-indigo-600 transition-all active:scale-95 shadow-sm"
+                    className="px-4 py-2 bg-white border border-slate-200 text-slate-900 rounded-lg font-black text-[9px] uppercase tracking-widest hover:border-indigo-600 hover:text-indigo-600 transition-all active:scale-95 shadow-sm"
                 >
                     Refresh
                 </button>
@@ -85,10 +85,10 @@ export default function AdminBookingsPage() {
                     No bookings found yet.
                 </div>
             ) : (
-                <div className="pro-card rounded-[2rem] overflow-hidden mb-10">
-                    <div className="px-5 md:px-8 py-4 md:py-6 border-b border-slate-50 bg-slate-50/20">
-                        <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
-                            <div className="flex items-center gap-3 w-full lg:w-auto">
+                <div className="pro-card rounded-xl overflow-hidden mb-6">
+                    <div className="px-4 py-3 border-b border-slate-50 bg-slate-50/10">
+                        <div className="flex flex-col lg:flex-row justify-between items-center gap-3">
+                            <div className="flex items-center gap-2 w-full lg:w-auto">
                                 <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest min-w-fit">Filter</span>
                                 <div className="flex flex-wrap gap-1.5">
                                     {['all', 'pending', 'confirmed', 'cancelled'].map((status) => (
@@ -111,7 +111,7 @@ export default function AdminBookingsPage() {
                                     placeholder="Search bookings..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-xs tracking-tight outline-none"
+                                    className="w-full pl-9 pr-4 py-1.5 bg-slate-50 border border-transparent rounded-lg focus:bg-white focus:border-indigo-600 transition-all font-bold text-[11px] tracking-tight outline-none"
                                 />
                                 <svg className="w-4 h-4 text-slate-300 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -128,7 +128,7 @@ export default function AdminBookingsPage() {
                             </div>
                         ) : (
                             filteredBookings.map((booking) => (
-                                <div key={booking.id} className="p-4 md:p-6 flex flex-col md:flex-row items-center gap-4 md:gap-8 hover:bg-slate-50/50 transition-colors group">
+                                <div key={booking.id} className="p-3 md:p-4 flex flex-col md:flex-row items-center gap-4 md:gap-8 hover:bg-slate-50/50 transition-colors group">
                                     {/* ID & Date */}
                                     <div className="flex-shrink-0 w-full md:w-32 border-b md:border-b-0 border-slate-50 pb-3 md:pb-0">
                                         <div className="flex justify-between md:block">

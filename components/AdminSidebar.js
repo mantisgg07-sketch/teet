@@ -53,7 +53,7 @@ export default function AdminSidebar({ isOpen, setIsOpen, currentPath }) {
         <aside className={`fixed lg:sticky top-0 left-0 h-screen w-72 bg-slate-900 text-white z-50 transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'} border-r border-slate-800`}>
             <div className="flex flex-col h-full px-4 py-8">
                 {/* Logo */}
-                <div className="px-4 mb-10 flex items-center justify-between">
+                <div className="px-4 mb-6 flex items-center justify-between">
                     <Link href="/admin/dashboard" className="flex items-center gap-3 group">
                         <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-black text-xl italic shadow-lg shadow-indigo-600/40 group-hover:scale-110 transition-transform">
                             G
@@ -76,7 +76,7 @@ export default function AdminSidebar({ isOpen, setIsOpen, currentPath }) {
                                 key={item.name}
                                 href={item.href}
                                 onClick={() => setIsOpen(false)}
-                                className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative ${isActive
+                                className={`flex items-center gap-4 px-4 py-1.5 rounded-xl transition-all duration-200 group relative ${isActive
                                     ? 'bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-600/20'
                                     : 'text-slate-400 hover:text-white hover:bg-slate-800'
                                     }`}

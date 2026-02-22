@@ -72,60 +72,60 @@ export default function CustomersPage() {
 
     return (
         <div className="max-w-[1600px] mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
+                    <h1 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
                         Customers
                     </h1>
-                    <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em] mt-2 ml-1">
+                    <p className="text-slate-400 font-bold uppercase text-[9px] tracking-[0.2em] mt-1 ml-1">
                         View all customers
                     </p>
                 </div>
                 <button
                     onClick={fetchAnalytics}
-                    className="px-6 py-2.5 bg-white border border-slate-200 text-slate-900 rounded-xl font-black text-[10px] uppercase tracking-widest hover:border-indigo-600 hover:text-indigo-600 transition-all active:scale-95 shadow-sm"
+                    className="px-4 py-2 bg-white border border-slate-200 text-slate-900 rounded-lg font-black text-[9px] uppercase tracking-widest hover:border-indigo-600 hover:text-indigo-600 transition-all active:scale-95 shadow-sm"
                 >
                     Refresh
                 </button>
             </div>
             {/* Stats Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
-                <div className="pro-card rounded-2xl p-5 md:p-8">
-                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Customers</div>
-                    <div className="flex items-end gap-1.5 md:gap-2">
-                        <div className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.totalCustomers}</div>
-                        <div className="text-[9px] font-bold text-slate-400 mb-1 uppercase tracking-widest leading-none">Total</div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-6">
+                <div className="pro-card rounded-xl tight-padding">
+                    <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Customers</div>
+                    <div className="flex items-end gap-1">
+                        <div className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter">{stats.totalCustomers}</div>
+                        <div className="text-[8px] font-bold text-slate-400 mb-0.5 uppercase tracking-widest leading-none">Total</div>
                     </div>
                 </div>
-                <div className="pro-card rounded-2xl p-5 md:p-8">
-                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Repeat</div>
-                    <div className="flex items-end gap-1.5 md:gap-2">
-                        <div className="text-2xl md:text-3xl font-black text-indigo-600 tracking-tighter">{stats.returningCustomers}</div>
-                        <div className="text-[9px] font-bold text-slate-400 mb-1 uppercase tracking-widest leading-none">Repeat</div>
+                <div className="pro-card rounded-xl tight-padding">
+                    <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Repeat</div>
+                    <div className="flex items-end gap-1">
+                        <div className="text-xl md:text-2xl font-black text-indigo-600 tracking-tighter">{stats.returningCustomers}</div>
+                        <div className="text-[8px] font-bold text-slate-400 mb-0.5 uppercase tracking-widest leading-none">Repeat</div>
                     </div>
                 </div>
-                <div className="pro-card rounded-2xl p-5 md:p-8">
-                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Orders</div>
-                    <div className="flex items-end gap-1.5 md:gap-2">
-                        <div className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.totalBookings}</div>
-                        <div className="text-[9px] font-bold text-slate-400 mb-1 uppercase tracking-widest leading-none">Orders</div>
+                <div className="pro-card rounded-xl tight-padding">
+                    <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Orders</div>
+                    <div className="flex items-end gap-1">
+                        <div className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter">{stats.totalBookings}</div>
+                        <div className="text-[8px] font-bold text-slate-400 mb-0.5 uppercase tracking-widest leading-none">Orders</div>
                     </div>
                 </div>
-                <div className="pro-card rounded-2xl p-5 md:p-8">
-                    <div className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Ratio</div>
-                    <div className="flex items-end gap-1.5 md:gap-2 text-green-600">
-                        <div className="text-2xl md:text-3xl font-black tracking-tighter">{stats.confirmedRate}%</div>
-                        <div className="text-[9px] font-black mb-1 uppercase tracking-widest leading-none opacity-60">Rate</div>
+                <div className="pro-card rounded-xl tight-padding">
+                    <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Ratio</div>
+                    <div className="flex items-end gap-1 text-green-600">
+                        <div className="text-xl md:text-2xl font-black tracking-tighter">{stats.confirmedRate}%</div>
+                        <div className="text-[8px] font-black mb-0.5 uppercase tracking-widest leading-none opacity-60">Rate</div>
                     </div>
                 </div>
             </div>
 
             {/* Customer List Section */}
-            <div className="pro-card rounded-[2rem] overflow-hidden">
-                <div className="px-6 md:px-8 py-5 md:py-6 border-b border-slate-50 bg-slate-50/20 flex items-center justify-between">
+            <div className="pro-card rounded-xl overflow-hidden">
+                <div className="px-4 py-3 border-b border-slate-50 bg-slate-50/10 flex items-center justify-between">
                     <div>
-                        <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">Customer List</h2>
-                        <p className="text-slate-400 font-bold text-[9px] uppercase tracking-widest mt-0.5">All customer data</p>
+                        <h2 className="text-base md:text-lg font-black text-slate-900 uppercase tracking-tighter">Customer List</h2>
+                        <p className="text-slate-400 font-bold text-[8px] uppercase tracking-widest leading-none">All records</p>
                     </div>
                 </div>
                 <div className="divide-y divide-gray-50">
@@ -137,17 +137,17 @@ export default function CustomersPage() {
                         stats.customers.map((customer, index) => (
                             <div
                                 key={index}
-                                className="px-5 md:px-8 py-4 md:py-6 flex flex-col md:flex-row items-center gap-4 md:gap-8 hover:bg-slate-50/50 transition-colors cursor-pointer group border-b border-slate-50 last:border-0"
+                                className="px-4 py-2 flex flex-col md:flex-row items-center gap-4 md:gap-6 hover:bg-slate-50/50 transition-colors cursor-pointer group border-b border-slate-50 last:border-0"
                                 onClick={() => window.location.href = `/admin/customers/${customer.isRegistered && customer.id ? customer.id : customer.id || customer.email}`}
                             >
                                 {/* Avatar / Index */}
-                                <div className="w-10 h-10 md:w-12 md:h-12 bg-slate-100 rounded-xl md:rounded-2xl flex items-center justify-center text-base md:text-lg font-black text-slate-400 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
+                                <div className="w-8 h-8 md:w-10 md:h-10 bg-slate-100 rounded-lg flex items-center justify-center text-xs md:text-sm font-black text-slate-400 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
                                     {index + 1}
                                 </div>
 
                                 {/* Name & Contact */}
                                 <div className="flex-1 min-w-0 w-full md:w-auto text-center md:text-left">
-                                    <h3 className="text-base md:text-xl font-black text-slate-900 uppercase tracking-tighter group-hover:text-indigo-600 transition-colors truncate">
+                                    <h3 className="text-sm md:text-base font-black text-slate-900 uppercase tracking-tighter group-hover:text-indigo-600 transition-colors truncate">
                                         {customer.name}
                                     </h3>
                                     <div className="flex flex-wrap md:flex-nowrap justify-center md:justify-start gap-x-3 gap-y-1 mt-1 text-[11px] md:text-sm font-bold text-slate-400">

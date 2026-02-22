@@ -51,7 +51,7 @@ export default function AdminLayout({ children }) {
                     onMenuClick={() => setSidebarOpen(true)}
                 />
 
-                <main className="flex-1 overflow-x-hidden p-4 md:p-8">
+                <main className="flex-1 overflow-x-hidden p-2 md:p-4">
                     {children}
                 </main>
             </div>

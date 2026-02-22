@@ -115,16 +115,24 @@ body {
 }
 
 .pro-card:hover {
-  @apply shadow-xl shadow-slate-200/50 -translate-y-0.5;
+  @apply shadow-xl shadow-slate-200/40 -translate-y-0;
 }
 
 /* Compact Density utility for mobile */
 .compact-grid {
-  @apply gap-2 md:gap-6;
+  @apply gap-1.5 md:gap-4;
 }
 
 .compact-padding {
-  @apply p-3 md:p-8;
+  @apply p-2 md:p-6;
+}
+
+.tight-gap {
+  @apply gap-1 md:gap-2;
+}
+
+.tight-padding {
+  @apply p-1.5 md:p-3;
 }
 
 @keyframes wave {

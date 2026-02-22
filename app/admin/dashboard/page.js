@@ -49,87 +49,87 @@ export default async function AdminDashboardPage() {
   return (
     <div className="max-w-[1600px] mx-auto">
       {/* Welcome Section */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
         <div>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
+          <h1 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
             Dash<span className="text-indigo-600">board</span>
           </h1>
-          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-2 ml-1">
-            Admin Management Overview
+          <p className="text-slate-500 font-bold uppercase text-[9px] tracking-[0.2em] mt-1 ml-1">
+            Admin Overview
           </p>
         </div>
         <Link
           href="/admin/tours/new"
-          className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 active:scale-95 text-center flex items-center justify-center gap-2"
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 active:scale-95 text-center flex items-center justify-center gap-2"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
-          Add New Tour
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
+          Add Tour
         </Link>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
-        <div className="pro-card rounded-2xl p-5 md:p-8">
-          <div className="flex flex-col gap-3 md:gap-4">
-            <div className="w-10 h-10 md:w-14 md:h-14 bg-indigo-50 rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-3xl shadow-sm">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-6">
+        <div className="pro-card rounded-xl tight-padding">
+          <div className="flex flex-col gap-2">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-indigo-50 rounded-lg flex items-center justify-center text-lg md:text-xl shadow-sm">
               🏖️
             </div>
             <div>
-              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Total Tours</p>
-              <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.totalTours} <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">Tours</span></p>
+              <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5">Total Tours</p>
+              <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter">{stats.totalTours} <span className="text-[9px] text-slate-400 font-bold ml-1 uppercase">Tours</span></p>
             </div>
           </div>
         </div>
 
-        <div className="pro-card rounded-2xl p-5 md:p-8">
-          <div className="flex flex-col gap-3 md:gap-4">
-            <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-50 rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-3xl shadow-sm">
+        <div className="pro-card rounded-xl tight-padding">
+          <div className="flex flex-col gap-2">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-50 rounded-lg flex items-center justify-center text-lg md:text-xl shadow-sm">
               📢
             </div>
             <div>
-              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Announcements</p>
-              <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{stats.activeAnnouncements} <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">Active</span></p>
+              <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5">Announcements</p>
+              <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter">{stats.activeAnnouncements} <span className="text-[9px] text-slate-400 font-bold ml-1 uppercase">Active</span></p>
             </div>
           </div>
         </div>
 
-        <Link href="/admin/bookings" className="pro-card rounded-2xl p-5 md:p-8 hover:border-indigo-200 group">
-          <div className="flex flex-col gap-3 md:gap-4">
-            <div className="w-10 h-10 md:w-14 md:h-14 bg-green-50 rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-3xl shadow-sm group-hover:bg-green-100 transition-colors">
+        <Link href="/admin/bookings" className="pro-card rounded-xl tight-padding hover:border-indigo-200 group">
+          <div className="flex flex-col gap-2">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-green-50 rounded-lg flex items-center justify-center text-lg md:text-xl shadow-sm group-hover:bg-green-100 transition-colors">
               📅
             </div>
             <div>
-              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Bookings</p>
-              <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">{stats.pendingBookings} <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">Pending</span></p>
+              <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5">Bookings</p>
+              <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">{stats.pendingBookings} <span className="text-[9px] text-slate-400 font-bold ml-1 uppercase">Pending</span></p>
             </div>
           </div>
         </Link>
 
-        <Link href="/admin/customers" className="pro-card rounded-2xl p-5 md:p-8 hover:border-indigo-200 group">
-          <div className="flex flex-col gap-3 md:gap-4">
-            <div className="w-10 h-10 md:w-14 md:h-14 bg-slate-50 rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-3xl shadow-sm group-hover:bg-indigo-50 transition-colors">
+        <Link href="/admin/customers" className="pro-card rounded-xl tight-padding hover:border-indigo-200 group">
+          <div className="flex flex-col gap-2">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-slate-50 rounded-lg flex items-center justify-center text-lg md:text-xl shadow-sm group-hover:bg-indigo-50 transition-colors">
               👥
             </div>
             <div>
-              <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Customers</p>
-              <p className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">Stats <span className="text-[10px] text-slate-400 font-bold ml-1 uppercase">&rarr;</span></p>
+              <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5">Customers</p>
+              <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors">Stats <span className="text-[9px] text-slate-400 font-bold ml-1 uppercase">&rarr;</span></p>
             </div>
           </div>
         </Link>
       </div>
 
       {/* Tours Section */}
-      <div className="pro-card rounded-[2rem] overflow-hidden">
-        <div className="px-6 md:px-8 py-5 md:py-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
+      <div className="pro-card rounded-[1.5rem] overflow-hidden">
+        <div className="px-4 py-3 border-b border-slate-50 flex items-center justify-between bg-slate-50/10">
           <div>
-            <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tighter">All Tours</h2>
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Manage your tour listings</p>
+            <h2 className="text-base md:text-lg font-black text-slate-900 uppercase tracking-tighter">All Tours</h2>
+            <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none">Management Center</p>
           </div>
           <Link
             href="/admin/tours/new"
-            className="w-10 h-10 md:w-auto md:px-6 md:py-3 bg-slate-900 text-white rounded-xl md:rounded-2xl hover:bg-black transition-all font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 group shadow-lg active:scale-95"
+            className="w-8 h-8 md:w-auto md:px-4 md:py-2 bg-slate-900 text-white rounded-lg hover:bg-black transition-all font-black text-[9px] uppercase tracking-widest flex items-center justify-center gap-1.5 group shadow-lg active:scale-95"
           >
-            <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
             </svg>
             <span className="hidden md:inline">Add Tour</span>
@@ -141,7 +141,7 @@ export default async function AdminDashboardPage() {
             {tours.map((tour) => (
               <div
                 key={tour.id}
-                className="group relative bg-slate-50/50 border border-slate-100 hover:border-indigo-600 hover:bg-white rounded-2xl md:rounded-[2rem] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-600/10"
+                className="group relative bg-slate-50/50 border border-slate-100 hover:border-indigo-600 hover:bg-white rounded-xl md:rounded-[1.2rem] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-600/10"
               >
                 {/* Image Section */}
                 <div className="relative h-40 md:h-56 w-full overflow-hidden">
