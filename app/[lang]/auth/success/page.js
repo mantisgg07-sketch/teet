@@ -46,13 +46,26 @@ export default function AuthSuccessPage() {
             // Success! 
             setStatus('success')
 
-            if (error && error.message.toLowerCase().includes('session missing')) {
-              // The user verified in a new browser and we stripped the hash so they wouldn't auto-login.
-              // To completely guarantee they aren't logged in, we explicitly sign out that ghost session locally only!
-              await supabase.auth.signOut({ scope: 'local' })
+            if (type === 'email_updated') {
+              // Check if this browser was the one that requested the email change
+              const isOriginalBrowser = localStorage.getItem('is_original_browser')
+
+              if (!isOriginalBrowser) {
+                // This is a NEW browser (like Brave). They clicked the link here.
+                // Supabase automatically parsed the URL hash and logged them in locally.
+                // We MUST sign them out locally so they don't stay unexpectedly logged in!
+                await supabase.auth.signOut({ scope: 'local' })
+              } else {
+                // This is the ORIGINAL browser. The session belongs here!
+                // Clear the flag so it doesn't leak to future requests
+                localStorage.removeItem('is_original_browser')
+
+                // Broadcast the success event to their other tabs in this browser
+                if (data?.session?.user?.id) {
+                  broadcastAuthEvent(type, data.session.user.id)
+                }
+              }
             } else if (data?.session?.user?.id) {
-              // They verified in the SAME browser/tab, so they are logged in. 
-              // Broadcast the success event to their other tabs.
               broadcastAuthEvent(type, data.session.user.id)
             }
           }

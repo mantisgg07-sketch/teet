@@ -29,9 +29,6 @@ export default function RootLayout({ children }) {
 
         if (hash.includes('type=email_change')) {
           successType = 'email_updated';
-          // Strip the hash so the new browser doesn't automatically log in with the tokens
-          // (Supabase server already verified the email so the token is no longer strictly needed here)
-          appendHash = '';
         } else if (hash.includes('type=recovery')) {
           window.location.replace('/' + lang + '/login/update-password' + hash);
           return;

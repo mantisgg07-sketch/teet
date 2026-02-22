@@ -211,7 +211,7 @@ export default function Header({ lang = 'en', dict }) {
               {user ? (
                 <button
                   onClick={async () => {
-                    await supabase.auth.signOut();
+                    await supabase.auth.signOut({ scope: 'local' });
                     setIsMenuOpen(false);
                     window.location.reload();
                   }}
