@@ -23,6 +23,12 @@ export default function ForgotPasswordPage() {
     getDictionary(lang).then(setDict)
   }, [lang])
 
+  // Clear error/message when user starts typing again
+  useEffect(() => {
+    if (error) setError('')
+    if (message) setMessage('')
+  }, [email])
+
   const handleResetPassword = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -43,7 +49,11 @@ export default function ForgotPasswordPage() {
         .ilike('email', email.trim())
         .maybeSingle();
 
-      if (profileError || !profile) {
+      if (profileError) {
+        throw new Error(profileError.message);
+      }
+
+      if (!profile) {
         setError(dict?.forgotPassword?.errorNotFound || 'No account found with this email address. Please check your spelling or sign up.');
         setLoading(false);
         return;
