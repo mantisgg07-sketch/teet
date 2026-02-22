@@ -167,68 +167,121 @@ export default function Header({ lang = 'en', dict }) {
             <button
               ref={menuButtonRef}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="relative w-10 h-10 flex items-center justify-center text-gray-700 hover:bg-gray-100/50 rounded-xl transition-all duration-300 z-[70]"
               aria-label="Toggle menu"
             >
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
+              <div className="flex flex-col gap-1.5 items-center justify-center">
+                <span
+                  className={`block w-6 h-0.5 bg-current rounded-full transition-all duration-300 origin-center ${isMenuOpen ? 'rotate-45 translate-y-2' : ''
+                    }`}
+                />
+                <span
+                  className={`block w-6 h-0.5 bg-current rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0 scale-x-0' : 'opacity-100'
+                    }`}
+                />
+                <span
+                  className={`block w-6 h-0.5 bg-current rounded-full transition-all duration-300 origin-center ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''
+                    }`}
+                />
+              </div>
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div ref={menuRef} className="md:hidden pb-4 animate-slide-down bg-white absolute right-4 top-16 w-52 shadow-2xl border border-gray-100 rounded-2xl z-[60]">
-            {/* Navigation Links Section */}
-            <div className="px-3 py-4 space-y-1">
+        {/* Mobile Menu Backdrop */}
+        <div
+          className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-50 transition-opacity duration-500 md:hidden ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
+          onClick={() => setIsMenuOpen(false)}
+        />
+
+        {/* Mobile Side Drawer */}
+        <div
+          ref={menuRef}
+          className={`fixed top-0 right-0 h-full w-4/5 max-w-[320px] bg-white shadow-2xl z-[60] transform transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:hidden flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
+        >
+          {/* Drawer Header */}
+          <div className="p-6 border-b border-gray-50 flex items-center justify-between">
+            <Link href={`/${lang}`} onClick={() => setIsMenuOpen(false)} className="block">
+              <Image
+                src="/img/logo.png"
+                alt="GoHoliday Logo"
+                width={120}
+                height={35}
+                className="h-8 w-auto"
+              />
+            </Link>
+          </div>
+
+          <div className="flex-grow overflow-y-auto px-4 py-6 scrollbar-hide">
+            {/* Navigation Section */}
+            <div className="mb-8">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4 px-2">Explore</p>
               <Link
                 href={`/${lang}/tours`}
-                className="flex items-center gap-3 px-4 py-3 text-gray-900 hover:bg-primary-50 rounded-2xl transition-all duration-200 font-bold"
+                className="flex items-center gap-4 px-4 py-4 text-gray-900 hover:bg-primary-50 active:bg-primary-100 rounded-2xl transition-all duration-200 group"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <span className="p-2 bg-primary-100 text-primary-600 rounded-lg">
+                <div className="w-10 h-10 flex items-center justify-center bg-primary-100 text-primary-600 rounded-xl group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                   </svg>
-                </span>
-                {dict?.nav?.tours || 'Explore Tours'}
+                </div>
+                <span className="font-bold text-lg">{dict?.nav?.tours || 'Explore Tours'}</span>
               </Link>
             </div>
 
             {/* Switchers Section */}
-            <div className="px-4 py-4 border-t border-gray-50 flex flex-col gap-3">
-              <CurrencySwitcher mobile />
-              <LanguageSwitcher mobile />
+            <div className="mb-8">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4 px-2">Settings</p>
+              <div className="space-y-4 px-2">
+                <div className="p-4 bg-gray-50/50 rounded-2xl border border-gray-100/50">
+                  <CurrencySwitcher mobile />
+                </div>
+                <div className="p-4 bg-gray-50/50 rounded-2xl border border-gray-100/50">
+                  <LanguageSwitcher mobile />
+                </div>
+              </div>
             </div>
 
-            {/* Logout Section (No profile info as requested) */}
-            <div className="px-3 py-3 border-t border-gray-50">
+            {/* Account Section */}
+            <div className="mt-auto">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4 px-2">Account</p>
               {user ? (
-                <button
-                  onClick={async () => {
-                    // scope: 'local' = clear only this browser's session; do not revoke refresh token (other browsers stay logged in)
-                    await supabase.auth.signOut({ scope: 'local' });
-                    setIsMenuOpen(false);
-                    window.location.reload();
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-2xl transition-all duration-200 font-bold group"
-                >
-                  <span className="p-2 bg-red-100 text-red-600 rounded-lg group-hover:bg-red-200 transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                  </span>
-                  Logout
-                </button>
+                <div className="space-y-2">
+                  <Link
+                    href={`/${lang}/profile`}
+                    className="flex items-center gap-4 px-4 py-4 text-gray-900 border border-gray-100 rounded-2xl hover:bg-gray-50 transition-all font-bold"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center text-primary-700 border border-primary-100">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <span>My Profile</span>
+                  </Link>
+                  <button
+                    onClick={async () => {
+                      await supabase.auth.signOut({ scope: 'local' });
+                      setIsMenuOpen(false);
+                      window.location.reload();
+                    }}
+                    className="w-full flex items-center gap-4 px-4 py-4 text-red-600 hover:bg-red-50 rounded-2xl transition-all duration-200 font-bold group"
+                  >
+                    <div className="w-10 h-10 flex items-center justify-center bg-red-100 text-red-600 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013-3v1" />
+                      </svg>
+                    </div>
+                    Logout
+                  </button>
+                </div>
               ) : (
                 <Link
                   href={`/${lang}/login`}
-                  className="block w-full px-4 py-3 bg-primary-600 text-white rounded-2xl font-bold text-center shadow-lg shadow-primary-200 active:scale-95 transition-all"
+                  className="block w-full px-4 py-5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-2xl font-bold text-center shadow-lg shadow-primary-200 active:scale-[0.98] transition-all duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Sign In
@@ -236,9 +289,15 @@ export default function Header({ lang = 'en', dict }) {
               )}
             </div>
           </div>
-        )}
+
+          {/* Footer Info */}
+          <div className="p-6 text-center">
+            <p className="text-gray-400 text-[10px]">&copy; 2026 GoHoliday. Built with ❤️</p>
+          </div>
+        </div>
       </div>
     </header>
+
   )
 }
 
