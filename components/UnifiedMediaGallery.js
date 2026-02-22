@@ -301,18 +301,18 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
                     onTouchEnd={onTouchEnd}
                 >
                     {/* Header/Close */}
-                    <div className="absolute top-0 left-0 right-0 p-4 md:p-6 flex justify-between items-center z-40 pointer-events-none">
+                    <div className="absolute top-0 left-0 right-0 p-4 md:p-6 pt-12 md:pt-6 flex justify-between items-center z-[110] pointer-events-none">
                         <button
                             onClick={closeLightbox}
-                            className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl text-white text-sm font-bold transition-all pointer-events-auto"
+                            className="flex items-center gap-2 px-4 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl text-white text-sm font-black transition-all pointer-events-auto shadow-2xl active:scale-95"
                             aria-label="Go back"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
                             </svg>
-                            Back
+                            <span>BACK</span>
                         </button>
-                        <div className="text-white/80 font-medium bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm">
+                        <div className="text-white/90 font-black bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10 text-xs tracking-widest">
                             {selectedIndex + 1} / {activeMedia.length}
                         </div>
                     </div>
