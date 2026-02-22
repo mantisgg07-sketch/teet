@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
@@ -16,6 +16,7 @@ export default function ForgotPasswordPage() {
   const [message, setMessage] = useState('')
   const [dict, setDict] = useState(null)
   const pathname = usePathname()
+  const router = useRouter()
 
   // Extract lang from pathname
   const lang = pathname?.split('/')[1] || 'en'
@@ -24,6 +25,25 @@ export default function ForgotPasswordPage() {
   useEffect(() => {
     getDictionary(lang).then(setDict)
   }, [lang])
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (supabase) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+          router.replace(`/${lang}`)
+        }
+      })
+
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+        if (session && event === 'SIGNED_IN') {
+          router.replace(`/${lang}`)
+        }
+      })
+
+      return () => subscription.unsubscribe()
+    }
+  }, [supabase, router, lang])
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value)
