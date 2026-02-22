@@ -301,19 +301,20 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
                     onTouchEnd={onTouchEnd}
                 >
                     {/* Header/Close */}
-                    <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-20 pointer-events-none">
-                        <div className="text-white/80 font-medium">
-                            {selectedIndex + 1} / {activeMedia.length}
-                        </div>
+                    <div className="absolute top-0 left-0 right-0 p-4 md:p-6 flex justify-between items-center z-40 pointer-events-none">
                         <button
                             onClick={closeLightbox}
-                            className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors pointer-events-auto"
-                            aria-label="Close"
+                            className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl text-white text-sm font-bold transition-all pointer-events-auto"
+                            aria-label="Go back"
                         >
-                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
                             </svg>
+                            Back
                         </button>
+                        <div className="text-white/80 font-medium bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm">
+                            {selectedIndex + 1} / {activeMedia.length}
+                        </div>
                     </div>
 
                     {/* Media Content */}
