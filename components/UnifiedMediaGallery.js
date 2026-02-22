@@ -143,7 +143,7 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
     }
 
     return (
-        <div className="w-full">
+        <div className={`w-full ${selectedIndex !== null ? 'relative z-[9999]' : ''}`}>
             {/* Mobile: Horizontal scroll (Play Store style) */}
             <div className="md:hidden">
                 <div
@@ -301,18 +301,35 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
                     onTouchEnd={onTouchEnd}
                 >
                     {/* Header/Close */}
-                    <div className="absolute top-0 left-0 right-0 p-4 md:p-6 pt-12 md:pt-6 flex justify-between items-center z-[110] pointer-events-none">
+                    <div className="absolute top-0 left-0 right-0 p-4 md:p-8 pt-10 md:pt-8 flex justify-between items-center z-[110] pointer-events-none">
                         <button
                             onClick={closeLightbox}
-                            className="flex items-center gap-2 px-4 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl text-white text-sm font-black transition-all pointer-events-auto shadow-2xl active:scale-95"
+                            className="flex items-center gap-2 px-5 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-2xl border border-white/20 rounded-2xl text-white text-sm font-black transition-all pointer-events-auto shadow-2xl active:scale-95 group"
                             aria-label="Go back"
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
                             </svg>
                             <span>BACK</span>
                         </button>
-                        <div className="text-white/90 font-black bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10 text-xs tracking-widest">
+
+                        <div className="hidden md:flex items-center gap-4">
+                            <div className="text-white/90 font-black bg-black/40 px-4 py-2 rounded-full backdrop-blur-md border border-white/10 text-xs tracking-widest">
+                                {selectedIndex + 1} / {activeMedia.length}
+                            </div>
+                            <button
+                                onClick={closeLightbox}
+                                className="p-3 bg-white/10 hover:bg-red-500/20 hover:text-red-400 rounded-full transition-all border border-white/10 text-white pointer-events-auto"
+                                aria-label="Close"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Mobile Only Counter */}
+                        <div className="md:hidden text-white/90 font-black bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10 text-[10px] tracking-widest">
                             {selectedIndex + 1} / {activeMedia.length}
                         </div>
                     </div>

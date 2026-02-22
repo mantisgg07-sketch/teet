@@ -86,15 +86,15 @@ export default function Header({ lang = 'en', dict }) {
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-morphism shadow-glass' : 'bg-white/95 backdrop-blur-md border-b border-gray-100'}`}>
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           {/* Logo */}
           <Link href={`/${lang}`} className="flex items-center gap-2 hover:opacity-90 transition-all duration-300 group">
             <Image
               src="/img/logo.png"
               alt="GoHoliday Logo"
-              width={160}
-              height={46}
-              className="h-[46px] w-auto"
+              width={140}
+              height={40}
+              className="h-[40px] w-auto"
               priority
             />
           </Link>
