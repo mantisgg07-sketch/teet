@@ -62,14 +62,45 @@ export default function TourReviews({ tourId, lang = 'en', dict }) {
 
       // Fetch reviews without profiles join to avoid PGRST200 errors
       // when the foreign key relationship is not configured in Supabase
-      const { data, error } = await supabase
+      const { data: reviewsData, error: reviewsError } = await supabase
         .from('reviews')
         .select('*')
         .eq('tour_id', numericTourId)
         .order('created_at', { ascending: false })
 
-      if (error) throw error
-      setReviews(data || [])
+      if (reviewsError) throw reviewsError
+
+      // Fetch profiles manually for these users to get names/emails
+      if (reviewsData && reviewsData.length > 0) {
+        const userIds = [...new Set(reviewsData.map(r => r.user_id))].filter(Boolean)
+
+        if (userIds.length > 0) {
+          const { data: profilesData, error: profilesError } = await supabase
+            .from('profiles')
+            .select('id, full_name, email')
+            .in('id', userIds)
+
+          if (!profilesError && profilesData) {
+            const profileMap = profilesData.reduce((acc, profile) => {
+              acc[profile.id] = profile
+              return acc
+            }, {})
+
+            const reviewsWithProfiles = reviewsData.map(review => ({
+              ...review,
+              profiles: profileMap[review.user_id] || null
+            }))
+
+            setReviews(reviewsWithProfiles)
+          } else {
+            setReviews(reviewsData)
+          }
+        } else {
+          setReviews(reviewsData)
+        }
+      } else {
+        setReviews([])
+      }
     } catch (error) {
       console.error('Error fetching reviews:', error)
     } finally {
