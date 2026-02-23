@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
@@ -20,7 +20,6 @@ export default function UpdatePasswordPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
 
   // Extract lang from pathname
   const lang = pathname?.split('/')[1] || 'en'
@@ -43,7 +42,8 @@ export default function UpdatePasswordPage() {
         setError('')
 
         // 1) PKCE-style reset links: /update-password?code=...&type=recovery
-        const code = searchParams?.get('code')
+        // Read from window to avoid useSearchParams (no Suspense required for build)
+        const code = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('code') : null
         if (code) {
           const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
           if (exchangeError) {
@@ -91,7 +91,7 @@ export default function UpdatePasswordPage() {
 
     establishRecoverySession()
     return () => { cancelled = true }
-  }, [searchParams])
+  }, [])
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault()
