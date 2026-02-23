@@ -88,11 +88,13 @@ export default function ForgotPasswordPage() {
       }
 
       // 2. Determine redirect URL
-      const origin = typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL || '';
-      const redirectTo = `${origin}/${lang}/login/update-password`
+      const origin = typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL || ''
+      // For password recovery, send users through our auth callback so we can
+      // exchange the code for a session and then redirect them to update-password
+      const redirectTo = `${origin}/auth/callback?type=recovery&lang=${lang}`
 
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
-        redirectTo: redirectTo,
+        redirectTo,
       })
 
       if (resetError) {
