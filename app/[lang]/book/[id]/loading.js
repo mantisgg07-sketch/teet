@@ -30,7 +30,7 @@ export default function Loading() {
 
                     {/* Right Column: Booking Form Section Skeleton */}
                     <div className="md:col-span-2">
-                        <div className="bg-white p-6 md:p-10 rounded-[2.5rem] shadow-2xl border border-gray-50" style={{ minHeight: '600px' }}>
+                        <div className="bg-white p-6 md:p-10 rounded-[2.5rem] shadow-2xl border border-gray-50">
                             {/* Form Title */}
                             <Skeleton variant="title" className="h-10 w-2/3 mb-4" />
                             <Skeleton variant="text" className="h-6 w-1/2 mb-10" />
@@ -43,14 +43,14 @@ export default function Loading() {
                                             <Skeleton variant="text" className="h-4 w-16 mb-1" />
                                             <Skeleton variant="text" className="h-3 w-20" />
                                         </div>
-                                        <Skeleton className="h-12 w-32 rounded-xl" />
+                                        <Skeleton className="h-10 w-32 rounded-xl" />
                                     </div>
                                     <div className="flex justify-between items-center pt-2">
                                         <div className="w-1/3">
                                             <Skeleton variant="text" className="h-4 w-20 mb-1" />
                                             <Skeleton variant="text" className="h-3 w-16" />
                                         </div>
-                                        <Skeleton className="h-12 w-32 rounded-xl" />
+                                        <Skeleton className="h-10 w-32 rounded-xl" />
                                     </div>
                                 </div>
 
@@ -58,16 +58,16 @@ export default function Loading() {
                                 <div className="space-y-4">
                                     <div>
                                         <Skeleton variant="text" className="h-3 w-24 mb-3" />
-                                        <Skeleton className="h-14 w-full rounded-[1.25rem]" />
+                                        <Skeleton className="h-12 w-full rounded-xl" />
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
                                             <Skeleton variant="text" className="h-3 w-16 mb-3" />
-                                            <Skeleton className="h-14 w-full rounded-[1.25rem]" />
+                                            <Skeleton className="h-12 w-full rounded-xl" />
                                         </div>
                                         <div>
                                             <Skeleton variant="text" className="h-3 w-16 mb-3" />
-                                            <Skeleton className="h-14 w-full rounded-[1.25rem]" />
+                                            <Skeleton className="h-12 w-full rounded-xl" />
                                         </div>
                                     </div>
                                 </div>
@@ -76,16 +76,16 @@ export default function Loading() {
                                 <div>
                                     <Skeleton variant="text" className="h-3 w-24 mb-4" />
                                     <div className="flex gap-4">
-                                        <Skeleton className="h-12 flex-1 rounded-2xl" />
-                                        <Skeleton className="h-12 flex-1 rounded-2xl" />
+                                        <Skeleton className="h-12 flex-1 rounded-xl" />
+                                        <Skeleton className="h-12 flex-1 rounded-xl" />
                                     </div>
                                 </div>
 
                                 {/* Footer Total Skeleton */}
-                                <div className="bg-gray-50 px-6 py-8 rounded-[2.5rem] flex flex-col md:flex-row justify-between items-center gap-6 group border border-gray-100 mt-8">
+                                <div className="bg-gray-50 px-6 py-6 rounded-[2rem] flex flex-col md:flex-row justify-between items-center gap-6 group border border-gray-100 mt-8">
                                     <div className="text-center md:text-left">
                                         <Skeleton variant="text" className="h-3 w-24 mb-2" />
-                                        <Skeleton variant="title" className="h-10 w-32" />
+                                        <Skeleton variant="title" className="h-8 w-32" />
                                     </div>
                                     <Skeleton className="h-14 w-40 rounded-xl" />
                                 </div>

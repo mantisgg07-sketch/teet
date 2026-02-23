@@ -6,13 +6,13 @@ export default function Loading() {
             {/* Header Placeholder */}
             <div className="h-20 bg-white border-b border-gray-100/50 w-full animate-pulse" />
 
-            {/* Hero Header Skeleton */}
-            <div className="bg-primary-900 text-white py-12 md:py-16">
+            {/* Page Header Skeleton — Clean and Simple to match page.js */}
+            <section className="bg-white py-12 border-b border-gray-100">
                 <div className="container mx-auto px-4 text-center flex flex-col items-center">
-                    <Skeleton variant="title" className="h-10 sm:h-12 w-1/3 mb-4 bg-white/20" />
-                    <Skeleton variant="text" className="h-6 w-1/2 bg-white/20" />
+                    <Skeleton variant="title" className="h-10 sm:h-12 w-1/3 mb-4" />
+                    <Skeleton variant="text" className="h-6 w-1/2" />
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 mt-8">
                 <div className="flex flex-col lg:flex-row gap-8">
@@ -48,16 +48,21 @@ export default function Loading() {
 
                     {/* Tour Grid Skeleton */}
                     <div className="lg:w-3/4">
-                        {/* Header Controls Mock */}
-                        <div className="mb-6 flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                            <Skeleton variant="text" className="w-32" />
-                            <div className="flex gap-2">
-                                <Skeleton className="w-40 h-10 rounded-xl" />
+                        {/* Mobile Sticky Search Bar Placeholder (Hidden on Desktop) */}
+                        <div className="lg:hidden sticky top-0 z-20 bg-gray-50/95 backdrop-blur-md py-4 -mx-4 px-4 mb-2">
+                            <div className="flex gap-2 h-12">
+                                <Skeleton className="flex-1 rounded-xl bg-white shadow-sm" />
+                                <Skeleton className="w-12 rounded-xl bg-primary-600 shadow-sm" />
                             </div>
                         </div>
 
+                        {/* Desktop Header Controls Mock */}
+                        <div className="mb-6 flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mt-4 lg:mt-0">
+                            <Skeleton variant="text" className="w-32" />
+                        </div>
+
                         {/* Grid of Tour Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4 md:gap-6 lg:gap-6">
                             {[...Array(6)].map((_, i) => (
                                 <Skeleton key={i} variant="tourCard" />
                             ))}

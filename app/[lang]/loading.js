@@ -63,6 +63,25 @@ export default function Loading() {
                     </div>
                 </div>
             </section>
+
+            {/* Why Choose Us Skeleton */}
+            <section className="py-12 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
+                <div className="container mx-auto px-4 sm:px-6 text-center">
+                    <Skeleton variant="title" className="w-1/4 mx-auto mb-3" />
+                    <div className="h-1 w-24 bg-gray-200 mx-auto rounded-full mb-4 animate-pulse"></div>
+                    <Skeleton variant="text" className="w-1/2 mx-auto mb-12" />
+
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8 max-w-6xl mx-auto">
+                        {[1, 2, 3, 4].map(i => (
+                            <div key={i} className="bg-white border-2 border-gray-100 p-4 sm:p-8 rounded-3xl">
+                                <Skeleton className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl mb-4 mx-auto" />
+                                <Skeleton variant="text" className="h-4 w-2/3 mx-auto mb-2" />
+                                <Skeleton variant="text" className="h-3 w-3/4 mx-auto" />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
         </div>
     )
 }
