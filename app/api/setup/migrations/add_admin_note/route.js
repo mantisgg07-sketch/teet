@@ -4,6 +4,13 @@ import { isAuthenticated } from '@/lib/auth';
 
 export async function GET() {
     try {
+        // Disable migration endpoint in production (run migrations via CLI/scripts instead)
+        if (process.env.NODE_ENV === 'production') {
+            return NextResponse.json(
+                { error: 'Migrations are not available in production' },
+                { status: 404 }
+            );
+        }
         // Auth check - only admins can run migrations
         const authenticated = await isAuthenticated();
         if (!authenticated) {

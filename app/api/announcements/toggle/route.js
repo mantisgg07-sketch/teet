@@ -18,9 +18,10 @@ export async function POST(request) {
 
     const { id, is_active } = await request.json()
 
-    if (!id) {
+    const safeId = parseInt(id, 10);
+    if (Number.isNaN(safeId) || safeId < 1) {
       return NextResponse.json(
-        { error: 'Announcement ID is required' },
+        { error: 'Invalid announcement ID' },
         { status: 400 }
       )
     }
@@ -29,7 +30,7 @@ export async function POST(request) {
 
     await db.update(announcementsSchema)
       .set({ is_active: is_active ? 1 : 0 })
-      .where(eq(announcementsSchema.id, id));
+      .where(eq(announcementsSchema.id, safeId));
 
     revalidatePath('/admin/announcements')
     revalidatePath('/')

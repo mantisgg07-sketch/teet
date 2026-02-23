@@ -12,9 +12,11 @@ import Skeleton from '@/components/Skeleton'
 async function getStats() {
   try {
     const db = getDb();
-    const toursResult = await db.select({ value: count() }).from(toursSchema);
-    const announcementsResult = await db.select({ value: count() }).from(announcementsSchema).where(eq(announcementsSchema.is_active, 1));
-    const bookingsResult = await db.select({ value: count() }).from(bookingsSchema).where(eq(bookingsSchema.status, "pending"));
+    const [toursResult, announcementsResult, bookingsResult] = await Promise.all([
+      db.select({ value: count() }).from(toursSchema),
+      db.select({ value: count() }).from(announcementsSchema).where(eq(announcementsSchema.is_active, 1)),
+      db.select({ value: count() }).from(bookingsSchema).where(eq(bookingsSchema.status, "pending")),
+    ]);
 
     return {
       totalTours: toursResult[0]?.value || 0,
@@ -45,8 +47,7 @@ export default async function AdminDashboardPage() {
     redirect('/admin');
   }
 
-  const stats = await getStats();
-  const tours = await getAllTours();
+  const [stats, tours] = await Promise.all([getStats(), getAllTours()]);
 
   return (
     <div className="max-w-[1600px] mx-auto">

@@ -18,15 +18,16 @@ export async function POST(request) {
 
     const { id } = await request.json()
 
-    if (!id) {
+    const safeId = parseInt(id, 10);
+    if (Number.isNaN(safeId) || safeId < 1) {
       return NextResponse.json(
-        { error: 'Announcement ID is required' },
+        { error: 'Invalid announcement ID' },
         { status: 400 }
       )
     }
 
     const db = getDb();
-    await db.delete(announcementsSchema).where(eq(announcementsSchema.id, id));
+    await db.delete(announcementsSchema).where(eq(announcementsSchema.id, safeId));
 
     revalidatePath('/admin/announcements')
     revalidatePath('/')

@@ -102,8 +102,12 @@ export async function generateMetadata({ params }) {
 
 export default async function TourDetailPage({ params }) {
   const { lang, id } = await params;
+  const numId = Number(id);
+  if (Number.isNaN(numId) || numId < 1) {
+    notFound();
+  }
   const dict = await getDictionary(lang);
-  const tour = await getTour(id);
+  const tour = await getTour(numId);
 
   if (!tour) {
     notFound();

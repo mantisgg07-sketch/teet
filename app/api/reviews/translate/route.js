@@ -22,20 +22,21 @@ function isRateLimited(ip) {
   return false
 }
 
-// Clean up old entries periodically
-setInterval(() => {
+// Clean up old entries when handling a request (serverless-safe; no setInterval)
+function cleanupRateLimitMap() {
   const now = Date.now()
   for (const [ip, entry] of rateLimitMap) {
     if (now - entry.windowStart > RATE_LIMIT_WINDOW) {
       rateLimitMap.delete(ip)
     }
   }
-}, 5 * 60 * 1000) // every 5 minutes
+}
 
 export async function POST(request) {
   try {
     // Rate limiting
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
+    cleanupRateLimitMap()
     if (isRateLimited(ip)) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },

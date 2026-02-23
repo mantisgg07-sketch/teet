@@ -20,8 +20,16 @@ export async function POST(request) {
     const data = await request.json()
     const { id, title, description, price, currency, duration, dates, location, banner_image, image_urls, video_urls } = data
 
+    const safeId = parseInt(id, 10)
+    if (Number.isNaN(safeId) || safeId < 1) {
+      return NextResponse.json(
+        { error: 'Invalid tour ID' },
+        { status: 400 }
+      )
+    }
+
     // Validation
-    if (!id || !title || !description || !price || !duration || !dates || !location) {
+    if (!title || !description || !price || !duration || !dates || !location) {
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
@@ -53,7 +61,7 @@ export async function POST(request) {
 
     revalidatePath('/admin/dashboard')
     revalidatePath('/tours')
-    revalidatePath(`/tours/${id}`)
+    revalidatePath(`/tours/${safeId}`)
     revalidatePath('/')
 
     return NextResponse.json({ success: true })

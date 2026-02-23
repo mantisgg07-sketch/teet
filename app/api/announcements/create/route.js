@@ -18,6 +18,9 @@ export async function POST(request) {
 
     const { message, is_active, type, image_url } = await request.json()
 
+    const VALID_TYPES = ['banner', 'popup'];
+    const safeType = type && VALID_TYPES.includes(String(type).toLowerCase()) ? String(type).toLowerCase() : 'banner';
+
     if (!message) {
       return NextResponse.json(
         { error: 'Message is required' },
@@ -37,7 +40,7 @@ export async function POST(request) {
       message_th: translatedMessages.message_th,
       message_zh: translatedMessages.message_zh,
       is_active: is_active ? 1 : 0,
-      type: type || 'banner',
+      type: safeType,
       image_url: image_url || null
     });
 

@@ -89,8 +89,10 @@ export async function generateMetadata({ params }) {
 export default async function HomePage({ params }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
-  const announcements = await getActiveAnnouncements(lang);
-  const featuredTours = await getFeaturedTours(lang);
+  const [announcements, featuredTours] = await Promise.all([
+    getActiveAnnouncements(lang),
+    getFeaturedTours(lang),
+  ]);
 
   const banner = announcements.find(a => a.type === 'banner');
   const popup = announcements.find(a => a.type === 'popup');

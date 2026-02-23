@@ -18,15 +18,16 @@ export async function POST(request) {
 
     const { tourId } = await request.json()
 
-    if (!tourId) {
+    const safeTourId = parseInt(tourId, 10);
+    if (Number.isNaN(safeTourId) || safeTourId < 1) {
       return NextResponse.json(
-        { error: 'Tour ID is required' },
+        { error: 'Invalid tour ID' },
         { status: 400 }
       )
     }
 
     const db = getDb();
-    await db.delete(toursSchema).where(eq(toursSchema.id, tourId));
+    await db.delete(toursSchema).where(eq(toursSchema.id, safeTourId));
 
     revalidatePath('/admin/dashboard')
     revalidatePath('/tours')

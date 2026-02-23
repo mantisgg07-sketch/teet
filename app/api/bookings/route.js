@@ -128,9 +128,10 @@ export async function PUT(request) {
         const body = await request.json();
         const { id, status, admin_note } = body;
 
-        if (!id) {
+        const safeId = parseInt(id, 10);
+        if (Number.isNaN(safeId) || safeId < 1) {
             return NextResponse.json(
-                { error: 'Missing ID' },
+                { error: 'Invalid booking ID' },
                 { status: 400 }
             );
         }
@@ -161,7 +162,7 @@ export async function PUT(request) {
             updates.admin_note = String(admin_note).trim().slice(0, 5000);
         }
 
-        await db.update(bookingsSchema).set(updates).where(eq(bookingsSchema.id, id));
+        await db.update(bookingsSchema).set(updates).where(eq(bookingsSchema.id, safeId));
 
         return NextResponse.json({ success: true });
     } catch (error) {

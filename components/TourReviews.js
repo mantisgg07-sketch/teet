@@ -363,7 +363,7 @@ export default function TourReviews({ tourId, lang = 'en', dict }) {
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <div className="font-semibold text-gray-900">
-                        {getProfileDisplayName(review.profiles)}
+                        {review.profiles ? getProfileDisplayName(review.profiles) : (review.user_id ? `User ${String(review.user_id).slice(-6)}` : 'Anonymous')}
                       </div>
                       <div className="text-sm text-gray-500">
                         {new Date(review.created_at).toLocaleDateString('en-US', {
