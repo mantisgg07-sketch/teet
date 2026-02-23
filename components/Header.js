@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import CurrencySwitcher from './CurrencySwitcher'
 import LanguageSwitcher from './LanguageSwitcher'
@@ -16,8 +16,14 @@ export default function Header({ lang = 'en', dict }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const { user } = useAuth()
   const router = useRouter()
+  const pathname = usePathname()
   const menuRef = useRef(null)
   const menuButtonRef = useRef(null)
+
+  // Close menu when route changes
+  useEffect(() => {
+    setIsMenuOpen(false)
+  }, [pathname])
 
   // Handle auth events from other tabs
   const handleAuthEvent = useCallback(async (event) => {
@@ -60,28 +66,10 @@ export default function Header({ lang = 'en', dict }) {
     }
   }, [isMenuOpen])
 
-  // Browser Back support for Mobile Menu
+  // Handle mobile menu toggle without history hacking
   const toggleMenu = useCallback((open) => {
-    if (open) {
-      setIsMenuOpen(true)
-      window.history.pushState({ menu: true }, '')
-    } else {
-      setIsMenuOpen(false)
-      if (window.history.state?.menu) {
-        window.history.back()
-      }
-    }
+    setIsMenuOpen(open)
   }, [])
-
-  useEffect(() => {
-    const handlePopState = (e) => {
-      if (isMenuOpen) {
-        setIsMenuOpen(false)
-      }
-    }
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [isMenuOpen])
 
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-morphism shadow-glass' : 'bg-white/95 backdrop-blur-md border-b border-gray-100'}`}>
