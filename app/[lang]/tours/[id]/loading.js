@@ -1,86 +1,93 @@
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import Skeleton from '@/components/Skeleton'
-
 export default function TourDetailLoading() {
   return (
     <div className="min-h-screen bg-gray-50/50">
-      <Header />
+      {/* Header */}
+      <div className="h-20 bg-white border-b border-gray-100/50 w-full animate-pulse" />
 
-      {/* Hero Section Skeleton - Matching actual immersive banner */}
+      {/* Hero Banner */}
       <section className="w-full">
-        <div className="relative h-[400px] md:h-[500px] w-full bg-gray-200 animate-pulse overflow-hidden">
-          {/* Back Link Button Skeleton */}
+        <div className="relative h-[400px] md:h-[500px] w-full bg-gray-200 animate-pulse">
+          {/* Back button placeholder */}
           <div className="absolute top-8 left-6 md:left-12 z-20">
-            <Skeleton className="w-24 h-10 rounded-xl bg-white/20" />
+            <div className="w-20 h-9 rounded-xl bg-white/20 animate-pulse" />
           </div>
-
-          {/* Content Overlays Skeleton */}
+          {/* Title overlay placeholders */}
           <div className="absolute bottom-12 left-6 right-6 md:bottom-16 md:left-12 md:right-12 z-20">
             <div className="max-w-4xl">
               <div className="flex gap-2 mb-4">
-                <Skeleton className="w-20 h-6 rounded-lg bg-white/20" />
-                <Skeleton className="w-24 h-6 rounded-lg bg-white/20" />
+                <div className="w-16 h-5 rounded-lg bg-white/20 animate-pulse" />
+                <div className="w-20 h-5 rounded-lg bg-white/20 animate-pulse" />
               </div>
-              <Skeleton className="h-12 md:h-16 w-3/4 bg-white/30 rounded-lg mb-4" />
+              <div className="h-10 md:h-16 w-3/4 rounded-xl bg-white/25 animate-pulse" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Main Content Grid Skeleton */}
+      {/* Content Grid */}
       <main className="container mx-auto px-4 md:px-6 mt-12 pb-32">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-          {/* Left Column Skeleton */}
+          {/* Left Column */}
           <div className="lg:col-span-2 space-y-8">
-            {/* About Section Skeleton */}
-            <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100">
+            {/* About */}
+            <div className="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-8">
-                <Skeleton className="w-1.5 h-8 rounded-full bg-gray-200" />
-                <Skeleton variant="title" className="w-1/4 h-8" />
+                <div className="w-1.5 h-8 rounded-full bg-gray-300 animate-pulse" />
+                <div className="h-6 w-32 rounded-lg bg-gray-200 animate-pulse" />
               </div>
-              <div className="space-y-4">
-                <Skeleton variant="text" className="h-4 w-full" />
-                <Skeleton variant="text" className="h-4 w-full" />
-                <Skeleton variant="text" className="h-4 w-3/4" />
+              <div className="space-y-3">
+                <div className="h-4 w-full rounded bg-gray-100 animate-pulse" />
+                <div className="h-4 w-full rounded bg-gray-100 animate-pulse" />
+                <div className="h-4 w-3/4 rounded bg-gray-100 animate-pulse" />
+                <div className="h-4 w-5/6 rounded bg-gray-100 animate-pulse" />
               </div>
             </div>
 
-            {/* Gallery Section Skeleton */}
-            <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100">
-              <div className="flex items-center justify-between mb-8">
+            {/* Gallery */}
+            <div className="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <Skeleton className="w-1 h-6 rounded-full bg-primary-600" />
-                  <Skeleton variant="title" className="w-20 h-6" />
+                  <div className="w-1 h-6 rounded-full bg-gray-300 animate-pulse" />
+                  <div className="h-5 w-16 rounded bg-gray-200 animate-pulse" />
                 </div>
-                <Skeleton className="w-16 h-5 rounded-full bg-gray-50" />
+                <div className="h-4 w-14 rounded-full bg-gray-100 animate-pulse" />
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <Skeleton className="aspect-square rounded-2xl" />
-                <Skeleton className="aspect-square rounded-2xl" />
-                <Skeleton className="aspect-square rounded-2xl" />
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="aspect-square rounded-2xl bg-gray-100 animate-pulse" />
+                <div className="aspect-square rounded-2xl bg-gray-100 animate-pulse" />
+                <div className="aspect-square rounded-2xl bg-gray-100 animate-pulse" />
               </div>
             </div>
           </div>
 
-          {/* Right Column (Sidebar) Skeleton */}
+          {/* Sidebar */}
           <aside className="lg:col-span-1">
-            <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 sticky top-24 hidden lg:block">
-              <Skeleton variant="title" className="h-8 w-1/3 mb-6" />
-              <div className="space-y-4 mb-8">
+            <div className="hidden lg:block sticky top-24 bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100">
+              <div className="h-8 w-2/3 rounded-lg bg-gray-200 animate-pulse mb-6" />
+              <div className="space-y-4 mb-6">
                 <div className="flex justify-between items-center bg-gray-50 p-4 rounded-2xl">
-                  <Skeleton className="w-10 h-10 rounded-xl" />
-                  <Skeleton className="w-20 h-5" />
+                  <div className="h-5 w-16 rounded bg-gray-200 animate-pulse" />
+                  <div className="h-5 w-20 rounded bg-gray-200 animate-pulse" />
+                </div>
+                <div className="flex justify-between items-center bg-gray-50 p-4 rounded-2xl">
+                  <div className="h-5 w-20 rounded bg-gray-200 animate-pulse" />
+                  <div className="h-5 w-16 rounded bg-gray-200 animate-pulse" />
                 </div>
               </div>
-              <Skeleton className="h-16 w-full rounded-2xl" />
+              <div className="h-14 w-full rounded-2xl bg-gray-200 animate-pulse" />
             </div>
           </aside>
         </div>
       </main>
 
-      <Footer />
+      {/* Mobile Booking Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-gray-200 p-4 flex items-center justify-between">
+        <div>
+          <div className="h-3 w-12 rounded bg-gray-200 animate-pulse mb-1" />
+          <div className="h-6 w-20 rounded bg-gray-300 animate-pulse" />
+        </div>
+        <div className="h-12 w-28 rounded-xl bg-gray-300 animate-pulse" />
+      </div>
     </div>
   )
 }
