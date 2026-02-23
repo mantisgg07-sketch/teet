@@ -37,6 +37,14 @@ export default function RootLayout({ children }) {
           return;
         }
 
+        // Skip interception for social/OAuth logins (Google, etc.)
+        // OAuth tokens include provider_token or the hash is from a social login redirect.
+        // For social logins, just clear the hash and let the user stay on the current page.
+        if (hash.includes('provider_token=') || hash.includes('provider_refresh_token=')) {
+          window.history.replaceState(null, '', pathname + window.location.search);
+          return;
+        }
+
         // Email change: go to success without storing tokens so this browser does not auto-login
         if (hash.includes('type=email_change')) {
           window.location.replace('/' + lang + '/auth/success?type=email_updated');
@@ -47,9 +55,14 @@ export default function RootLayout({ children }) {
             window.location.replace('/' + lang + '/login/update-password' + hash);
             return;
           }
-          if (hash.includes('access_token=')) {
+          // Only redirect to success page for email signups (type=signup or type=magiclink),
+          // NOT for social logins which should stay on the current page.
+          if (hash.includes('type=signup') || hash.includes('type=magiclink') || hash.includes('type=email')) {
             window.location.replace('/' + lang + '/auth/success?type=email_verified' + hash);
+            return;
           }
+          // For any other access_token (e.g. social login), just clear the hash silently
+          window.history.replaceState(null, '', pathname + window.location.search);
         }
       }
     })();
