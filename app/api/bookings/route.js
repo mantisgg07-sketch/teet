@@ -7,6 +7,9 @@ import { isAuthenticated } from '@/lib/auth';
 // Valid booking status values
 const VALID_STATUSES = ['pending', 'confirmed', 'cancelled'];
 
+// Valid contact methods — whitelist to prevent injection
+const VALID_CONTACT_METHODS = ['whatsapp', 'line', 'email', 'phone', 'wechat'];
+
 // Helper to validate email format
 const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -33,6 +36,24 @@ export async function POST(request) {
             );
         }
 
+        // Validate tour_id is a valid integer
+        const safeTourId = parseInt(tour_id);
+        if (isNaN(safeTourId) || safeTourId <= 0) {
+            return NextResponse.json(
+                { error: 'Invalid tour ID' },
+                { status: 400 }
+            );
+        }
+
+        // Validate contact_method against whitelist
+        const safeContactMethod = String(contact_method).trim().toLowerCase();
+        if (!VALID_CONTACT_METHODS.includes(safeContactMethod)) {
+            return NextResponse.json(
+                { error: `Invalid contact method. Must be one of: ${VALID_CONTACT_METHODS.join(', ')}` },
+                { status: 400 }
+            );
+        }
+
         // Sanitize inputs
         const safeName = String(name).trim().slice(0, 200);
         const safeEmail = String(email).trim().slice(0, 200);
@@ -43,12 +64,12 @@ export async function POST(request) {
 
         const db = getDb();
         await db.insert(bookingsSchema).values({
-            tour_id: tour_id,
+            tour_id: safeTourId,
             user_id: user_id || null,
             name: safeName,
             email: safeEmail,
             phone: safePhone,
-            contact_method: contact_method,
+            contact_method: safeContactMethod,
             message: safeMessage,
             guests: safeGuests,
             total_price: safeTotalPrice

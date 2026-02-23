@@ -20,6 +20,7 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Security headers for all routes
         source: '/:path*',
         headers: [
           {
@@ -42,6 +43,12 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
+        ],
+      },
+      {
+        // Fresh data for all pages — never serve stale HTML
+        source: '/((?!_next/static|_next/image|favicon.ico|img|images|logo.png).*)',
+        headers: [
           {
             key: 'Cache-Control',
             value: 'no-cache, no-store, must-revalidate',

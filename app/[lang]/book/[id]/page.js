@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getDb } from '@/lib/turso'
 import { tours as toursSchema } from '@/lib/schema'
 import { eq } from 'drizzle-orm'

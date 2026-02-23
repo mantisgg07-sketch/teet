@@ -112,9 +112,7 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
 
             if (response.ok) {
                 setSuccess(true)
-                setTimeout(() => {
-                    if (onClose) onClose()
-                }, 3000)
+                // Removed auto-close to allow user to see WhatsApp button
             } else {
                 setError(responseData.error || (b.errorMessage || 'Failed to submit booking'))
             }
@@ -126,15 +124,39 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
     }
 
     if (success) {
+        const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
+        const whatsappMsg = encodeURIComponent(`Hi, I just booked ${tourTitle} and would like to confirm my booking.`)
+        const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMsg}`
+
         return (
-            <div className="bg-green-50 p-8 rounded-2xl text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-2xl border-4 border-green-500 text-center animate-fade-in">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600">
+                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-green-800 mb-2">{b.successTitle || 'Booking Request Sent!'}</h3>
-                <p className="text-green-700">{b.successMessage || 'We will contact you shortly via'} {contactMethodWatch}.</p>
+                <h3 className="text-3xl font-black text-gray-900 mb-4 leading-tight uppercase tracking-tighter">
+                    {b.successTitle || 'Your request has been received'}
+                </h3>
+                <p className="text-gray-600 mb-2 font-medium">
+                    {b.successMessage || 'Our team will contact you shortly.'}
+                </p>
+                <div className="mt-8 pt-8 border-t border-gray-100">
+                    <p className="text-sm font-black text-gray-400 uppercase tracking-widest mb-6">
+                        {b.successMessageFaster || 'For faster confirmation, chat with us instantly:'}
+                    </p>
+                    <a
+                        href={whatsappLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-3 bg-[#25D366] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-[#20bd5a] transition-all shadow-xl shadow-green-600/30 hover:-translate-y-1 active:scale-95"
+                    >
+                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118 1.157-.175 1.758-.967 1.758-1.761.017-.791-.412-1.558-.809-1.734zM12 21.463C6.794 21.463 2.536 17.205 2.536 12c0-5.204 4.257-9.463 9.463-9.463 5.204 0 9.463 4.257 9.463 9.463 0 5.204-4.257 9.463-9.463 9.463z" />
+                        </svg>
+                        {b.whatsappButton || 'Chat on WhatsApp'}
+                    </a>
+                </div>
             </div>
         )
     }
