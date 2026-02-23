@@ -26,16 +26,20 @@ export async function GET(request) {
         return NextResponse.redirect(new URL(`/${lang}/login?error=auth_failed`, requestUrl.origin))
       }
 
-      // If it's a social login (OAuth), redirect directly to home
-      const provider = data?.user?.app_metadata?.provider
+      // Robust social login detection (OAuth)
+      // Check multiple possible paths for the provider
+      const user = data?.user || (data?.session?.user)
+      const provider = user?.app_metadata?.provider || (user?.identities && user.identities[0]?.provider)
       const isOAuth = provider && provider !== 'email'
 
+      // Custom types (recovery, email_change) should still go to their respective pages
       if (type === 'recovery') {
         return NextResponse.redirect(new URL(`/${lang}/login/update-password`, requestUrl.origin))
       }
 
-      // Bypass "Verified" page for social logins for a more professional feel
-      if (isOAuth && !type) {
+      // If it's a social login OR if no specific success type is requested,
+      // redirect PROFESSIONALLY to the home page.
+      if (isOAuth || !type) {
         return NextResponse.redirect(new URL(`/${lang}`, requestUrl.origin))
       }
 
