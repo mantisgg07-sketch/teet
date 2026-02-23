@@ -73,8 +73,9 @@ export async function GET(request) {
         return NextResponse.redirect(new URL(`/${lang}/login?error=auth_failed`, requestUrl.origin))
       }
 
+      let successRedirectType = 'email_verified'
       if (type === 'email_change') {
-        successType = 'email_updated'
+        successRedirectType = 'email_updated'
 
         // Sync the new email to the public.profiles table
         const { data: { user }, error: userError } = await supabase.auth.getUser()
@@ -86,7 +87,7 @@ export async function GET(request) {
         }
       }
 
-      return NextResponse.redirect(new URL(`/${lang}/auth/success?type=${successType}`, requestUrl.origin))
+      return NextResponse.redirect(new URL(`/${lang}/auth/success?type=${successRedirectType}`, requestUrl.origin))
     } catch (err) {
       console.error('Unexpected error in auth callback OTP verification:', err)
       return NextResponse.redirect(new URL(`/${lang}/login?error=unexpected`, requestUrl.origin))
