@@ -93,16 +93,24 @@ export default function LoginPage() {
         }
 
         // Proactive check for existing email in profiles
-        const { data: existingProfile, error: profileError } = await supabase
-          .from('profiles')
-          .select('id')
-          .ilike('email', email.trim())
-          .maybeSingle()
+        try {
+          const { data: existingProfile, error: profileError } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('email', email.trim())
+            .maybeSingle()
 
-        if (existingProfile) {
-          setError(dict?.errors?.emailAlreadyInUse || 'This email is already registered. Please sign in or use a different email.')
-          setLoading(false)
-          return
+          if (profileError) {
+            console.error('Profile check error:', profileError)
+          }
+
+          if (existingProfile) {
+            setError(dict?.errors?.emailAlreadyInUse || 'This email is already registered. Please sign in or use a different email.')
+            setLoading(false)
+            return
+          }
+        } catch (e) {
+          console.error('Exception during profile check:', e)
         }
 
         setSignupAttempts(prev => prev + 1)
