@@ -275,7 +275,7 @@ export default function SettingsPage() {
 
       setEmailUpdateMessage({
         type: 'success',
-        text: dict?.settings?.emailUpdateSuccessShort || dict?.profile?.emailUpdateSuccess || 'Confirmation links have been sent to both your old and new email addresses. This page will update automatically once confirmed.'
+        text: dict?.settings?.emailUpdateSuccessShort || dict?.profile?.emailUpdateSuccess || 'A verification link has been sent to your new email address.'
       })
 
       // We wait for the confirmation event from Supabase Realtime broadcast
@@ -384,7 +384,7 @@ export default function SettingsPage() {
 
       setPasswordUpdateMessage({
         type: 'success',
-        text: dict?.settings?.passwordUpdateSuccess || 'Your password has been updated successfully!'
+        text: dict?.settings?.passwordUpdateSuccess || 'Your password has been updated successfully.'
       })
 
       // Reset form fields and exit edit mode after successful update

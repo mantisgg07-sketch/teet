@@ -67,7 +67,7 @@ export default function LoginPage() {
     }
 
     if (!supabase) {
-      setError('Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.')
+      setError(dict?.reviews?.errorConfig || 'Auth service temporarily unavailable.')
       setLoading(false)
       return
     }
@@ -150,7 +150,7 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     if (!supabase) {
-      setError('Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.')
+      setError(dict?.reviews?.errorConfig || 'Auth service temporarily unavailable.')
       return
     }
 

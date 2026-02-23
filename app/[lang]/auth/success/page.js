@@ -107,7 +107,7 @@ export default function AuthSuccessPage() {
 
     if (status === 'error') {
       return {
-        title: dict?.authSuccess?.errorTitle || 'Verification Failed',
+        title: dict?.authSuccess?.errorTitle || 'Verification failed',
         message: errorMessage || 'We could not process your request. The link may have expired or is invalid.',
         icon: (
           <svg className="w-16 h-16 text-red-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,8 +122,8 @@ export default function AuthSuccessPage() {
     switch (type) {
       case 'email_verified':
         return {
-          title: dict?.authSuccess?.emailVerifiedTitle || 'Verified!',
-          message: dict?.authSuccess?.emailVerifiedMessage || 'Your email has been successfully verified. Please log in to continue.',
+          title: dict?.authSuccess?.emailVerifiedTitle || 'Email verified',
+          message: dict?.authSuccess?.emailVerifiedMessage || 'Your email has been successfully verified. You can now log in to your account.',
           icon: (
             <svg className="w-16 h-16 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -134,8 +134,8 @@ export default function AuthSuccessPage() {
         }
       case 'email_updated':
         return {
-          title: dict?.authSuccess?.emailUpdatedTitle || 'Email Changed Successfully',
-          message: dict?.authSuccess?.emailUpdatedMessage || '✅ Your email has been successfully updated. You can now return to your profile.',
+          title: dict?.authSuccess?.emailUpdatedTitle || 'Email updated',
+          message: dict?.authSuccess?.emailUpdatedMessage || 'Your email has been successfully updated. You can now return to your profile.',
           icon: (
             <svg className="w-16 h-16 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -145,7 +145,7 @@ export default function AuthSuccessPage() {
         }
       case 'password_reset':
         return {
-          title: dict?.authSuccess?.passwordResetTitle || 'Password Reset!',
+          title: dict?.authSuccess?.passwordResetTitle || 'Password reset',
           message: dict?.authSuccess?.passwordResetMessage || 'Your password has been successfully reset. You can now log in with your new password.',
           icon: (
             <svg className="w-16 h-16 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,7 +156,7 @@ export default function AuthSuccessPage() {
         }
       default:
         return {
-          title: dict?.authSuccess?.successTitle || 'Success!',
+          title: dict?.authSuccess?.successTitle || 'Success',
           message: dict?.authSuccess?.successMessage || 'Your action was completed successfully.',
           icon: (
             <svg className="w-16 h-16 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">

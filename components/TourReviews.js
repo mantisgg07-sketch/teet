@@ -150,7 +150,7 @@ export default function TourReviews({ tourId, lang = 'en', dict }) {
     }
 
     if (!supabase) {
-      setError(dict?.reviews?.errorConfig || 'Supabase is not configured')
+      setError(dict?.reviews?.errorConfig || 'Service temporarily unavailable.')
       return
     }
 
@@ -248,12 +248,7 @@ export default function TourReviews({ tourId, lang = 'en', dict }) {
     <div className="bg-white rounded-lg p-6 shadow-sm">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">{dict?.reviews?.title || 'Customer Reviews'}</h2>
 
-      {!supabase ? (
-        <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
-          <p className="text-gray-700 mb-2">{dict?.reviews?.notConfigured || 'Review system is not configured yet.'}</p>
-          <p className="text-sm text-gray-600">{dict?.reviews?.configureMessage || 'Please configure Supabase environment variables to enable reviews.'}</p>
-        </div>
-      ) : (
+      {!supabase ? null : (
         <>
           {/* Rating Summary */}
           {reviews.length > 0 && (
