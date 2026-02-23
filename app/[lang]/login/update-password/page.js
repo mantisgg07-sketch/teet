@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { useAuth } from '@/components/AuthProvider'
 
 export default function UpdatePasswordPage() {
   const [newPassword, setNewPassword] = useState('')
@@ -18,23 +19,18 @@ export default function UpdatePasswordPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
+  const { user, loading: authLoading } = useAuth()
 
   // Extract lang from pathname
   const lang = pathname?.split('/')[1] || 'en'
 
   useEffect(() => {
-    // Check if user has a valid session from the reset link
-    const checkSession = async () => {
-      if (!supabase) return
-
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        setError('Invalid or expired reset link. Please request a new password reset.')
-      }
+    // Avoid extra auth calls here; AuthProvider already establishes session from the reset link.
+    if (authLoading) return
+    if (!user) {
+      setError('Invalid or expired reset link. Please request a new password reset.')
     }
-
-    checkSession()
-  }, [])
+  }, [authLoading, user])
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault()
@@ -44,6 +40,12 @@ export default function UpdatePasswordPage() {
 
     if (!supabase) {
       setError('Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.')
+      setLoading(false)
+      return
+    }
+
+    if (!user) {
+      setError('Invalid or expired reset link. Please request a new password reset.')
       setLoading(false)
       return
     }
@@ -92,7 +94,7 @@ export default function UpdatePasswordPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header lang={lang} />
 
       <main className="flex-grow bg-gradient-to-br from-primary-50 to-secondary-50 py-12">
         <div className="container mx-auto px-4">
@@ -226,7 +228,7 @@ export default function UpdatePasswordPage() {
         </div>
       </main>
 
-      <Footer />
+      <Footer lang={lang} />
     </div>
   )
 }
