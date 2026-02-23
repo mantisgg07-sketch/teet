@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -11,6 +11,22 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export default function AuthSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow bg-gradient-to-br from-green-50 to-blue-50 py-12 flex items-center justify-center">
+          <div className="w-16 h-16 border-4 border-gray-200 border-t-primary-600 rounded-full animate-spin" />
+        </main>
+        <Footer />
+      </div>
+    }>
+      <AuthSuccessContent />
+    </Suspense>
+  )
+}
+
+function AuthSuccessContent() {
   const [dict, setDict] = useState(null)
   const searchParams = useSearchParams()
   const pathname = usePathname()
