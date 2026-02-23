@@ -1,36 +1,97 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { useAuth } from '@/components/AuthProvider'
 
 export default function UpdatePasswordPage() {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [checkingLink, setCheckingLink] = useState(true)
+  const [hasRecoverySession, setHasRecoverySession] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
-  const { user, loading: authLoading } = useAuth()
+  const searchParams = useSearchParams()
 
   // Extract lang from pathname
   const lang = pathname?.split('/')[1] || 'en'
 
   useEffect(() => {
-    // Avoid extra auth calls here; AuthProvider already establishes session from the reset link.
-    if (authLoading) return
-    if (!user) {
-      setError('Invalid or expired reset link. Please request a new password reset.')
+    let cancelled = false
+
+    async function establishRecoverySession() {
+      if (!supabase) {
+        if (!cancelled) {
+          setCheckingLink(false)
+          setHasRecoverySession(false)
+          setError('Supabase is not configured.')
+        }
+        return
+      }
+
+      try {
+        setCheckingLink(true)
+        setError('')
+
+        // 1) PKCE-style reset links: /update-password?code=...&type=recovery
+        const code = searchParams?.get('code')
+        if (code) {
+          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+          if (exchangeError) {
+            throw exchangeError
+          }
+
+          // Remove code from URL to prevent re-exchange on refresh
+          const url = new URL(window.location.href)
+          url.searchParams.delete('code')
+          // keep type/lang if present; removing type is safe but optional
+          url.searchParams.delete('type')
+          window.history.replaceState({}, document.title, url.pathname + url.search + url.hash)
+        }
+
+        // 2) Hash-style reset links: /update-password#access_token=...&refresh_token=...&type=recovery
+        if (typeof window !== 'undefined' && window.location.hash) {
+          const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''))
+          const access_token = hashParams.get('access_token')
+          const refresh_token = hashParams.get('refresh_token')
+          if (access_token && refresh_token) {
+            // If a session is not yet set, set it explicitly.
+            // (Supabase JS can sometimes detect this automatically, but this makes it reliable.)
+            await supabase.auth.setSession({ access_token, refresh_token })
+          }
+        }
+
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!cancelled) {
+          const ok = !!session
+          setHasRecoverySession(ok)
+          if (!ok) {
+            setError('Invalid or expired reset link. Please request a new password reset.')
+          }
+        }
+      } catch (e) {
+        console.error('[UpdatePassword] Failed to establish recovery session:', e)
+        if (!cancelled) {
+          setHasRecoverySession(false)
+          setError('Invalid or expired reset link. Please request a new password reset.')
+        }
+      } finally {
+        if (!cancelled) setCheckingLink(false)
+      }
     }
-  }, [authLoading, user])
+
+    establishRecoverySession()
+    return () => { cancelled = true }
+  }, [searchParams])
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault()
@@ -44,7 +105,7 @@ export default function UpdatePasswordPage() {
       return
     }
 
-    if (!user) {
+    if (!hasRecoverySession) {
       setError('Invalid or expired reset link. Please request a new password reset.')
       setLoading(false)
       return
@@ -203,10 +264,10 @@ export default function UpdatePasswordPage() {
 
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || checkingLink || !hasRecoverySession}
                   className="w-full py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Updating...' : 'Update Password'}
+                  {checkingLink ? 'Verifying link...' : (loading ? 'Updating...' : 'Update Password')}
                 </button>
               </form>
 
