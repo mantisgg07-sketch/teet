@@ -13,7 +13,6 @@ export default function UpdatePasswordPage() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [checkingLink, setCheckingLink] = useState(true)
-  const [hasRecoverySession, setHasRecoverySession] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [showNewPassword, setShowNewPassword] = useState(false)
@@ -31,7 +30,6 @@ export default function UpdatePasswordPage() {
       if (!supabase) {
         if (!cancelled) {
           setCheckingLink(false)
-          setHasRecoverySession(false)
           setError('Supabase is not configured.')
         }
         return
@@ -70,20 +68,9 @@ export default function UpdatePasswordPage() {
           }
         }
 
-        const { data: { session } } = await supabase.auth.getSession()
-        if (!cancelled) {
-          const ok = !!session
-          setHasRecoverySession(ok)
-          if (!ok) {
-            setError('Invalid or expired reset link. Please request a new password reset.')
-          }
-        }
+        // Let Supabase JS handle session persistence; we rely on updateUser() to error
       } catch (e) {
         console.error('[UpdatePassword] Failed to establish recovery session:', e)
-        if (!cancelled) {
-          setHasRecoverySession(false)
-          setError('Invalid or expired reset link. Please request a new password reset.')
-        }
       } finally {
         if (!cancelled) setCheckingLink(false)
       }
@@ -101,12 +88,6 @@ export default function UpdatePasswordPage() {
 
     if (!supabase) {
       setError('Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.')
-      setLoading(false)
-      return
-    }
-
-    if (!hasRecoverySession) {
-      setError('Invalid or expired reset link. Please request a new password reset.')
       setLoading(false)
       return
     }
@@ -264,7 +245,7 @@ export default function UpdatePasswordPage() {
 
                 <button
                   type="submit"
-                  disabled={loading || checkingLink || !hasRecoverySession}
+                  disabled={loading || checkingLink}
                   className="w-full py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {checkingLink ? 'Verifying link...' : (loading ? 'Updating...' : 'Update Password')}
