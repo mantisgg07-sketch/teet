@@ -1,5 +1,4 @@
 import { locales } from '@/lib/i18n';
-import { use } from 'react';
 
 // Generate static params for all locales
 export async function generateStaticParams() {
@@ -28,11 +27,11 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// IMPORTANT: This layout MUST be synchronous (not async) to prevent
-// creating a Suspense boundary that would flash a parent loading.js
-// before the page-specific loading.js can take over.
-export default function LangLayout({ children, params }) {
-  const { lang } = use(params);
+// This layout wraps all localized pages.
+// NOTE: No loading.js exists at this level — each page has its own.
+// This prevents a parent skeleton from flashing before page-specific ones.
+export default async function LangLayout({ children, params }) {
+  const { lang } = await params;
 
   return (
     <>
