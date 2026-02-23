@@ -19,17 +19,28 @@ export async function GET(request) {
     )
 
     try {
-      const { error } = await supabase.auth.exchangeCodeForSession(code)
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
       if (error) {
         console.error('Error exchanging code for session:', error)
         return NextResponse.redirect(new URL(`/${lang}/login?error=auth_failed`, requestUrl.origin))
       }
 
-      let successType = 'email_verified'
+      // If it's a social login (OAuth), redirect directly to home
+      const provider = data?.user?.app_metadata?.provider
+      const isOAuth = provider && provider !== 'email'
+
       if (type === 'recovery') {
         return NextResponse.redirect(new URL(`/${lang}/login/update-password`, requestUrl.origin))
-      } else if (type === 'email_change') {
+      }
+
+      // Bypass "Verified" page for social logins for a more professional feel
+      if (isOAuth && !type) {
+        return NextResponse.redirect(new URL(`/${lang}`, requestUrl.origin))
+      }
+
+      let successType = 'email_verified'
+      if (type === 'email_change') {
         successType = 'email_updated'
       }
 
