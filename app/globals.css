@@ -73,12 +73,6 @@ body {
   animation: shimmer 2s infinite linear;
 }
 
-/* Float animation delay for decorative elements */
-.animate-float-delayed {
-  animation: float 3s ease-in-out infinite;
-  animation-delay: 1s;
-}
-
 /* Image zoom on hover effect */
 .hover-zoom {
   overflow: hidden;
@@ -92,19 +86,12 @@ body {
   transform: scale(1.05);
 }
 
-/* Glassmorphism utility class - Refined for premium feel */
+/* Glassmorphism utility class */
 .glass-morphism {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.glass-morphism-dark {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Professional Card Utility */
@@ -116,36 +103,7 @@ body {
   @apply shadow-xl shadow-slate-200/40 -translate-y-0;
 }
 
-/* Compact Density utility for mobile */
-.compact-grid {
-  @apply gap-1.5 md:gap-4;
-}
-
-.compact-padding {
-  @apply p-2 md:p-6;
-}
-
-.tight-gap {
-  @apply gap-1 md:gap-2;
-}
-
+/* Compact Density utility */
 .tight-padding {
   @apply p-1.5 md:p-3;
-}
-
-@keyframes wave {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-.animate-wave {
-  display: inline-block;
-  animation: wave 1.2s ease-in-out infinite;
 }
