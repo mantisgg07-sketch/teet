@@ -38,10 +38,9 @@ export default function RootLayout({ children }) {
         }
 
         // Skip interception for social/OAuth logins (Google, etc.)
-        // OAuth tokens include provider_token or the hash is from a social login redirect.
-        // For social logins, just clear the hash and let the user stay on the current page.
+        // OAuth tokens include provider_token from the social provider.
+        // Do NOT clear the hash - the Supabase JS client needs these tokens to establish the session.
         if (hash.includes('provider_token=') || hash.includes('provider_refresh_token=')) {
-          window.history.replaceState(null, '', pathname + window.location.search);
           return;
         }
 
@@ -61,8 +60,9 @@ export default function RootLayout({ children }) {
             window.location.replace('/' + lang + '/auth/success?type=email_verified' + hash);
             return;
           }
-          // For any other access_token (e.g. social login), just clear the hash silently
-          window.history.replaceState(null, '', pathname + window.location.search);
+          // For any other access_token (e.g. social login without provider_token),
+          // do NOT redirect and do NOT clear hash. Let Supabase JS client handle it.
+          return;
         }
       }
     })();
