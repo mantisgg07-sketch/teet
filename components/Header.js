@@ -75,16 +75,16 @@ export default function Header({ lang = 'en', dict }) {
     <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-xl shadow-md border-b border-gray-100' : 'bg-white/95 backdrop-blur-md border-b border-gray-100'}`}>
       <div className="container mx-auto px-4 sm:px-6">
         {/* DESKTOP HEADER */}
-        <div className="hidden md:flex items-center justify-between h-20">
+        <div className="hidden md:flex items-center justify-between h-[72px]">
           {/* Left: Logo */}
           <div className="w-1/3 flex justify-start">
-            <Link href={`/${lang}`} className="flex items-center gap-2 hover:opacity-90 transition-all duration-300 group">
+            <Link href={`/${lang}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Image
                 src="/img/logo.png"
                 alt="GoHoliday Logo"
-                width={140}
-                height={40}
-                className="h-[44px] w-auto"
+                width={130}
+                height={36}
+                className="h-[36px] w-auto"
                 priority
               />
             </Link>
@@ -92,7 +92,7 @@ export default function Header({ lang = 'en', dict }) {
 
           {/* Center: Main Navigation Links */}
           <nav className="w-1/3 flex justify-center">
-            <Link href={`/${lang}/tours`} className="relative text-gray-700 hover:text-primary-600 transition-colors font-bold group px-4 py-2 text-lg">
+            <Link href={`/${lang}/tours`} className="relative text-gray-600 hover:text-primary-600 transition-colors font-semibold group px-4 py-2 text-[15px]">
               {dict?.nav?.tours || 'Discover Tours'}
               <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
             </Link>
@@ -103,21 +103,25 @@ export default function Header({ lang = 'en', dict }) {
             <CurrencySwitcher />
             <LanguageSwitcher />
 
+            <div className="w-[1px] h-6 bg-gray-200 mx-1"></div>
+
             {/* Auth Section */}
             {user ? (
               <Link
                 href={`/${lang}/profile`}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-50 text-primary-700 hover:bg-primary-100 transition-all duration-200"
+                className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <span className="font-semibold text-sm">{getUserDisplayName(user)}</span>
+                <div className="w-6 h-6 rounded-full bg-primary-50 text-primary-600 flex items-center justify-center">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <span className="font-semibold text-[14px]">{getUserDisplayName(user)}</span>
               </Link>
             ) : (
               <Link
                 href={`/${lang}/login`}
-                className="px-6 py-2.5 bg-primary-600 text-white rounded-full font-bold text-sm hover:bg-primary-700 transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                className="px-5 py-2 bg-primary-600 text-white rounded-full font-semibold text-[15px] hover:bg-primary-700 transition-all duration-200 shadow-sm hover:shadow active:scale-95"
               >
                 {dict?.nav?.login || 'Login'}
               </Link>
@@ -144,7 +148,7 @@ export default function Header({ lang = 'en', dict }) {
             ) : (
               <Link
                 href={`/${lang}/login`}
-                className="px-3 py-2 bg-primary-600 text-white rounded-xl font-bold text-xs hover:bg-primary-700 transition-all shadow-sm active:scale-95 whitespace-nowrap"
+                className="px-4 py-2.5 min-h-[40px] flex items-center justify-center bg-primary-600 text-white rounded-xl font-bold text-xs hover:bg-primary-700 transition-all shadow-sm active:scale-95 whitespace-nowrap"
                 onClick={() => toggleMenu(false)}
               >
                 {dict?.nav?.login || 'Login'}
