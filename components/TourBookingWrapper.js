@@ -8,7 +8,7 @@ export default function TourBookingWrapper({ tourId, tourTitle, price, currency 
     const lang = params?.lang || 'en'
 
     return (
-        <div className="flex flex-col sm:flex-row gap-4 mt-8">
+        <div className="flex flex-col gap-4 mt-8">
             <Link
                 href={`/${lang}/book/${tourId}`}
                 className="flex-1 bg-gradient-to-r from-accent-500 to-accent-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] transform transition-all flex items-center justify-center gap-2"
