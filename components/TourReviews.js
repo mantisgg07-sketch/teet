@@ -77,7 +77,7 @@ export default function TourReviews({ tourId, lang = 'en', dict }) {
         if (userIds.length > 0) {
           const { data: profilesData, error: profilesError } = await supabase
             .from('profiles')
-            .select('id, full_name, email')
+            .select('id, full_name, first_name, last_name, email')
             .in('id', userIds)
 
           if (!profilesError && profilesData) {
