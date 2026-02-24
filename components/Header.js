@@ -91,9 +91,10 @@ export default function Header({ lang = 'en', dict }) {
             </Link>
 
             {/* Main Navigation Links */}
-            <nav className="ml-8 flex items-center gap-2">
-              <Link href={`/${lang}/tours`} className="text-gray-600 hover:text-primary-600 transition-colors font-semibold px-3 py-2 text-[15px] rounded-lg hover:bg-gray-50/80">
+            <nav className="ml-8 flex items-center gap-6">
+              <Link href={`/${lang}/tours`} className="relative text-gray-800 hover:text-primary-600 transition-colors font-bold px-1 py-4 text-[15px] group">
                 {dict?.nav?.tours || 'Discover Tours'}
+                <span className="absolute left-0 bottom-2 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full rounded-full"></span>
               </Link>
             </nav>
           </div>
