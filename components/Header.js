@@ -79,25 +79,34 @@ export default function Header({ lang = 'en', dict }) {
           {/* Left Side: Logo */}
           <div className="w-1/4 flex justify-start">
             <Link href={`/${lang}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <span className="font-extrabold text-2xl tracking-tight text-gray-900 uppercase">
-                Traboiwz
-              </span>
+              <Image
+                src="/img/logo.png"
+                alt="GoHoliday Logo"
+                width={130}
+                height={36}
+                className="h-[36px] w-auto"
+                priority
+              />
             </Link>
           </div>
 
           {/* Center: Main Navigation Links */}
           <nav className="flex-1 flex justify-center items-center gap-8">
-            <Link href={`/${lang}`} className="text-gray-900 font-bold text-[14px] hover:text-primary-600 transition-colors">
+            <Link href={`/${lang}`} className={`relative text-gray-900 font-bold text-[14px] hover:text-primary-600 transition-colors group px-1 py-4 ${pathname === `/${lang}` ? 'text-primary-600' : ''}`}>
               {dict?.nav?.home || 'Home'}
+              <span className={`absolute left-0 bottom-2 h-0.5 bg-primary-600 transition-all duration-300 rounded-full ${pathname === `/${lang}` ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
-            <Link href={`/${lang}/tours`} className="text-gray-600 font-semibold text-[14px] hover:text-primary-600 transition-colors">
-              {dict?.nav?.pricing || 'Pricing'}
+            <Link href={`/${lang}/tours`} className={`relative text-gray-900 font-bold text-[14px] hover:text-primary-600 transition-colors group px-1 py-4 ${pathname.includes('/tours') ? 'text-primary-600' : ''}`}>
+              {dict?.nav?.tours || 'Tours'}
+              <span className={`absolute left-0 bottom-2 h-0.5 bg-primary-600 transition-all duration-300 rounded-full ${pathname.includes('/tours') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
-            <Link href={`/${lang}/contact`} className="text-gray-600 font-semibold text-[14px] hover:text-primary-600 transition-colors">
+            <Link href={`/${lang}/contact`} className={`relative text-gray-900 font-bold text-[14px] hover:text-primary-600 transition-colors group px-1 py-4 ${pathname.includes('/contact') ? 'text-primary-600' : ''}`}>
               {dict?.nav?.contact || 'Contact'}
+              <span className={`absolute left-0 bottom-2 h-0.5 bg-primary-600 transition-all duration-300 rounded-full ${pathname.includes('/contact') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
-            <Link href={`/${lang}/about`} className="text-gray-600 font-semibold text-[14px] hover:text-primary-600 transition-colors">
+            <Link href={`/${lang}/about`} className={`relative text-gray-900 font-bold text-[14px] hover:text-primary-600 transition-colors group px-1 py-4 ${pathname.includes('/about') ? 'text-primary-600' : ''}`}>
               {dict?.nav?.about || 'About us'}
+              <span className={`absolute left-0 bottom-2 h-0.5 bg-primary-600 transition-all duration-300 rounded-full ${pathname.includes('/about') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
           </nav>
 
@@ -112,7 +121,7 @@ export default function Header({ lang = 'en', dict }) {
             {user ? (
               <Link
                 href={`/${lang}/profile`}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-50 text-gray-900 hover:bg-gray-100 transition-all font-bold"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-50 text-gray-900 hover:bg-gray-100 transition-all font-bold shadow-sm"
               >
                 <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-sm">
                   <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,15 +134,9 @@ export default function Header({ lang = 'en', dict }) {
               <div className="flex items-center gap-5">
                 <Link
                   href={`/${lang}/login`}
-                  className="text-gray-900 font-bold text-[14px] hover:text-primary-600 transition-colors"
+                  className="px-6 py-2.5 bg-primary-600 text-white rounded-[1rem] font-bold text-[14px] hover:bg-primary-700 transition-all shadow-md active:scale-95"
                 >
                   {dict?.nav?.login || 'Login'}
-                </Link>
-                <Link
-                  href={`/${lang}/register`}
-                  className="px-6 py-2.5 bg-[#0f1012] text-white rounded-[1rem] font-bold text-[14px] hover:bg-gray-800 transition-all shadow-md active:scale-95"
-                >
-                  Get Started
                 </Link>
               </div>
             )}
