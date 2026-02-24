@@ -74,78 +74,80 @@ export default function Header({ lang = 'en', dict }) {
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-xl shadow-md border-b border-gray-100' : 'bg-white/95 backdrop-blur-md border-b border-gray-100'}`}>
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-14">
-          {/* Logo */}
-          <Link href={`/${lang}`} className="flex items-center gap-2 hover:opacity-90 transition-all duration-300 group">
-            <Image
-              src="/img/logo.png"
-              alt="GoHoliday Logo"
-              width={140}
-              height={40}
-              className="h-[40px] w-auto"
-              priority
-            />
-          </Link>
+        {/* DESKTOP HEADER */}
+        <div className="hidden md:flex items-center justify-between h-20">
+          {/* Left: Logo */}
+          <div className="w-1/3 flex justify-start">
+            <Link href={`/${lang}`} className="flex items-center gap-2 hover:opacity-90 transition-all duration-300 group">
+              <Image
+                src="/img/logo.png"
+                alt="GoHoliday Logo"
+                width={140}
+                height={40}
+                className="h-[44px] w-auto"
+                priority
+              />
+            </Link>
+          </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex flex-1 items-center justify-between">
-            {/* Main Navigation Links (Center) */}
-            <div className="flex-1 flex justify-center">
-              <Link href={`/${lang}/tours`} className="relative text-gray-700 hover:text-primary-600 transition-colors font-bold group px-4 py-2 text-lg">
-                {dict?.nav?.tours || 'Discover Tours'}
-                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            </div>
-
-            {/* Action Items */}
-            <div className="flex items-center gap-3">
-              <CurrencySwitcher />
-              <LanguageSwitcher />
-
-              {/* Auth Section */}
-              {user ? (
-                <Link
-                  href={`/${lang}/profile`}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-50 text-primary-700 hover:bg-primary-100 transition-all duration-200"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  <span className="font-semibold text-sm">{getUserDisplayName(user)}</span>
-                </Link>
-              ) : (
-                <Link
-                  href={`/${lang}/login`}
-                  className="px-6 py-2.5 bg-primary-600 text-white rounded-full font-bold text-sm hover:bg-primary-700 transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5"
-                >
-                  {dict?.nav?.login || 'Login'}
-                </Link>
-              )}
-            </div>
+          {/* Center: Main Navigation Links */}
+          <nav className="w-1/3 flex justify-center">
+            <Link href={`/${lang}/tours`} className="relative text-gray-700 hover:text-primary-600 transition-colors font-bold group px-4 py-2 text-lg">
+              {dict?.nav?.tours || 'Discover Tours'}
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
+            </Link>
           </nav>
 
-          {/* MOBILE HEADER (App-like layout: Menu | Logo | Profile/Login) */}
-          <div className="md:hidden flex items-center justify-between h-16 w-full relative z-[51] bg-transparent">
-            {/* Left: Hamburger Button */}
-            <div className="w-16 flex justify-start">
-              <button
-                ref={menuButtonRef}
-                onClick={() => toggleMenu(!isMenuOpen)}
-                className="p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                aria-label="Toggle menu"
-              >
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  {isMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
-                  )}
-                </svg>
-              </button>
-            </div>
+          {/* Right: Action Items */}
+          <div className="w-1/3 flex items-center gap-3 justify-end">
+            <CurrencySwitcher />
+            <LanguageSwitcher />
 
-            {/* Center: Logo */}
-            <Link href={`/${lang}`} className="flex-1 flex justify-center hover:opacity-90 transition-opacity">
+            {/* Auth Section */}
+            {user ? (
+              <Link
+                href={`/${lang}/profile`}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-50 text-primary-700 hover:bg-primary-100 transition-all duration-200"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span className="font-semibold text-sm">{getUserDisplayName(user)}</span>
+              </Link>
+            ) : (
+              <Link
+                href={`/${lang}/login`}
+                className="px-6 py-2.5 bg-primary-600 text-white rounded-full font-bold text-sm hover:bg-primary-700 transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5"
+              >
+                {dict?.nav?.login || 'Login'}
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* MOBILE HEADER */}
+        <div className="md:hidden flex items-center justify-between h-16 w-full relative z-[51]">
+          {/* Left: Hamburger Button */}
+          <div className="w-1/3 flex justify-start">
+            <button
+              ref={menuButtonRef}
+              onClick={() => toggleMenu(!isMenuOpen)}
+              className="p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-colors focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+
+          {/* Center: Logo */}
+          <div className="w-1/3 flex justify-center">
+            <Link href={`/${lang}`} className="hover:opacity-90 transition-opacity">
               <Image
                 src="/img/logo.png"
                 alt="GoHoliday Logo"
@@ -155,31 +157,31 @@ export default function Header({ lang = 'en', dict }) {
                 priority
               />
             </Link>
+          </div>
 
-            {/* Right: Profile / Login Action */}
-            <div className="w-16 flex justify-end">
-              {user ? (
-                <Link
-                  href={`/${lang}/profile`}
-                  className="p-1 text-gray-700 hover:text-primary-600 transition-colors focus:outline-none"
-                  onClick={() => toggleMenu(false)}
-                >
-                  <div className="w-9 h-9 rounded-full bg-primary-50 flex items-center justify-center text-primary-700 border-2 border-primary-100 shadow-sm">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  </div>
-                </Link>
-              ) : (
-                <Link
-                  href={`/${lang}/login`}
-                  className="px-4 py-2 bg-primary-600 text-white rounded-xl font-bold text-xs hover:bg-primary-700 transition-all shadow-sm active:scale-95"
-                  onClick={() => toggleMenu(false)}
-                >
-                  {dict?.nav?.login || 'Login'}
-                </Link>
-              )}
-            </div>
+          {/* Right: Profile / Login Action */}
+          <div className="w-1/3 flex justify-end">
+            {user ? (
+              <Link
+                href={`/${lang}/profile`}
+                className="p-1 text-gray-700 hover:text-primary-600 transition-colors focus:outline-none"
+                onClick={() => toggleMenu(false)}
+              >
+                <div className="w-9 h-9 rounded-full bg-primary-50 flex items-center justify-center text-primary-700 border-2 border-primary-100 shadow-sm">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+              </Link>
+            ) : (
+              <Link
+                href={`/${lang}/login`}
+                className="px-4 py-2 bg-primary-600 text-white rounded-xl font-bold text-xs hover:bg-primary-700 transition-all shadow-sm active:scale-95"
+                onClick={() => toggleMenu(false)}
+              >
+                {dict?.nav?.login || 'Login'}
+              </Link>
+            )}
           </div>
         </div>
 
