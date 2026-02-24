@@ -331,7 +331,7 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
                             <span>BACK</span>
                         </button>
 
-                        <div className="flex items-center gap-4">
+                        <div className="hidden md:flex items-center gap-4">
                             <div className="text-white/90 font-black bg-black/40 px-4 py-2 rounded-full backdrop-blur-md border border-white/10 text-xs tracking-widest">
                                 {selectedIndex + 1} / {activeMedia.length}
                             </div>
