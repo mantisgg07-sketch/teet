@@ -13,7 +13,7 @@ export default function MobileBookingBar({ tourId, tourTitle, price, currency, d
     const whatsappNumber = "66812345678"
 
     return (
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] p-3 bg-white border-t border-gray-100 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.15)] pb-safe-area-inset-bottom">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] p-3 bg-white rounded-t-[2rem] border-t border-gray-100 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.15)] pb-safe-area-inset-bottom">
             <div className="flex items-center gap-3">
                 {/* Simplified Info */}
                 <div className="px-2 min-w-[100px]">
