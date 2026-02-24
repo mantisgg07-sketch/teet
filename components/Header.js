@@ -76,8 +76,9 @@ export default function Header({ lang = 'en', dict }) {
       <div className="container mx-auto px-4 sm:px-6">
         {/* DESKTOP HEADER */}
         <div className="hidden md:flex items-center justify-between h-[72px]">
-          {/* Left: Logo */}
-          <div className="w-1/3 flex justify-start">
+          {/* Left Side: Logo & Main Navigation */}
+          <div className="flex items-center">
+            {/* Logo */}
             <Link href={`/${lang}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Image
                 src="/img/logo.png"
@@ -88,20 +89,21 @@ export default function Header({ lang = 'en', dict }) {
                 priority
               />
             </Link>
+
+            {/* Main Navigation Links */}
+            <nav className="ml-8 flex items-center gap-2">
+              <Link href={`/${lang}/tours`} className="text-gray-600 hover:text-primary-600 transition-colors font-semibold px-3 py-2 text-[15px] rounded-lg hover:bg-gray-50/80">
+                {dict?.nav?.tours || 'Discover Tours'}
+              </Link>
+            </nav>
           </div>
 
-          {/* Center: Main Navigation Links */}
-          <nav className="w-1/3 flex justify-center">
-            <Link href={`/${lang}/tours`} className="relative text-gray-600 hover:text-primary-600 transition-colors font-semibold group px-4 py-2 text-[15px]">
-              {dict?.nav?.tours || 'Discover Tours'}
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          </nav>
-
-          {/* Right: Action Items */}
-          <div className="w-1/3 flex items-center gap-3 justify-end">
-            <CurrencySwitcher />
-            <LanguageSwitcher />
+          {/* Right Side: Action Items & Auth */}
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 bg-gray-50/50 p-1 rounded-xl border border-gray-100">
+              <CurrencySwitcher />
+              <LanguageSwitcher />
+            </div>
 
             <div className="w-[1px] h-6 bg-gray-200 mx-1"></div>
 
