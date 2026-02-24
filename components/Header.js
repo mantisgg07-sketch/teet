@@ -127,22 +127,29 @@ export default function Header({ lang = 'en', dict }) {
 
         {/* MOBILE HEADER */}
         <div className="md:hidden flex items-center justify-between h-16 w-full relative z-[51]">
-          {/* Left: Hamburger Button */}
+          {/* Left: Profile / Login Action */}
           <div className="w-1/3 flex justify-start">
-            <button
-              ref={menuButtonRef}
-              onClick={() => toggleMenu(!isMenuOpen)}
-              className="p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-colors focus:outline-none"
-              aria-label="Toggle menu"
-            >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
+            {user ? (
+              <Link
+                href={`/${lang}/profile`}
+                className="p-1 -ml-1 text-gray-700 hover:text-primary-600 transition-colors focus:outline-none"
+                onClick={() => toggleMenu(false)}
+              >
+                <div className="w-9 h-9 rounded-full bg-primary-50 flex items-center justify-center text-primary-700 border border-primary-100 shadow-sm">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+              </Link>
+            ) : (
+              <Link
+                href={`/${lang}/login`}
+                className="px-3 py-2 bg-primary-600 text-white rounded-xl font-bold text-xs hover:bg-primary-700 transition-all shadow-sm active:scale-95 whitespace-nowrap"
+                onClick={() => toggleMenu(false)}
+              >
+                {dict?.nav?.login || 'Login'}
+              </Link>
+            )}
           </div>
 
           {/* Center: Logo */}
@@ -159,86 +166,87 @@ export default function Header({ lang = 'en', dict }) {
             </Link>
           </div>
 
-          {/* Right: Profile / Login Action */}
+          {/* Right: Hamburger Button */}
           <div className="w-1/3 flex justify-end">
-            {user ? (
-              <Link
-                href={`/${lang}/profile`}
-                className="p-1 text-gray-700 hover:text-primary-600 transition-colors focus:outline-none"
-                onClick={() => toggleMenu(false)}
-              >
-                <div className="w-9 h-9 rounded-full bg-primary-50 flex items-center justify-center text-primary-700 border-2 border-primary-100 shadow-sm">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-              </Link>
-            ) : (
-              <Link
-                href={`/${lang}/login`}
-                className="px-4 py-2 bg-primary-600 text-white rounded-xl font-bold text-xs hover:bg-primary-700 transition-all shadow-sm active:scale-95"
-                onClick={() => toggleMenu(false)}
-              >
-                {dict?.nav?.login || 'Login'}
-              </Link>
-            )}
+            <button
+              ref={menuButtonRef}
+              onClick={() => toggleMenu(!isMenuOpen)}
+              className="p-2 -mr-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-colors focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
           </div>
         </div>
 
-        {/* Full-Width Mobile Menu Overlay Dropdown */}
+        {/* Floating Mobile Menu Dropdown */}
         <div
           ref={menuRef}
-          className={`md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-2xl overflow-hidden transition-all duration-300 ease-in-out z-[50] ${isMenuOpen ? 'max-h-[500px] opacity-100 border-t border-gray-100' : 'max-h-0 opacity-0 pointer-events-none'
+          className={`md:hidden absolute top-16 right-4 w-72 bg-white/95 backdrop-blur-xl border border-gray-100 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)] rounded-3xl overflow-hidden transform origin-top-right transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] z-[50] ${isMenuOpen ? 'scale-100 opacity-100 translate-y-2' : 'scale-95 opacity-0 translate-y-0 pointer-events-none'
             }`}
         >
-          <div className="px-4 py-6 space-y-6">
+          <div className="p-4 space-y-4">
             {/* Navigation Links Section */}
             <div className="space-y-2">
               <Link
                 href={`/${lang}/tours`}
-                className="flex items-center gap-4 p-4 bg-gray-50/50 hover:bg-primary-50 active:bg-primary-100 border border-gray-100 rounded-2xl transition-all duration-200"
+                className="flex items-center gap-4 p-3 bg-gray-50/50 hover:bg-primary-50 active:bg-primary-100 border border-gray-100 rounded-2xl transition-all duration-200"
                 onClick={() => toggleMenu(false)}
               >
-                <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary-600 border border-gray-100/50">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary-600 border border-gray-100/50 flex-shrink-0">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                   </svg>
                 </div>
                 <div>
-                  <div className="font-bold text-gray-900 text-lg">{dict?.nav?.tours || 'Explore Tours'}</div>
-                  <div className="text-sm font-medium text-gray-500">Find your next adventure</div>
+                  <div className="font-bold text-gray-900 leading-tight">{dict?.nav?.tours || 'Explore Tours'}</div>
+                  <div className="text-[11px] font-medium text-gray-500 uppercase tracking-widest mt-0.5">Find next adventure</div>
                 </div>
               </Link>
             </div>
 
             {/* Switchers Section */}
-            <div className="grid grid-cols-2 gap-3 pt-6 border-t border-gray-100">
-              <div className="p-3 bg-gray-50 rounded-2xl border border-gray-100">
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-1">Currency</div>
+            <div className="flex flex-col gap-2 pt-2 border-t border-gray-100">
+              <div className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-xl border border-gray-100">
+                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Currency</div>
                 <CurrencySwitcher mobile />
               </div>
-              <div className="p-3 bg-gray-50 rounded-2xl border border-gray-100">
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-1">Language</div>
+              <div className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-xl border border-gray-100">
+                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Language</div>
                 <LanguageSwitcher mobile />
               </div>
             </div>
 
             {/* Dynamic Account Action (Bottom) */}
-            <div className="pt-2">
-              {user && (
+            <div className="pt-2 border-t border-gray-100">
+              {user ? (
                 <button
                   onClick={async () => {
                     await supabase.auth.signOut({ scope: 'local' });
                     toggleMenu(false);
                     router.refresh();
                   }}
-                  className="w-full h-14 flex items-center justify-center gap-3 bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 rounded-2xl transition-all font-bold group shadow-sm"
+                  className="w-full py-3 flex items-center justify-center gap-2 bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 rounded-xl transition-all font-bold group shadow-sm text-sm"
                 >
-                  <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013-3v1" />
                   </svg>
                   Logout
                 </button>
+              ) : (
+                <Link
+                  href={`/${lang}/login`}
+                  className="flex justify-center w-full py-3 bg-primary-600 text-white rounded-xl font-bold text-sm shadow-md shadow-primary-200 active:scale-95 transition-all text-center"
+                  onClick={() => toggleMenu(false)}
+                >
+                  {dict?.nav?.login || 'Login'}
+                </Link>
               )}
             </div>
           </div>
