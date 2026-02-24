@@ -74,60 +74,68 @@ export default function Header({ lang = 'en', dict }) {
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-xl shadow-md border-b border-gray-100' : 'bg-white/95 backdrop-blur-md border-b border-gray-100'}`}>
       <div className="container mx-auto px-4 sm:px-6">
-        {/* DESKTOP HEADER */}
-        <div className="hidden md:flex items-center justify-between h-[72px]">
-          {/* Left Side: Logo & Main Navigation */}
-          <div className="flex items-center">
-            {/* Logo */}
+        {/* DESKTOP HEADER (Traboiwz Pattern) */}
+        <div className="hidden md:flex items-center justify-between h-[80px]">
+          {/* Left Side: Logo */}
+          <div className="w-1/4 flex justify-start">
             <Link href={`/${lang}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <Image
-                src="/img/logo.png"
-                alt="GoHoliday Logo"
-                width={130}
-                height={36}
-                className="h-[36px] w-auto"
-                priority
-              />
+              <span className="font-extrabold text-2xl tracking-tight text-gray-900 uppercase">
+                Traboiwz
+              </span>
             </Link>
-
-            {/* Main Navigation Links */}
-            <nav className="ml-8 flex items-center gap-6">
-              <Link href={`/${lang}/tours`} className="relative text-gray-800 hover:text-primary-600 transition-colors font-bold px-1 py-4 text-[15px] group">
-                {dict?.nav?.tours || 'Discover Tours'}
-                <span className="absolute left-0 bottom-2 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full rounded-full"></span>
-              </Link>
-            </nav>
           </div>
 
+          {/* Center: Main Navigation Links */}
+          <nav className="flex-1 flex justify-center items-center gap-8">
+            <Link href={`/${lang}`} className="text-gray-900 font-bold text-[14px] hover:text-primary-600 transition-colors">
+              {dict?.nav?.home || 'Home'}
+            </Link>
+            <Link href={`/${lang}/tours`} className="text-gray-600 font-semibold text-[14px] hover:text-primary-600 transition-colors">
+              {dict?.nav?.pricing || 'Pricing'}
+            </Link>
+            <Link href={`/${lang}/contact`} className="text-gray-600 font-semibold text-[14px] hover:text-primary-600 transition-colors">
+              {dict?.nav?.contact || 'Contact'}
+            </Link>
+            <Link href={`/${lang}/about`} className="text-gray-600 font-semibold text-[14px] hover:text-primary-600 transition-colors">
+              {dict?.nav?.about || 'About us'}
+            </Link>
+          </nav>
+
           {/* Right Side: Action Items & Auth */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1 bg-gray-50/50 p-1 rounded-xl border border-gray-100">
+          <div className="w-1/4 flex items-center justify-end gap-6">
+            <div className="flex items-center gap-2">
               <CurrencySwitcher />
               <LanguageSwitcher />
             </div>
-
-            <div className="w-[1px] h-6 bg-gray-200 mx-1"></div>
 
             {/* Auth Section */}
             {user ? (
               <Link
                 href={`/${lang}/profile`}
-                className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-50 text-gray-900 hover:bg-gray-100 transition-all font-bold"
               >
-                <div className="w-6 h-6 rounded-full bg-primary-50 text-primary-600 flex items-center justify-center">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-sm">
+                  <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
-                <span className="font-semibold text-[14px]">{getUserDisplayName(user)}</span>
+                <span className="text-[14px]">{getUserDisplayName(user)}</span>
               </Link>
             ) : (
-              <Link
-                href={`/${lang}/login`}
-                className="px-5 py-2 bg-primary-600 text-white rounded-full font-semibold text-[15px] hover:bg-primary-700 transition-all duration-200 shadow-sm hover:shadow active:scale-95"
-              >
-                {dict?.nav?.login || 'Login'}
-              </Link>
+              <div className="flex items-center gap-5">
+                <Link
+                  href={`/${lang}/login`}
+                  className="text-gray-900 font-bold text-[14px] hover:text-primary-600 transition-colors"
+                >
+                  {dict?.nav?.login || 'Login'}
+                </Link>
+                <Link
+                  href={`/${lang}/register`}
+                  className="px-6 py-2.5 bg-[#0f1012] text-white rounded-[1rem] font-bold text-[14px] hover:bg-gray-800 transition-all shadow-md active:scale-95"
+                >
+                  Get Started
+                </Link>
+              </div>
             )}
           </div>
         </div>
