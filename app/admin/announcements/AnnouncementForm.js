@@ -190,19 +190,19 @@ export default function AnnouncementForm() {
         )}
 
         <div className="flex items-center gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-100">
-          <div className="relative inline-flex items-center cursor-pointer">
-            <input
-              id="isActive"
-              type="checkbox"
-              checked={isActive}
-              onChange={(e) => setIsActive(e.target.checked)}
-              className="sr-only peer"
-            />
-            <div className="w-12 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600 transition-colors"></div>
-          </div>
-          <label htmlFor="isActive" className="text-[9px] font-black text-slate-900 uppercase tracking-widest cursor-pointer select-none">
+          <button
+            type="button"
+            onClick={() => setIsActive(!isActive)}
+            className={`relative w-12 h-7 rounded-full transition-colors duration-200 ${isActive ? 'bg-indigo-600' : 'bg-slate-200'}`}
+          >
+            <span className={`absolute top-[4px] left-[4px] h-5 w-5 bg-white rounded-full border border-slate-300 transition-transform duration-200 ${isActive ? 'translate-x-5 border-white' : ''}`} />
+          </button>
+          <span
+            onClick={() => setIsActive(!isActive)}
+            className="text-[9px] font-black text-slate-900 uppercase tracking-widest cursor-pointer select-none"
+          >
             Activate Now
-          </label>
+          </span>
         </div>
 
         <button

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/auth'
 import { getDb } from '@/lib/turso'
 import { announcements as announcementsSchema } from '@/lib/schema'
+import { eq, and } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { translateAnnouncementMessage } from '@/lib/translate'
 
@@ -36,7 +37,19 @@ export async function POST(request) {
 
     const db = getDb();
 
-    // Insert announcement with type and image_url fields
+    // If activating, enforce single-active per type (max 1 banner + 1 popup)
+    if (is_active) {
+      await db.update(announcementsSchema)
+        .set({ is_active: 0 })
+        .where(
+          and(
+            eq(announcementsSchema.type, safeType),
+            eq(announcementsSchema.is_active, 1)
+          )
+        );
+    }
+
+    // Insert announcement
     await db.insert(announcementsSchema).values({
       message: translatedMessages.message_en,
       message_en: translatedMessages.message_en,

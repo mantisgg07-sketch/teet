@@ -16,16 +16,23 @@ export default function AnnouncementList({ announcements }) {
   const handleToggleActive = async (id, currentStatus) => {
     setActionLoading(id)
     try {
+      // Explicitly convert: if currently active (truthy), we want to deactivate (false), and vice versa
+      const newStatus = currentStatus ? false : true
       const response = await fetch('/api/announcements/toggle', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, is_active: !currentStatus }),
+        body: JSON.stringify({ id, is_active: newStatus }),
       })
 
+      const data = await response.json()
+
       if (response.ok) {
+        // Small delay to ensure server-side revalidation has time to process
+        await new Promise(r => setTimeout(r, 300))
         router.refresh()
       } else {
-        alert('Failed to toggle announcement status')
+        console.error('Toggle failed:', data)
+        alert(data.error || 'Failed to toggle announcement status')
       }
     } catch (error) {
       console.error('Toggle error:', error)
