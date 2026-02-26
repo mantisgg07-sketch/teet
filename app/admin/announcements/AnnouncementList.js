@@ -3,6 +3,12 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+function formatDate(dateStr) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const d = new Date(dateStr)
+  return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${String(d.getUTCFullYear()).slice(-2)}`
+}
+
 export default function AnnouncementList({ announcements }) {
   const router = useRouter()
   const [actionLoading, setActionLoading] = useState(null)
@@ -117,7 +123,7 @@ export default function AnnouncementList({ announcements }) {
                 </td>
                 <td className="px-6 py-5">
                   <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">
-                    {new Date(announcement.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: '2-digit' })}
+                    {formatDate(announcement.created_at)}
                   </div>
                 </td>
                 <td className="px-6 py-5">
@@ -173,7 +179,7 @@ export default function AnnouncementList({ announcements }) {
                   )}
                 </div>
                 <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest">
-                  {new Date(announcement.created_at).toLocaleDateString()}
+                  {formatDate(announcement.created_at)}
                 </div>
               </div>
               <p className="text-[13px] font-bold text-slate-900 leading-relaxed">{announcement.message_en || announcement.message}</p>
