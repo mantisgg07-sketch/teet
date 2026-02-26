@@ -3,6 +3,15 @@ import { getDb } from '@/lib/turso';
 import { bookings as bookingsSchema } from '@/lib/schema';
 import { eq, desc } from 'drizzle-orm';
 import { isAuthenticated } from '@/lib/auth';
+import { createRateLimiter } from '@/lib/rateLimit';
+
+// Initialize a rate limiter for bookings: 5 requests per 10 minutes per IP
+const bookingRateLimiter = createRateLimiter({
+    windowMs: 10 * 60 * 1000,
+    max: 5,
+    name: 'bookingsPOST',
+    message: 'Too many booking attempts. Please try again later.'
+});
 
 // Valid booking status values
 const VALID_STATUSES = ['pending', 'confirmed', 'cancelled'];
@@ -18,6 +27,14 @@ const isValidEmail = (email) => {
 // POST — public (customers submit bookings)
 export async function POST(request) {
     try {
+        const rateLimitResult = bookingRateLimiter(request);
+        if (rateLimitResult.limited) {
+            return NextResponse.json(
+                { error: rateLimitResult.error },
+                { status: rateLimitResult.status }
+            );
+        }
+
         const body = await request.json();
         const { tour_id, user_id, name, email, phone, contact_method, message } = body;
 

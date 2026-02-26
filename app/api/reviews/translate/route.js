@@ -1,46 +1,22 @@
 import { NextResponse } from 'next/server'
 import { translateReviewComment } from '@/lib/translate'
+import { createRateLimiter } from '@/lib/rateLimit'
 
-// Simple in-memory rate limiter
-const rateLimitMap = new Map()
-const RATE_LIMIT_WINDOW = 60 * 1000 // 1 minute
-const RATE_LIMIT_MAX = 20 // max requests per window per IP
-
-function isRateLimited(ip) {
-  const now = Date.now()
-  const entry = rateLimitMap.get(ip)
-
-  if (!entry || now - entry.windowStart > RATE_LIMIT_WINDOW) {
-    rateLimitMap.set(ip, { windowStart: now, count: 1 })
-    return false
-  }
-
-  entry.count++
-  if (entry.count > RATE_LIMIT_MAX) {
-    return true
-  }
-  return false
-}
-
-// Clean up old entries when handling a request (serverless-safe; no setInterval)
-function cleanupRateLimitMap() {
-  const now = Date.now()
-  for (const [ip, entry] of rateLimitMap) {
-    if (now - entry.windowStart > RATE_LIMIT_WINDOW) {
-      rateLimitMap.delete(ip)
-    }
-  }
-}
+const translateRateLimiter = createRateLimiter({
+  windowMs: 60 * 1000,
+  max: 20,
+  name: 'translatePOST',
+  message: 'Too many requests. Please try again later.'
+})
 
 export async function POST(request) {
   try {
     // Rate limiting
-    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
-    cleanupRateLimitMap()
-    if (isRateLimited(ip)) {
+    const rateLimitResult = translateRateLimiter(request);
+    if (rateLimitResult.limited) {
       return NextResponse.json(
-        { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
+        { error: rateLimitResult.error },
+        { status: rateLimitResult.status }
       )
     }
 
