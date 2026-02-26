@@ -10,16 +10,34 @@ export default function TourDetailSidebar({ tour, lang = 'en', dict }) {
   const localizedTitle = getLocalizedField(tour, 'title', lang)
   const localizedLocation = getLocalizedField(tour, 'location', lang)
 
+  const hasDiscount = tour.is_discount_active === 1 && tour.discount_percentage > 0;
+  const originalPrice = tour.price;
+  const discountedPrice = hasDiscount ? originalPrice * (1 - tour.discount_percentage / 100) : originalPrice;
+
   return (
     <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 p-8 pt-10 sticky top-24 overflow-hidden">
 
       <div className="mb-8 pb-8 border-b border-gray-100">
-        <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
-          {dict?.tourDetail?.price || 'Exclusive Price'}
+        <div className="flex items-center gap-3 mb-3">
+          <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+            {dict?.tourDetail?.price || 'Exclusive Price'}
+          </div>
+          {hasDiscount && (
+            <span className="bg-red-50 text-red-600 text-[10px] font-black px-2.5 py-1 rounded-lg uppercase tracking-widest border border-red-100">
+              {tour.discount_percentage}% OFF
+            </span>
+          )}
         </div>
+
+        {hasDiscount && (
+          <div className="text-lg font-bold text-gray-400 line-through mb-1">
+            {convertPrice(originalPrice, tour.currency || 'USD')}
+          </div>
+        )}
+
         <div className="flex items-baseline gap-1">
-          <div className="text-5xl font-black text-gray-900 tracking-tighter">
-            {convertPrice(tour.price, tour.currency || 'USD')}
+          <div className={`text-5xl font-black tracking-tighter ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>
+            {convertPrice(discountedPrice, tour.currency || 'USD')}
           </div>
           <span className="text-gray-400 font-medium">{dict?.common?.perPerson || 'per person'}</span>
         </div>
@@ -68,7 +86,7 @@ export default function TourDetailSidebar({ tour, lang = 'en', dict }) {
         <TourBookingWrapper
           tourId={tour.id}
           tourTitle={localizedTitle}
-          price={tour.price}
+          price={discountedPrice}
           currency={tour.currency}
         />
       </div>

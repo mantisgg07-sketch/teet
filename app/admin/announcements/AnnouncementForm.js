@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import ImageUpload from '@/components/ImageUpload'
 
@@ -15,6 +15,24 @@ export default function AnnouncementForm() {
   const [popupType, setPopupType] = useState('general')
   const [imageUrl, setImageUrl] = useState('')
 
+  // Discount fields
+  const [tours, setTours] = useState([])
+  const [toursLoading, setToursLoading] = useState(false)
+  const [discountTourId, setDiscountTourId] = useState('')
+  const [discountPercentage, setDiscountPercentage] = useState('')
+
+  // Fetch tours when discount popup type is selected
+  useEffect(() => {
+    if (type === 'popup' && popupType === 'discount' && tours.length === 0) {
+      setToursLoading(true)
+      fetch('/api/tours/list')
+        .then(res => res.json())
+        .then(data => setTours(Array.isArray(data) ? data : []))
+        .catch(() => setTours([]))
+        .finally(() => setToursLoading(false))
+    }
+  }, [type, popupType, tours.length])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
@@ -28,6 +46,20 @@ export default function AnnouncementForm() {
         return
       }
 
+      // Validate discount fields
+      if (type === 'popup' && popupType === 'discount') {
+        if (!discountTourId) {
+          setError('Please select a tour package for the discount')
+          setLoading(false)
+          return
+        }
+        if (!discountPercentage || discountPercentage < 1 || discountPercentage > 99) {
+          setError('Discount must be between 1% and 99%')
+          setLoading(false)
+          return
+        }
+      }
+
       const response = await fetch('/api/announcements/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -36,7 +68,9 @@ export default function AnnouncementForm() {
           is_active: isActive,
           type,
           popup_type: type === 'popup' ? popupType : null,
-          image_url: type === 'popup' ? imageUrl : null
+          image_url: type === 'popup' ? imageUrl : null,
+          discount_tour_id: type === 'popup' && popupType === 'discount' ? discountTourId : null,
+          discount_percentage: type === 'popup' && popupType === 'discount' ? discountPercentage : null,
         }),
       })
 
@@ -49,6 +83,8 @@ export default function AnnouncementForm() {
         setType('banner')
         setPopupType('general')
         setImageUrl('')
+        setDiscountTourId('')
+        setDiscountPercentage('')
         router.refresh()
       } else {
         setError(data.error || 'Failed to create announcement')
@@ -173,6 +209,93 @@ export default function AnnouncementForm() {
           </div>
         )}
 
+        {/* Discount Tour Picker — shown when popup_type is discount */}
+        {type === 'popup' && popupType === 'discount' && (
+          <div className="animate-fade-in space-y-5">
+            <div>
+              <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+                Select Tour Package *
+              </label>
+              {toursLoading ? (
+                <div className="flex items-center gap-2 text-sm text-slate-400 py-3">
+                  <div className="w-4 h-4 border-2 border-slate-200 border-t-indigo-500 rounded-full animate-spin" />
+                  Loading tours...
+                </div>
+              ) : tours.length === 0 ? (
+                <p className="text-sm text-slate-400 py-3">No tours found. Create a tour first.</p>
+              ) : (
+                <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
+                  {tours.map(tour => (
+                    <button
+                      key={tour.id}
+                      type="button"
+                      onClick={() => {
+                        setDiscountTourId(tour.id)
+                        if (tour.is_discount_active && tour.discount_percentage) {
+                          setDiscountPercentage(tour.discount_percentage.toString())
+                        } else {
+                          setDiscountPercentage('')
+                        }
+                      }}
+                      className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between gap-3
+                        ${discountTourId === tour.id
+                          ? 'bg-amber-50 border-amber-400 shadow-sm'
+                          : 'bg-white border-slate-100 hover:border-amber-200'}`}
+                    >
+                      <div className="min-w-0">
+                        <div className={`text-sm font-bold truncate ${discountTourId === tour.id ? 'text-amber-700' : 'text-slate-700'}`}>
+                          {tour.title_en || tour.title}
+                        </div>
+                        <div className="text-[10px] text-slate-400 font-medium truncate">
+                          {tour.location_en || tour.location} &middot; {tour.currency || 'USD'} {tour.price}
+                        </div>
+                      </div>
+                      {discountTourId === tour.id && (
+                        <svg className="w-5 h-5 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="discountPct" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+                Discount Percentage *
+              </label>
+              <div className="relative">
+                <input
+                  id="discountPct"
+                  type="number"
+                  min="1"
+                  max="99"
+                  value={discountPercentage}
+                  onChange={(e) => setDiscountPercentage(e.target.value)}
+                  className="w-full px-5 py-4 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-amber-500 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner pr-12"
+                  placeholder="e.g. 20"
+                />
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-lg font-black text-amber-500">%</span>
+              </div>
+              {discountPercentage && discountTourId && (
+                <div className="mt-3 px-4 py-3 bg-amber-50 rounded-xl border border-amber-100">
+                  <p className="text-xs font-bold text-amber-700">
+                    {(() => {
+                      const selectedTour = tours.find(t => t.id === discountTourId)
+                      if (!selectedTour) return ''
+                      const original = selectedTour.price
+                      const discounted = original * (1 - discountPercentage / 100)
+                      return `${selectedTour.currency || 'USD'} ${original.toFixed(0)} → ${selectedTour.currency || 'USD'} ${discounted.toFixed(0)} (${discountPercentage}% off)`
+                    })()}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Popup Image Upload */}
         {type === 'popup' && (
           <div className="animate-fade-in">
             <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">

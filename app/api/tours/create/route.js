@@ -48,6 +48,8 @@ export async function POST(request) {
       currency: currency || 'USD',
       duration: duration,
       dates: dates,
+      is_discount_active: is_discount_active ? 1 : 0,
+      discount_percentage: is_discount_active && discount_percentage ? parseFloat(discount_percentage) : null,
       banner_image: banner_image || null,
       image_urls: image_urls || '[]',
       video_urls: video_urls || '[]'

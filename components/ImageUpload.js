@@ -8,6 +8,7 @@ export default function ImageUpload({ images = [], onUpload, onRemove, isBanner 
   const [error, setError] = useState('')
   const fileInputRef = useRef(null)
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+  const safeImages = Array.isArray(images) ? images : (typeof images === 'string' ? JSON.parse(images) : [])
 
   const handleFileSelect = async (e) => {
     const files = Array.from(e.target.files || [])
@@ -111,9 +112,9 @@ export default function ImageUpload({ images = [], onUpload, onRemove, isBanner 
       )}
 
       {/* Image Previews */}
-      {images.length > 0 && (
+      {safeImages.length > 0 && (
         <div className={`grid gap-3 ${isBanner ? 'grid-cols-1' : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}`}>
-          {images.map((url, index) => (
+          {safeImages.map((url, index) => (
             <div key={index} className="relative group">
               <div className="relative h-36 w-full rounded-xl overflow-hidden border border-slate-200">
                 <Image

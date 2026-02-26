@@ -25,6 +25,8 @@ export default function NewTourPage() {
     duration: '',
     dates: '',
     location: '',
+    is_discount_active: false,
+    discount_percentage: '',
   })
 
   const [bannerImage, setBannerImage] = useState('')
@@ -32,8 +34,11 @@ export default function NewTourPage() {
   const [videoUrls, setVideoUrls] = useState([])
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    const { name, value, type, checked } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }))
   }
 
   const handleBannerUpload = (url) => {
@@ -81,6 +86,8 @@ export default function NewTourPage() {
         body: JSON.stringify({
           ...formData,
           price: parseFloat(formData.price),
+          is_discount_active: formData.is_discount_active,
+          discount_percentage: formData.is_discount_active && formData.discount_percentage ? parseFloat(formData.discount_percentage) : null,
           banner_image: bannerImage,
           image_urls: JSON.stringify(galleryImages),
           video_urls: JSON.stringify(videoUrls),
@@ -279,6 +286,55 @@ export default function NewTourPage() {
                   className="w-full px-5 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner"
                   placeholder="e.g. MALE, MALDIVES"
                 />
+              </div>
+
+              {/* Discount Section */}
+              <div className="group pt-4 border-t border-slate-100">
+                <div className="flex items-center gap-4 mb-4">
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, is_discount_active: !prev.is_discount_active }))}
+                    className={`relative w-12 h-7 rounded-full transition-colors duration-200 ${formData.is_discount_active ? 'bg-amber-500' : 'bg-slate-200'}`}
+                  >
+                    <span className={`absolute top-[4px] left-[4px] h-5 w-5 bg-white rounded-full border border-slate-300 transition-transform duration-200 ${formData.is_discount_active ? 'translate-x-5 border-white' : ''}`} />
+                  </button>
+                  <span
+                    onClick={() => setFormData(prev => ({ ...prev, is_discount_active: !prev.is_discount_active }))}
+                    className="text-[10px] font-black text-slate-900 uppercase tracking-widest cursor-pointer select-none"
+                  >
+                    Activate Discount
+                  </span>
+                </div>
+
+                {formData.is_discount_active && (
+                  <div className="animate-fade-in pl-2 max-w-sm">
+                    <label htmlFor="discount_percentage" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">
+                      Discount Percentage *
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="discount_percentage"
+                        name="discount_percentage"
+                        type="number"
+                        min="1"
+                        max="99"
+                        value={formData.discount_percentage}
+                        onChange={handleChange}
+                        required={formData.is_discount_active}
+                        className="w-full px-5 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-amber-500 transition-all font-bold text-slate-900 text-sm outline-none pr-12 shadow-inner"
+                        placeholder="e.g. 20"
+                      />
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-lg font-black text-amber-500">%</span>
+                    </div>
+                    {formData.discount_percentage && formData.price && (
+                      <div className="mt-3 px-4 py-3 bg-amber-50 rounded-xl border border-amber-100 inline-block">
+                        <p className="text-xs font-bold text-amber-700">
+                          Final Price: {formData.currency} {Math.round(parseFloat(formData.price) * (1 - parseFloat(formData.discount_percentage) / 100))}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 

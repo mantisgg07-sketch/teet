@@ -18,6 +18,10 @@ const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
   const localizedDescription = getLocalizedField(tour, 'description', lang)
   const localizedLocation = getLocalizedField(tour, 'location', lang)
 
+  // Calculate discount price
+  const hasDiscount = tour.is_discount_active === 1 && tour.discount_percentage > 0
+  const discountedPrice = hasDiscount ? tour.price * (1 - tour.discount_percentage / 100) : tour.price
+
   return (
     <Link href={`/${lang}/tours/${tour.id}`} className="block group">
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col overflow-hidden border border-gray-100 group-hover:scale-[1.01] group-hover:border-primary-200">
@@ -38,18 +42,35 @@ const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
             </div>
           )}
 
-          {/* Best Seller Tag - Small & Elegant */}
-          <div className="absolute top-2 left-2 pointer-events-none">
-            <span className="bg-primary-600/90 backdrop-blur-sm text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">
-              Popular
-            </span>
+          {/* Discount Badge OR Best Seller Tag */}
+          <div className="absolute top-2 left-2 pointer-events-none flex flex-col gap-1">
+            {hasDiscount ? (
+              <span className="bg-red-500 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">
+                {tour.discount_percentage}% OFF
+              </span>
+            ) : (
+              <span className="bg-primary-600/90 backdrop-blur-sm text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">
+                Popular
+              </span>
+            )}
           </div>
 
-          {/* Floating Price Badge - Ultra Compact on Mobile */}
+          {/* Floating Price Badge */}
           <div className="absolute bottom-2 right-2 bg-white shadow-lg rounded-lg px-2 py-1 border border-gray-100/50">
-            <div className="text-[11px] sm:text-sm font-bold text-primary-700">
-              {convertPrice(tour.price, tour.currency || 'USD')}
-            </div>
+            {hasDiscount ? (
+              <div className="flex items-center gap-1.5">
+                <span className="text-[9px] sm:text-xs text-gray-400 line-through font-medium">
+                  {convertPrice(tour.price, tour.currency || 'USD')}
+                </span>
+                <span className="text-[11px] sm:text-sm font-bold text-red-600">
+                  {convertPrice(discountedPrice, tour.currency || 'USD')}
+                </span>
+              </div>
+            ) : (
+              <div className="text-[11px] sm:text-sm font-bold text-primary-700">
+                {convertPrice(tour.price, tour.currency || 'USD')}
+              </div>
+            )}
           </div>
         </div>
 

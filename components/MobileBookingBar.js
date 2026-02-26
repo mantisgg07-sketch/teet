@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useCurrency } from './CurrencyProvider'
 
-export default function MobileBookingBar({ tourId, tourTitle, price, currency, dict }) {
+export default function MobileBookingBar({ tourId, tourTitle, price, currency, dict, isDiscountActive, discountPercentage }) {
     const { convertPrice } = useCurrency()
     const params = useParams()
     const lang = params?.lang || 'en'
@@ -17,11 +17,27 @@ export default function MobileBookingBar({ tourId, tourTitle, price, currency, d
             <div className="flex items-center gap-3">
                 {/* Simplified Info */}
                 <div className="px-2 min-w-[100px]">
-                    <div className="text-[10px] font-bold text-gray-400 uppercase leading-none mb-1">
-                        {dict?.common?.from || 'From'}
+                    <div className="flex items-center gap-2 mb-1">
+                        <div className="text-[10px] font-bold text-gray-400 uppercase leading-none">
+                            {dict?.common?.from || 'From'}
+                        </div>
+                        {isDiscountActive === 1 && discountPercentage > 0 && (
+                            <span className="bg-red-50 text-red-600 text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest border border-red-100">
+                                {discountPercentage}% OFF
+                            </span>
+                        )}
                     </div>
-                    <div className="text-xl font-black text-gray-900 leading-none">
-                        {convertPrice(price, currency || 'USD')}
+
+                    {isDiscountActive === 1 && discountPercentage > 0 && (
+                        <div className="text-xs font-bold text-gray-400 line-through mb-0.5">
+                            {convertPrice(price, currency || 'USD')}
+                        </div>
+                    )}
+
+                    <div className={`text-xl font-black leading-none tracking-tighter ${isDiscountActive === 1 && discountPercentage > 0 ? 'text-red-600' : 'text-gray-900'}`}>
+                        {isDiscountActive === 1 && discountPercentage > 0
+                            ? convertPrice(price * (1 - discountPercentage / 100), currency || 'USD')
+                            : convertPrice(price, currency || 'USD')}
                     </div>
                 </div>
 

@@ -5,6 +5,7 @@ import { announcements as announcementsSchema } from '@/lib/schema'
 import { eq, and } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { translateAnnouncementMessage } from '@/lib/translate'
+import { tours as toursSchema } from '@/lib/schema'
 
 export async function POST(request) {
   try {
@@ -17,7 +18,7 @@ export async function POST(request) {
       )
     }
 
-    const { message, is_active, type, image_url, popup_type } = await request.json()
+    const { message, is_active, type, image_url, popup_type, discount_tour_id, discount_percentage } = await request.json()
 
     const VALID_TYPES = ['banner', 'popup'];
     const safeType = type && VALID_TYPES.includes(String(type).toLowerCase()) ? String(type).toLowerCase() : 'banner';
@@ -50,7 +51,7 @@ export async function POST(request) {
     }
 
     // Insert announcement
-    await db.insert(announcementsSchema).values({
+    const insertValues = {
       message: translatedMessages.message_en,
       message_en: translatedMessages.message_en,
       message_th: translatedMessages.message_th,
@@ -59,7 +60,31 @@ export async function POST(request) {
       type: safeType,
       popup_type: safePopupType,
       image_url: image_url || null
-    });
+    }
+
+    // Add discount fields if popup_type is discount
+    if (safePopupType === 'discount' && discount_tour_id) {
+      const tourId = parseInt(discount_tour_id, 10)
+      const pct = parseFloat(discount_percentage)
+      if (!Number.isNaN(tourId) && tourId > 0) {
+        insertValues.discount_tour_id = tourId
+      }
+      if (!Number.isNaN(pct) && pct > 0 && pct < 100) {
+        insertValues.discount_percentage = pct
+      }
+
+      // Sync the discount directly to the tour if creating an active discount announcement
+      if (is_active && !Number.isNaN(tourId) && tourId > 0 && !Number.isNaN(pct) && pct > 0 && pct < 100) {
+        await db.update(toursSchema)
+          .set({
+            is_discount_active: 1,
+            discount_percentage: pct
+          })
+          .where(eq(toursSchema.id, tourId))
+      }
+    }
+
+    await db.insert(announcementsSchema).values(insertValues);
 
     revalidatePath('/admin/announcements')
     revalidatePath('/')

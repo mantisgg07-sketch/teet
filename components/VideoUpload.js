@@ -7,6 +7,7 @@ export default function VideoUpload({ videos = [], onUpload, onRemove }) {
     const [error, setError] = useState('')
     const fileInputRef = useRef(null)
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+    const safeVideos = Array.isArray(videos) ? videos : (typeof videos === 'string' ? JSON.parse(videos) : [])
 
     const handleFileSelect = async (e) => {
         const files = Array.from(e.target.files || [])
@@ -106,9 +107,9 @@ export default function VideoUpload({ videos = [], onUpload, onRemove }) {
             )}
 
             {/* Video Previews */}
-            {videos.length > 0 && (
+            {safeVideos.length > 0 && (
                 <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
-                    {videos.map((vid, index) => (
+                    {safeVideos.map((vid, index) => (
                         <div key={index} className="relative group bg-slate-50 rounded-xl p-3 border border-slate-200 flex items-center justify-between">
                             <div className="flex items-center gap-2 truncate max-w-[80%]">
                                 <svg className="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

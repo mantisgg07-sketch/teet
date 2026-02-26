@@ -18,7 +18,7 @@ export async function POST(request) {
     }
 
     const data = await request.json()
-    const { id, title, description, price, currency, duration, dates, location, banner_image, image_urls, video_urls } = data
+    const { id, title, description, price, currency, duration, dates, location, banner_image, image_urls, video_urls, is_discount_active, discount_percentage } = data
 
     const safeId = parseInt(id, 10)
     if (Number.isNaN(safeId) || safeId < 1) {
@@ -54,9 +54,11 @@ export async function POST(request) {
       currency: currency || 'USD',
       duration: duration,
       dates: dates,
-      banner_image: banner_image || null,
-      image_urls: image_urls || '[]',
-      video_urls: video_urls || '[]'
+      banner_image: banner_image,
+      image_urls: JSON.stringify(image_urls || []),
+      video_urls: JSON.stringify(video_urls || []),
+      is_discount_active: is_discount_active ? 1 : 0,
+      discount_percentage: is_discount_active && discount_percentage ? parseFloat(discount_percentage) : null
     }).where(eq(toursSchema.id, id));
 
     revalidatePath('/admin/dashboard')

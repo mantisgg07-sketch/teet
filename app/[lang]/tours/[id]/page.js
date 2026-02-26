@@ -43,6 +43,8 @@ async function getTour(id) {
       image_urls: toursSchema.image_urls,
       video_urls: toursSchema.video_urls,
       dates: toursSchema.dates,
+      is_discount_active: toursSchema.is_discount_active,
+      discount_percentage: toursSchema.discount_percentage,
       created_at: toursSchema.created_at
     }).from(toursSchema).where(eq(toursSchema.id, Number(id)));
 
@@ -255,6 +257,8 @@ export default async function TourDetailPage({ params }) {
         price={tour.price}
         currency={tour.currency}
         dict={dict}
+        isDiscountActive={tour.is_discount_active}
+        discountPercentage={tour.discount_percentage}
       />
 
       <Footer lang={lang} dict={dict} />
