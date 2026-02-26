@@ -16,7 +16,28 @@ async function getActiveAnnouncements(lang) {
   try {
     const db = getDb();
     const result = await db.select().from(announcementsSchema).where(eq(announcementsSchema.is_active, 1));
-    return result.map(row => JSON.parse(JSON.stringify(row)));
+    const announcements = result.map(row => JSON.parse(JSON.stringify(row)));
+
+    // Fetch tour titles for discount popups
+    for (let ann of announcements) {
+      if (ann.popup_type === 'discount' && ann.discount_tour_id) {
+        const tourResult = await db.select({
+          title: toursSchema.title,
+          title_en: toursSchema.title_en,
+          title_th: toursSchema.title_th,
+          title_zh: toursSchema.title_zh,
+        }).from(toursSchema).where(eq(toursSchema.id, ann.discount_tour_id));
+
+        if (tourResult.length > 0) {
+          ann.tour_title = tourResult[0].title;
+          ann.tour_title_en = tourResult[0].title_en;
+          ann.tour_title_th = tourResult[0].title_th;
+          ann.tour_title_zh = tourResult[0].title_zh;
+        }
+      }
+    }
+
+    return announcements;
   } catch (error) {
     console.error('Error fetching announcements:', error);
     return [];
@@ -45,6 +66,8 @@ async function getFeaturedTours(lang) {
       duration: toursSchema.duration,
       banner_image: toursSchema.banner_image,
       dates: toursSchema.dates,
+      is_discount_active: toursSchema.is_discount_active,
+      discount_percentage: toursSchema.discount_percentage,
       created_at: toursSchema.created_at
     }).from(toursSchema).orderBy(desc(toursSchema.created_at)).limit(6);
     return result.map(row => JSON.parse(JSON.stringify(row)));
@@ -112,7 +135,13 @@ export default async function HomePage({ params }) {
         <AnnouncementPopup
           announcement={{
             ...popup,
-            message: getLocalizedField(popup, 'message', lang)
+            message: getLocalizedField(popup, 'message', lang),
+            localizedTourTitle: popup.popup_type === 'discount' && popup.discount_tour_id ? getLocalizedField({
+              title: popup.tour_title,
+              title_en: popup.tour_title_en,
+              title_th: popup.tour_title_th,
+              title_zh: popup.tour_title_zh,
+            }, 'title', lang) : null
           }}
         />
       )}

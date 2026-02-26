@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { useRouter, useParams } from 'next/navigation'
 
 // Theme config per popup_type
 const POPUP_THEMES = {
@@ -42,6 +43,9 @@ const POPUP_THEMES = {
 export default function AnnouncementPopup({ announcement }) {
   const [isVisible, setIsVisible] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
+  const router = useRouter()
+  const params = useParams()
+  const lang = params?.lang || 'en'
 
   const theme = POPUP_THEMES[announcement.popup_type] || POPUP_THEMES.general
 
@@ -68,7 +72,8 @@ export default function AnnouncementPopup({ announcement }) {
     }
   }, [announcement.id])
 
-  const handleDismiss = () => {
+  const handleDismiss = (e) => {
+    if (e) e.stopPropagation()
     setIsAnimating(false)
 
     // Store dismissal in localStorage
@@ -79,6 +84,14 @@ export default function AnnouncementPopup({ announcement }) {
     setTimeout(() => {
       setIsVisible(false)
     }, 300)
+  }
+
+  const handlePopupClick = () => {
+    // If it's a discount popup and has a tour linked, redirect to it
+    if (announcement.popup_type === 'discount' && announcement.discount_tour_id) {
+      handleDismiss()
+      router.push(`/${lang}/tours/${announcement.discount_tour_id}`)
+    }
   }
 
   if (!isVisible) {
@@ -101,11 +114,28 @@ export default function AnnouncementPopup({ announcement }) {
         aria-hidden="true"
       ></div>
 
-      {/* Modal */}
+      {/* Modal / Container */}
       <div
-        className={`relative bg-white rounded-[2.5rem] shadow-[0_32px_128px_-16px_rgba(0,0,0,0.3)] max-w-lg w-full overflow-hidden transform transition-all duration-500 ease-out border border-gray-100 ${isAnimating ? 'translate-y-0 scale-100' : 'translate-y-12 scale-90'
+        onClick={handlePopupClick}
+        className={`relative cursor-pointer bg-white rounded-[2.5rem] shadow-[0_32px_128px_-16px_rgba(0,0,0,0.3)] max-w-lg w-full overflow-hidden transform transition-all duration-500 ease-out border border-gray-100 ${isAnimating ? 'translate-y-0 scale-100' : 'translate-y-12 scale-90'
           }`}
       >
+        {/* Close Button - Outside the clickable flow if possible, or prevent bubble */}
+        <button
+          onClick={handleDismiss}
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 p-4 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors focus:outline-none group z-30 shadow-sm"
+          aria-label="Dismiss announcement"
+        >
+          <svg
+            className="w-6 h-6 sm:w-8 sm:h-8 text-gray-500 group-hover:text-gray-900 transition-colors"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
         {/* Image */}
         {announcement.image_url && (
           <div className="relative w-full h-56 sm:h-72">
@@ -121,25 +151,15 @@ export default function AnnouncementPopup({ announcement }) {
         )}
 
         {/* Content */}
-        <div className="p-8 sm:p-12">
-          {/* Close Button */}
-          <button
-            onClick={handleDismiss}
-            className="absolute top-6 right-6 p-2 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors focus:outline-none group z-20"
-            aria-label="Dismiss announcement"
-          >
-            <svg
-              className="w-4 h-4 text-gray-400 group-hover:text-gray-900 transition-colors"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+        <div className="p-8 sm:p-12 pt-6 sm:pt-10 relative z-10">
 
           {/* Dynamic Title */}
           <div className="text-center">
+            {announcement.popup_type === 'discount' && announcement.discount_percentage ? (
+              <div className="inline-block bg-red-500 text-white text-[11px] sm:text-sm font-black px-4 py-1.5 rounded-full mb-4 shadow-md uppercase tracking-widest animate-bounce">
+                {announcement.discount_percentage}% OFF {announcement.localizedTourTitle ? `ON ${announcement.localizedTourTitle}` : 'MUST GRAB'}
+              </div>
+            ) : null}
             <h2
               id="announcement-title"
               className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 leading-[1.1] uppercase tracking-tighter"
@@ -153,9 +173,8 @@ export default function AnnouncementPopup({ announcement }) {
           </div>
 
           {/* Dynamic Button */}
-          <button
-            onClick={handleDismiss}
-            className={`w-full py-5 ${theme.buttonBg} text-white rounded-2xl transition-all font-black text-xs uppercase tracking-[0.2em] shadow-2xl active:scale-[0.98] group relative overflow-hidden`}
+          <div
+            className={`w-full py-5 ${theme.buttonBg} text-white rounded-2xl transition-all font-black text-xs uppercase tracking-[0.2em] shadow-2xl active:scale-[0.98] group relative overflow-hidden text-center`}
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               {theme.buttonText}
@@ -163,7 +182,7 @@ export default function AnnouncementPopup({ announcement }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </span>
-          </button>
+          </div>
 
         </div>
       </div>

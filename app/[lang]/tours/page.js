@@ -64,6 +64,8 @@ async function getAllTours(lang) {
       duration: toursSchema.duration,
       banner_image: toursSchema.banner_image,
       dates: toursSchema.dates,
+      is_discount_active: toursSchema.is_discount_active,
+      discount_percentage: toursSchema.discount_percentage,
       created_at: toursSchema.created_at
     }).from(toursSchema).orderBy(desc(toursSchema.created_at));
     return result.map(row => JSON.parse(JSON.stringify(row)));
