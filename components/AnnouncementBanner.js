@@ -15,21 +15,17 @@ export default function AnnouncementBanner({ message }) {
 
   return (
     <div
-      className="bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 border-b border-white/10 relative z-40 overflow-hidden shadow-[0_4px_20px_-5px_rgba(30,64,175,0.3)]"
+      className="bg-primary-700 relative z-40"
       role="alert"
       aria-live="polite"
     >
-      {/* Subtle glassmorphism and animated glow */}
-      <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px]"></div>
-      <div className="absolute -inset-[100%] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(255,255,255,0.05)_180deg,transparent_360deg)] animate-[spin_8s_linear_infinite]"></div>
-
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between py-2 md:py-2.5 gap-6">
 
           {/* Message Group */}
           <div className="flex items-center gap-4 flex-1 min-w-0">
-            {/* Megaphone Icon with Glow */}
-            <div className="hidden sm:flex flex-shrink-0 w-8 h-8 items-center justify-center rounded-xl bg-white/10 border border-white/20 shadow-inner">
+            {/* Megaphone Icon */}
+            <div className="hidden sm:flex flex-shrink-0 w-8 h-8 items-center justify-center rounded-xl bg-white/10">
               <svg
                 className="w-4 h-4 text-white"
                 fill="none"
@@ -41,22 +37,22 @@ export default function AnnouncementBanner({ message }) {
             </div>
 
             {/* Primary Message */}
-            <p className="text-xs md:text-sm font-black text-white tracking-wide leading-relaxed truncate group">
-              <span className="text-blue-100/60 mr-2 uppercase tracking-widest text-[9px] font-black">Latest Update:</span>
+            <p className="text-xs md:text-sm font-bold text-white tracking-wide leading-relaxed truncate">
+              <span className="text-white/60 mr-2 uppercase tracking-widest text-[9px] font-bold">Latest Update:</span>
               {message}
             </p>
           </div>
 
-          {/* Controls */}
-          <div className="flex items-center gap-3">
+          {/* Dismiss */}
+          <div className="flex items-center">
             <button
               onClick={handleDismiss}
-              className="group flex items-center gap-2 px-3.5 py-1.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition-all duration-300 shadow-md active:scale-95"
+              className="group flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
               aria-label="Dismiss announcement"
             >
-              <span className="text-[10px] font-black text-white/70 group-hover:text-white uppercase tracking-[0.15em] transition-colors">Dismiss</span>
+              <span className="text-[10px] font-bold text-white/70 group-hover:text-white uppercase tracking-wider transition-colors">Dismiss</span>
               <svg
-                className="w-3.5 h-3.5 text-white/50 group-hover:text-white transition-all transform group-hover:rotate-90"
+                className="w-3.5 h-3.5 text-white/50 group-hover:text-white transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -67,9 +63,6 @@ export default function AnnouncementBanner({ message }) {
           </div>
         </div>
       </div>
-
-      {/* Dynamic top accent line for premium feel */}
-      <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
     </div>
   )
 }

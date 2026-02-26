@@ -86,13 +86,25 @@ export default function AnnouncementList({ announcements }) {
                   </div>
                 </td>
                 <td className="px-6 py-5">
-                  <span className={`px-2 py-1 rounded-md text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5 w-fit
-                    ${announcement.type === 'popup'
-                      ? 'bg-indigo-50 text-indigo-600 border border-indigo-100'
-                      : 'bg-slate-50 text-slate-600 border border-slate-200'
-                    }`}>
-                    {announcement.type}
-                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span className={`px-2 py-1 rounded-md text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5 w-fit
+                      ${announcement.type === 'popup'
+                        ? 'bg-indigo-50 text-indigo-600 border border-indigo-100'
+                        : 'bg-slate-50 text-slate-600 border border-slate-200'
+                      }`}>
+                      {announcement.type}
+                    </span>
+                    {announcement.type === 'popup' && announcement.popup_type && (
+                      <span className={`px-2 py-0.5 rounded-md text-[7px] font-black uppercase tracking-widest w-fit
+                        ${announcement.popup_type === 'discount' ? 'bg-amber-50 text-amber-600 border border-amber-100'
+                          : announcement.popup_type === 'new_feature' ? 'bg-blue-50 text-blue-600 border border-blue-100'
+                            : announcement.popup_type === 'system_update' ? 'bg-slate-100 text-slate-600 border border-slate-200'
+                              : 'bg-indigo-50 text-indigo-500 border border-indigo-100'
+                        }`}>
+                        {announcement.popup_type === 'new_feature' ? 'new feature' : announcement.popup_type === 'system_update' ? 'sys update' : announcement.popup_type}
+                      </span>
+                    )}
+                  </div>
                 </td>
                 <td className="px-6 py-5">
                   <span className={`px-2 py-1 rounded-md text-[8px] font-black uppercase tracking-widest
@@ -141,13 +153,25 @@ export default function AnnouncementList({ announcements }) {
           <div key={announcement.id} className="pro-card rounded-2xl p-5">
             <div className="mb-4">
               <div className="flex justify-between items-start mb-3">
-                <span className={`px-2 py-1 rounded-md text-[8px] font-black uppercase tracking-widest
-                    ${announcement.type === 'popup'
-                    ? 'bg-indigo-50 text-indigo-600'
-                    : 'bg-slate-50 text-slate-600'
-                  }`}>
-                  {announcement.type}
-                </span>
+                <div className="flex flex-col gap-1">
+                  <span className={`px-2 py-1 rounded-md text-[8px] font-black uppercase tracking-widest
+                      ${announcement.type === 'popup'
+                      ? 'bg-indigo-50 text-indigo-600'
+                      : 'bg-slate-50 text-slate-600'
+                    }`}>
+                    {announcement.type}
+                  </span>
+                  {announcement.type === 'popup' && announcement.popup_type && (
+                    <span className={`px-2 py-0.5 rounded-md text-[7px] font-black uppercase tracking-widest
+                      ${announcement.popup_type === 'discount' ? 'bg-amber-50 text-amber-600'
+                        : announcement.popup_type === 'new_feature' ? 'bg-blue-50 text-blue-600'
+                          : announcement.popup_type === 'system_update' ? 'bg-slate-100 text-slate-600'
+                            : 'bg-indigo-50 text-indigo-500'
+                      }`}>
+                      {announcement.popup_type === 'new_feature' ? 'new feature' : announcement.popup_type === 'system_update' ? 'sys update' : announcement.popup_type}
+                    </span>
+                  )}
+                </div>
                 <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest">
                   {new Date(announcement.created_at).toLocaleDateString()}
                 </div>

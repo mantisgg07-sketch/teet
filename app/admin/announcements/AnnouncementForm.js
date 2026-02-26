@@ -12,6 +12,7 @@ export default function AnnouncementForm() {
   const [message, setMessage] = useState('')
   const [isActive, setIsActive] = useState(false)
   const [type, setType] = useState('banner')
+  const [popupType, setPopupType] = useState('general')
   const [imageUrl, setImageUrl] = useState('')
 
   const handleSubmit = async (e) => {
@@ -34,6 +35,7 @@ export default function AnnouncementForm() {
           message,
           is_active: isActive,
           type,
+          popup_type: type === 'popup' ? popupType : null,
           image_url: type === 'popup' ? imageUrl : null
         }),
       })
@@ -45,6 +47,7 @@ export default function AnnouncementForm() {
         setMessage('')
         setIsActive(false)
         setType('banner')
+        setPopupType('general')
         setImageUrl('')
         router.refresh()
       } else {
@@ -123,6 +126,52 @@ export default function AnnouncementForm() {
             </button>
           </div>
         </div>
+
+        {type === 'popup' && (
+          <div className="animate-fade-in">
+            <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+              Popup Category *
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setPopupType('discount')}
+                className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
+                      ${popupType === 'discount' ? 'bg-amber-500 border-amber-500 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-amber-300'}`}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                Discount
+              </button>
+              <button
+                type="button"
+                onClick={() => setPopupType('new_feature')}
+                className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
+                      ${popupType === 'new_feature' ? 'bg-blue-500 border-blue-500 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-blue-300'}`}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                New Feature
+              </button>
+              <button
+                type="button"
+                onClick={() => setPopupType('system_update')}
+                className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
+                      ${popupType === 'system_update' ? 'bg-slate-700 border-slate-700 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-slate-400'}`}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                System Update
+              </button>
+              <button
+                type="button"
+                onClick={() => setPopupType('general')}
+                className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
+                      ${popupType === 'general' ? 'bg-indigo-500 border-indigo-500 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-indigo-300'}`}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                General
+              </button>
+            </div>
+          </div>
+        )}
 
         {type === 'popup' && (
           <div className="animate-fade-in">
