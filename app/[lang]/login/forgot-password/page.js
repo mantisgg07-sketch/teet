@@ -73,19 +73,19 @@ export default function ForgotPasswordPage() {
 
       if (profileError) {
         console.error('[ForgotPassword] Database query error:', profileError);
-        setError(dict?.common?.error || 'A verification error occurred. Please try again.');
+        // Do not block the user simply because the profiles check failed (e.g., due to RLS or network).
+        // If it's a clear 'not found' or network issue, we proceed to let Auth resolve it securely.
+        if (profileError.code !== 'PGRST116') {
+          // Log only, allow the flow to proceed
+        }
+      } else if (!profiles || profiles.length === 0) {
+        // Strict Account Not Found requested
+        setError(dict?.forgotPassword?.errorNotFound || 'Account not found for this email address.');
         setLoading(false);
         return;
       }
 
-      const profile = profiles?.[0];
 
-      if (!profile) {
-        // User requested strict "Account not found" feedback
-        setError(dict?.forgotPassword?.errorNotFound || 'Account not found in this email.');
-        setLoading(false);
-        return;
-      }
 
       // 2. Determine redirect URL
       const origin = typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL || ''

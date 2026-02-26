@@ -71,6 +71,9 @@ export default function UpdatePasswordPage() {
         // Let Supabase JS handle session persistence; we rely on updateUser() to error
       } catch (e) {
         console.error('[UpdatePassword] Failed to establish recovery session:', e)
+        if (!cancelled) {
+          setError('This password reset link is invalid or has already been used. Please request a new one.')
+        }
       } finally {
         if (!cancelled) setCheckingLink(false)
       }
@@ -126,8 +129,10 @@ export default function UpdatePasswordPage() {
         setError('Too many attempts. Please wait a few minutes before trying again.')
       } else if (errMsg.includes('session') && errMsg.includes('expired')) {
         setError('Your session has expired. Please request a new reset link.')
+      } else if (errMsg.includes('missing') || errMsg.includes('session')) {
+        setError('Your session is invalid. The reset link may have been used or expired.')
       } else {
-        setError(error.message || 'An unexpected error occurred.')
+        setError(error.message || 'An unexpected error occurred. Please try requesting a new link.')
       }
     } finally {
       setLoading(false)
