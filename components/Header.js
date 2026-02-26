@@ -208,8 +208,9 @@ export default function Header({ lang = 'en', dict }) {
           ref={menuRef}
           className={`md:hidden absolute top-16 right-4 w-72 bg-white/95 backdrop-blur-xl border border-gray-100 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)] rounded-3xl overflow-hidden transform origin-top-right transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] z-[50] ${isMenuOpen ? 'scale-100 opacity-100 translate-y-2' : 'scale-95 opacity-0 translate-y-0 pointer-events-none'
             }`}
+          style={{ maxHeight: 'calc(100vh - 5rem)' }}
         >
-          <div className="p-4 space-y-4">
+          <div className="p-4 space-y-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 6rem)' }}>
             {/* Navigation Links Section */}
             <div className="space-y-2">
               <Link
