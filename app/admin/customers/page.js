@@ -72,123 +72,112 @@ export default function CustomersPage() {
 
     return (
         <div className="max-w-[1600px] mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
-                        Customers
+                    <h1 className="text-2xl md:text-3xl font-black text-black leading-tight uppercase tracking-tighter">
+                        Customers <span className="text-slate-400">Database</span>
                     </h1>
-                    <p className="text-slate-400 font-bold uppercase text-[9px] tracking-[0.2em] mt-1 ml-1">
-                        View all customers
-                    </p>
                 </div>
                 <button
                     onClick={fetchAnalytics}
-                    className="px-4 py-2 bg-white border border-slate-200 text-slate-900 rounded-lg font-black text-[9px] uppercase tracking-widest hover:border-indigo-600 hover:text-indigo-600 transition-all active:scale-95 shadow-sm"
+                    className="px-6 py-2 bg-white border border-slate-200 text-black rounded-none font-black text-[10px] uppercase tracking-widest hover:border-black transition-colors"
                 >
-                    Refresh
+                    Refresh Data
                 </button>
             </div>
             {/* Stats Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-6">
-                <div className="pro-card rounded-xl tight-padding">
-                    <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Customers</div>
-                    <div className="flex items-end gap-1">
-                        <div className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter">{stats.totalCustomers}</div>
-                        <div className="text-[8px] font-bold text-slate-400 mb-0.5 uppercase tracking-widest leading-none">Total</div>
-                    </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="bg-white border border-slate-200 p-4">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Total DB Size</p>
+                    <p className="text-3xl font-black text-black tracking-tighter">{stats.totalCustomers}</p>
                 </div>
-                <div className="pro-card rounded-xl tight-padding">
-                    <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Repeat</div>
-                    <div className="flex items-end gap-1">
-                        <div className="text-xl md:text-2xl font-black text-indigo-600 tracking-tighter">{stats.returningCustomers}</div>
-                        <div className="text-[8px] font-bold text-slate-400 mb-0.5 uppercase tracking-widest leading-none">Repeat</div>
-                    </div>
+                <div className="bg-white border border-slate-200 p-4">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Repeat Clients</p>
+                    <p className="text-3xl font-black text-black tracking-tighter">{stats.returningCustomers}</p>
                 </div>
-                <div className="pro-card rounded-xl tight-padding">
-                    <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Orders</div>
-                    <div className="flex items-end gap-1">
-                        <div className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter">{stats.totalBookings}</div>
-                        <div className="text-[8px] font-bold text-slate-400 mb-0.5 uppercase tracking-widest leading-none">Orders</div>
-                    </div>
+                <div className="bg-white border border-slate-200 p-4">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Total Orders</p>
+                    <p className="text-3xl font-black text-black tracking-tighter">{stats.totalBookings}</p>
                 </div>
-                <div className="pro-card rounded-xl tight-padding">
-                    <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Ratio</div>
-                    <div className="flex items-end gap-1 text-green-600">
-                        <div className="text-xl md:text-2xl font-black tracking-tighter">{stats.confirmedRate}%</div>
-                        <div className="text-[8px] font-black mb-0.5 uppercase tracking-widest leading-none opacity-60">Rate</div>
-                    </div>
+                <div className="bg-white border border-slate-200 p-4">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Confirmation Rate</p>
+                    <p className="text-3xl font-black text-black tracking-tighter">{stats.confirmedRate}%</p>
                 </div>
             </div>
 
             {/* Customer List Section */}
-            <div className="pro-card rounded-xl overflow-hidden">
-                <div className="px-4 py-3 border-b border-slate-50 bg-slate-50/10 flex items-center justify-between">
-                    <div>
-                        <h2 className="text-base md:text-lg font-black text-slate-900 uppercase tracking-tighter">Customer List</h2>
-                        <p className="text-slate-400 font-bold text-[8px] uppercase tracking-widest leading-none">All records</p>
-                    </div>
+            <div className="bg-white border border-slate-200 mb-8">
+                <div className="px-6 py-4 border-b border-slate-200">
+                    <h2 className="text-sm font-black text-black uppercase tracking-widest">Client Records</h2>
                 </div>
-                <div className="divide-y divide-gray-50">
+
+                <div className="flex flex-col">
+                    {/* Table Header */}
+                    <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-3 border-b border-slate-200 bg-slate-50 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <div className="col-span-1">#</div>
+                        <div className="col-span-5">Client Identity</div>
+                        <div className="col-span-2 text-right">Orders</div>
+                        <div className="col-span-2 text-right">Last Active</div>
+                        <div className="col-span-2 text-right">Status</div>
+                    </div>
+
                     {loading ? (
-                        <div className="py-20 text-center text-gray-400 font-bold uppercase text-xs tracking-widest">Loading customers...</div>
+                        <div className="py-24 text-center bg-slate-50 text-slate-400 font-bold uppercase text-xs tracking-widest">Loading records...</div>
                     ) : stats.customers.length === 0 ? (
-                        <div className="py-20 text-center grayscale opacity-40 uppercase font-black text-xl tracking-tighter">No customers found</div>
+                        <div className="py-24 text-center bg-slate-50 text-slate-400 font-bold uppercase text-xs tracking-widest">No matching records</div>
                     ) : (
                         stats.customers.map((customer, index) => (
                             <div
                                 key={index}
-                                className="px-4 py-2 flex flex-col md:flex-row items-center gap-4 md:gap-6 hover:bg-slate-50/50 transition-colors cursor-pointer group border-b border-slate-50 last:border-0"
+                                className="group flex flex-col md:grid md:grid-cols-12 md:items-center gap-4 px-6 py-4 md:py-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors cursor-pointer"
                                 onClick={() => window.location.href = `/admin/customers/${customer.isRegistered && customer.id ? customer.id : customer.id || customer.email}`}
                             >
-                                {/* Avatar / Index */}
-                                <div className="w-8 h-8 md:w-10 md:h-10 bg-slate-100 rounded-lg flex items-center justify-center text-xs md:text-sm font-black text-slate-400 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
-                                    {index + 1}
+                                {/* Index */}
+                                <div className="col-span-1 text-[10px] font-bold text-slate-400 hidden md:block">
+                                    {(index + 1).toString().padStart(2, '0')}
                                 </div>
 
-                                {/* Name & Contact */}
-                                <div className="flex-1 min-w-0 w-full md:w-auto text-center md:text-left">
-                                    <h3 className="text-sm md:text-base font-black text-slate-900 uppercase tracking-tighter group-hover:text-indigo-600 transition-colors truncate">
+                                {/* Identity */}
+                                <div className="col-span-5 flex flex-col">
+                                    <h3 className="text-sm font-black text-black uppercase tracking-tighter truncate group-hover:underline decoration-2 underline-offset-2">
                                         {customer.name}
                                     </h3>
-                                    <div className="flex flex-wrap md:flex-nowrap justify-center md:justify-start gap-x-3 gap-y-1 mt-1 text-[11px] md:text-sm font-bold text-slate-400">
-                                        <span className="truncate">{customer.email}</span>
+                                    <div className="flex items-center gap-2 mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
+                                        <span className="text-[10px] font-bold text-slate-500 truncate">{customer.email}</span>
                                         {customer.phone && (
                                             <>
-                                                <span className="text-slate-200 hidden md:block">|</span>
-                                                <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest opacity-60">{customer.phone}</span>
+                                                <span className="w-1 h-1 rounded-full bg-slate-300 shrink-0"></span>
+                                                <span className="text-[10px] font-black tracking-widest text-slate-400 shrink-0">{customer.phone}</span>
                                             </>
                                         )}
                                     </div>
                                 </div>
 
                                 {/* High Density Stats */}
-                                <div className="flex items-center gap-4 md:gap-12 w-full md:w-auto py-3 md:py-0 border-y md:border-0 border-slate-50">
-                                    <div className="flex-1 md:flex-none flex flex-col items-center md:items-end min-w-[80px]">
-                                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Orders</div>
-                                        <span className={`px-2.5 py-1 rounded-lg text-[9px] font-black tracking-widest border transition-colors ${customer.bookings > 1 ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : 'bg-slate-50 text-slate-500 border-slate-100'}`}>
-                                            {customer.bookings} <span className="text-[7px] font-bold opacity-60">X</span>
-                                        </span>
-                                    </div>
+                                <div className="col-span-2 md:text-right">
+                                    <span className="md:hidden text-[10px] text-slate-400 uppercase tracking-widest mr-2">Orders:</span>
+                                    <span className={`inline-block px-3 py-1 text-[9px] font-black uppercase tracking-widest border ${customer.bookings > 1 ? 'bg-black text-white border-black' : 'bg-white text-slate-600 border-slate-200'}`}>
+                                        {customer.bookings}
+                                    </span>
+                                </div>
 
-                                    <div className="flex-1 md:flex-none flex flex-col items-center md:items-end min-w-[80px]">
-                                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Last Order</div>
-                                        <div className="text-[10px] md:text-xs font-black text-slate-900 uppercase tracking-tighter">
-                                            {new Date(customer.lastBooking).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: '2-digit' })}
-                                        </div>
-                                    </div>
+                                <div className="col-span-2 md:text-right">
+                                    <span className="md:hidden text-[10px] text-slate-400 uppercase tracking-widest mr-2">Loc:</span>
+                                    <span className="text-xs font-black text-black">
+                                        {new Date(customer.lastBooking).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: '2-digit' })}
+                                    </span>
                                 </div>
 
                                 {/* Account Type */}
-                                <div className="flex items-center min-w-[100px] justify-center md:justify-end">
+                                <div className="col-span-2 md:text-right">
                                     {customer.isRegistered ? (
-                                        <div className="flex items-center gap-2 text-indigo-600 bg-indigo-50/50 px-3 py-1.5 rounded-lg border border-indigo-100">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(79,70,229,0.55)]"></div>
-                                            <span className="text-[9px] font-black uppercase tracking-widest">Verified</span>
-                                        </div>
+                                        <span className="inline-block border border-black text-black px-3 py-1 text-[9px] font-black uppercase tracking-widest">
+                                            Verified
+                                        </span>
                                     ) : (
-                                        <div className="text-[9px] font-black text-slate-300 uppercase tracking-widest border border-dashed border-slate-200 px-3 py-1.5 rounded-lg">
+                                        <span className="inline-block border border-slate-200 text-slate-400 px-3 py-1 text-[9px] font-black uppercase tracking-widest">
                                             Guest
-                                        </div>
+                                        </span>
                                     )}
                                 </div>
                             </div>

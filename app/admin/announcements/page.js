@@ -28,32 +28,29 @@ export default async function AnnouncementsPage() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="mb-4">
-        <h1 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-          Alerts
+      <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-black text-black leading-tight uppercase tracking-tighter">
+          Alerts <span className="text-slate-400">Control</span>
         </h1>
-        <p className="text-gray-400 font-bold uppercase text-[9px] tracking-[0.2em] mt-1 ml-1">
-          System Signals
-        </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Add New Announcement Form */}
-        <div className="bg-white rounded-xl shadow-lg shadow-gray-200/40 border border-gray-100 overflow-hidden">
-          <div className="px-4 py-2 border-b border-gray-50 bg-gray-50/10">
-            <h2 className="text-base font-black text-gray-900 uppercase tracking-tighter">Add New</h2>
+        <div className="bg-white border border-slate-200">
+          <div className="px-6 py-4 border-b border-slate-200">
+            <h2 className="text-sm font-black text-black uppercase tracking-widest">Add New Alert</h2>
           </div>
-          <div className="p-4">
+          <div className="p-6">
             <AnnouncementForm />
           </div>
         </div>
 
         {/* Announcements List */}
-        <div className="bg-white rounded-xl shadow-lg shadow-gray-200/40 border border-gray-100 overflow-hidden">
-          <div className="px-4 py-2 border-b border-gray-50 flex justify-between items-center bg-gray-50/10">
-            <h2 className="text-base font-black text-gray-900 uppercase tracking-tighter">Alert History</h2>
+        <div className="bg-white border border-slate-200">
+          <div className="px-6 py-4 border-b border-slate-200">
+            <h2 className="text-sm font-black text-black uppercase tracking-widest">Alert History</h2>
           </div>
-          <div className="p-1 md:p-3">
+          <div className="p-0">
             <AnnouncementList announcements={announcements} />
           </div>
         </div>

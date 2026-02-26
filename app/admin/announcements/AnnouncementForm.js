@@ -98,10 +98,10 @@ export default function AnnouncementForm() {
   }
 
   return (
-    <div className="max-w-2xl pro-card rounded-[2rem] p-6 md:p-10">
-      <div className="mb-8">
-        <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Add Alert</h2>
-        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Post a new announcement</p>
+    <div className="max-w-2xl bg-white border border-slate-200 p-6 md:p-10">
+      <div className="mb-8 border-b border-slate-200 pb-4">
+        <h2 className="text-xl font-black text-black uppercase tracking-tighter">Add Alert</h2>
+        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Post a new announcement</p>
       </div>
       {error && (
         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl text-sm font-bold flex items-center gap-3 mb-8 animate-shake">
@@ -123,7 +123,7 @@ export default function AnnouncementForm() {
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="group">
-          <label htmlFor="message" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1 group-focus-within:text-indigo-600 transition-colors">
+          <label htmlFor="message" className="block text-[10px] font-black text-black uppercase tracking-widest mb-3">
             Alert Text *
           </label>
           <textarea
@@ -132,77 +132,71 @@ export default function AnnouncementForm() {
             onChange={(e) => setMessage(e.target.value)}
             required
             rows={4}
-            className="w-full px-5 py-4 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none resize-none shadow-inner"
+            className="w-full px-5 py-4 bg-transparent border border-slate-200 focus:border-black transition-colors font-bold text-black text-sm outline-none resize-none"
             placeholder="Type your alert here..."
           />
         </div>
 
         <div>
-          <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+          <label className="block text-[10px] font-black text-black uppercase tracking-widest mb-3">
             Display Mode *
           </label>
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setType('banner')}
-              className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
-                    ${type === 'banner' ? 'bg-slate-900 border-slate-900 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'}`}
+              className={`px-4 py-3 border transition-colors flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest
+                    ${type === 'banner' ? 'bg-black border-black text-white' : 'bg-white border-slate-200 text-slate-500 hover:border-black hover:text-black'}`}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
               Banner
             </button>
             <button
               type="button"
               onClick={() => setType('popup')}
-              className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
-                    ${type === 'popup' ? 'bg-slate-900 border-slate-900 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'}`}
+              className={`px-4 py-3 border transition-colors flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest
+                    ${type === 'popup' ? 'bg-black border-black text-white' : 'bg-white border-slate-200 text-slate-500 hover:border-black hover:text-black'}`}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C8.67 6.165 8 7.388 8 11v3.159c0 .538-.214 1.055-.595 1.436L6 17h5m0 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
               Popup
             </button>
           </div>
         </div>
 
         {type === 'popup' && (
-          <div className="animate-fade-in">
-            <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+          <div className="animate-fade-in border-t border-slate-200 pt-6 mt-6">
+            <label className="block text-[10px] font-black text-black uppercase tracking-widest mb-3">
               Popup Category *
             </label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setPopupType('discount')}
-                className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
-                      ${popupType === 'discount' ? 'bg-amber-500 border-amber-500 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-amber-300'}`}
+                className={`px-4 py-3 border transition-colors flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest
+                      ${popupType === 'discount' ? 'bg-black border-black text-white' : 'bg-white border-slate-200 text-slate-500 hover:border-black hover:text-black'}`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
                 Discount
               </button>
               <button
                 type="button"
                 onClick={() => setPopupType('new_feature')}
-                className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
-                      ${popupType === 'new_feature' ? 'bg-blue-500 border-blue-500 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-blue-300'}`}
+                className={`px-4 py-3 border transition-colors flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest
+                      ${popupType === 'new_feature' ? 'bg-black border-black text-white' : 'bg-white border-slate-200 text-slate-500 hover:border-black hover:text-black'}`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                 New Feature
               </button>
               <button
                 type="button"
                 onClick={() => setPopupType('system_update')}
-                className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
-                      ${popupType === 'system_update' ? 'bg-slate-700 border-slate-700 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-slate-400'}`}
+                className={`px-4 py-3 border transition-colors flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest
+                      ${popupType === 'system_update' ? 'bg-black border-black text-white' : 'bg-white border-slate-200 text-slate-500 hover:border-black hover:text-black'}`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 System Update
               </button>
               <button
                 type="button"
                 onClick={() => setPopupType('general')}
-                className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 font-black text-[9px] uppercase tracking-widest
-                      ${popupType === 'general' ? 'bg-indigo-500 border-indigo-500 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400 hover:border-indigo-300'}`}
+                className={`px-4 py-3 border transition-colors flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest
+                      ${popupType === 'general' ? 'bg-black border-black text-white' : 'bg-white border-slate-200 text-slate-500 hover:border-black hover:text-black'}`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 General
               </button>
             </div>
@@ -213,16 +207,16 @@ export default function AnnouncementForm() {
         {type === 'popup' && popupType === 'discount' && (
           <div className="animate-fade-in space-y-5">
             <div>
-              <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+              <label className="block text-[10px] font-black text-black uppercase tracking-widest mb-3">
                 Select Tour Package *
               </label>
               {toursLoading ? (
-                <div className="flex items-center gap-2 text-sm text-slate-400 py-3">
-                  <div className="w-4 h-4 border-2 border-slate-200 border-t-indigo-500 rounded-full animate-spin" />
+                <div className="flex items-center gap-2 text-sm text-slate-500 py-3">
+                  <div className="w-4 h-4 border-2 border-slate-200 border-t-black rounded-full animate-spin" />
                   Loading tours...
                 </div>
               ) : tours.length === 0 ? (
-                <p className="text-sm text-slate-400 py-3">No tours found. Create a tour first.</p>
+                <p className="text-sm text-slate-500 py-3">No tours found. Create a tour first.</p>
               ) : (
                 <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
                   {tours.map(tour => (
@@ -237,23 +231,23 @@ export default function AnnouncementForm() {
                           setDiscountPercentage('')
                         }
                       }}
-                      className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between gap-3
+                      className={`w-full text-left px-4 py-3 border transition-colors flex items-center justify-between gap-3
                         ${discountTourId === tour.id
-                          ? 'bg-amber-50 border-amber-400 shadow-sm'
-                          : 'bg-white border-slate-100 hover:border-amber-200'}`}
+                          ? 'bg-slate-50 border-black'
+                          : 'bg-transparent border-slate-200 hover:border-slate-400'}`}
                     >
                       <div className="min-w-0">
-                        <div className={`text-sm font-bold truncate ${discountTourId === tour.id ? 'text-amber-700' : 'text-slate-700'}`}>
+                        <div className={`text-sm font-bold truncate ${discountTourId === tour.id ? 'text-black' : 'text-slate-600'}`}>
                           {tour.title_en || tour.title}
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium truncate">
+                        <div className="text-[10px] text-slate-400 font-medium truncate mt-0.5">
                           {tour.location_en || tour.location} &middot; {tour.currency || 'USD'} {tour.price}
                         </div>
                       </div>
                       {discountTourId === tour.id && (
-                        <svg className="w-5 h-5 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-black flex-shrink-0">
+                          Selected
+                        </span>
                       )}
                     </button>
                   ))}
@@ -262,7 +256,7 @@ export default function AnnouncementForm() {
             </div>
 
             <div>
-              <label htmlFor="discountPct" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+              <label htmlFor="discountPct" className="block text-[10px] font-black text-black uppercase tracking-widest mb-3">
                 Discount Percentage *
               </label>
               <div className="relative">
@@ -273,14 +267,14 @@ export default function AnnouncementForm() {
                   max="99"
                   value={discountPercentage}
                   onChange={(e) => setDiscountPercentage(e.target.value)}
-                  className="w-full px-5 py-4 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-amber-500 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner pr-12"
+                  className="w-full px-5 py-4 bg-transparent border border-slate-200 focus:border-black transition-colors font-bold text-black text-sm outline-none pr-12"
                   placeholder="e.g. 20"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-lg font-black text-amber-500">%</span>
+                <span className="absolute right-5 top-1/2 -translate-y-1/2 text-sm font-black text-slate-500">%</span>
               </div>
               {discountPercentage && discountTourId && (
-                <div className="mt-3 px-4 py-3 bg-amber-50 rounded-xl border border-amber-100">
-                  <p className="text-xs font-bold text-amber-700">
+                <div className="mt-3 px-4 py-3 bg-slate-50 border border-slate-200">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-600">
                     {(() => {
                       const selectedTour = tours.find(t => t.id === discountTourId)
                       if (!selectedTour) return ''
@@ -297,11 +291,11 @@ export default function AnnouncementForm() {
 
         {/* Popup Image Upload */}
         {type === 'popup' && (
-          <div className="animate-fade-in">
-            <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
+          <div className="animate-fade-in border-t border-slate-200 pt-6 mt-6">
+            <label className="block text-[10px] font-black text-black uppercase tracking-widest mb-3">
               Visual Asset
             </label>
-            <div className="bg-slate-50 p-6 rounded-2xl border border-dashed border-slate-200">
+            <div className="bg-transparent p-6 border border-slate-200">
               <ImageUpload
                 images={imageUrl ? [imageUrl] : []}
                 onUpload={(url) => setImageUrl(url)}
@@ -312,34 +306,35 @@ export default function AnnouncementForm() {
           </div>
         )}
 
-        <div className="flex items-center gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-100">
-          <button
-            type="button"
-            onClick={() => setIsActive(!isActive)}
-            className={`relative w-12 h-7 rounded-full transition-colors duration-200 ${isActive ? 'bg-indigo-600' : 'bg-slate-200'}`}
-          >
-            <span className={`absolute top-[4px] left-[4px] h-5 w-5 bg-white rounded-full border border-slate-300 transition-transform duration-200 ${isActive ? 'translate-x-5 border-white' : ''}`} />
-          </button>
-          <span
-            onClick={() => setIsActive(!isActive)}
-            className="text-[9px] font-black text-slate-900 uppercase tracking-widest cursor-pointer select-none"
-          >
-            Activate Now
-          </span>
-        </div>
+        <div className="flex flex-col gap-6 pt-6 border-t border-slate-200">
+          <div className="flex items-center gap-4 bg-slate-50 p-5 border border-slate-200">
+            <button
+              type="button"
+              onClick={() => setIsActive(!isActive)}
+              className={`relative w-12 h-6 transition-colors duration-200 border border-black ${isActive ? 'bg-black' : 'bg-transparent'}`}
+            >
+              <span className={`absolute top-[2px] left-[2px] h-4 w-4 bg-white border border-black transition-transform duration-200 ${isActive ? 'translate-x-[22px]' : ''}`} />
+            </button>
+            <span
+              onClick={() => setIsActive(!isActive)}
+              className="text-[10px] font-black text-black uppercase tracking-widest cursor-pointer select-none"
+            >
+              Activate Now
+            </span>
+          </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all font-black text-[10px] uppercase tracking-[0.3em] disabled:bg-slate-200 disabled:cursor-not-allowed shadow-xl shadow-indigo-600/20 active:scale-[0.98] group flex items-center justify-center gap-3"
-        >
-          {loading ? (
-            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-          ) : (
-            <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-          )}
-          {loading ? 'Saving...' : 'Save Announcement'}
-        </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-4 bg-black text-white hover:bg-slate-800 transition-colors font-black text-[10px] uppercase tracking-[0.3em] disabled:bg-slate-300 disabled:cursor-not-allowed group flex items-center justify-center gap-3"
+          >
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            ) : (
+              <span>Save Alert</span>
+            )}
+          </button>
+        </div>
       </form>
     </div>
   )
