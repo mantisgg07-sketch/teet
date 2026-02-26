@@ -166,13 +166,6 @@ export default function ForgotPasswordPage() {
                   ← {dict.forgotPassword.backToLogin}
                 </Link>
               </div>
-
-              {/* Back to Home */}
-              <div className="mt-4 text-center">
-                <Link href={`/${lang}`} className="text-gray-600 hover:text-gray-800 text-sm">
-                  ← {dict.forgotPassword.backToHome}
-                </Link>
-              </div>
             </div>
           </div>
         </div>

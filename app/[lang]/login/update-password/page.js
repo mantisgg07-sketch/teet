@@ -263,13 +263,6 @@ export default function UpdatePasswordPage() {
                   ← Back to Login
                 </Link>
               </div>
-
-              {/* Back to Home */}
-              <div className="mt-4 text-center">
-                <Link href={`/${lang}`} className="text-gray-600 hover:text-gray-800 text-sm">
-                  ← Back to Home
-                </Link>
-              </div>
             </div>
           </div>
         </div>
