@@ -54,61 +54,38 @@ export default function ForgotPasswordPage() {
       return;
     }
 
-    if (!supabase) {
-      setError(dict?.reviews?.errorConfig || 'Supabase is not configured.')
-      setLoading(false)
-      return
-    }
-
     try {
       setAttempts(prev => prev + 1);
       const trimmedEmail = email.trim();
 
-      // 1. Verify existence in public.profiles (Fast, index-friendly query)
-      const { data: profiles, error: profileError } = await supabase
-        .from('profiles')
-        .select('id, email')
-        .ilike('email', trimmedEmail)
-        .limit(1);
-
-      if (profileError) {
-        console.error('[ForgotPassword] Database query error:', profileError);
-        // Do not block the user simply because the profiles check failed (e.g., due to RLS or network).
-        // If it's a clear 'not found' or network issue, we proceed to let Auth resolve it securely.
-        if (profileError.code !== 'PGRST116') {
-          // Log only, allow the flow to proceed
-        }
-      } else if (!profiles || profiles.length === 0) {
-        // Strict Account Not Found requested
-        setError(dict?.forgotPassword?.errorNotFound || 'Account not found for this email address.');
-        setLoading(false);
-        return;
-      }
-
-
-
-      // 2. Determine redirect URL
+      // Determine redirect URL
       const origin = typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL || ''
-      // For password recovery, send users through our auth callback so we can
-      // exchange the code for a session and then redirect them to update-password
       const redirectTo = `${origin}/auth/callback?type=recovery&lang=${lang}`
 
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
-        redirectTo,
-      })
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: trimmedEmail,
+          redirectTo,
+        }),
+      });
 
-      if (resetError) {
-        console.error('[ForgotPassword] Supabase Auth service error:', resetError);
-        const errMsg = resetError.message?.toLowerCase() || '';
-        if (errMsg.includes('rate limit')) {
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Known errors, or rate limits
+        if (data.error?.toLowerCase().includes('rate limit')) {
           setError(dict?.errors?.rateLimitExceeded || 'Too many attempts. Please try again later.');
         } else {
-          setError(resetError.message);
+          setError(data.error || 'Account not found or verification error.');
         }
         return;
       }
 
-      setMessage(dict?.forgotPassword?.successMessage || 'Reset link has been sent to email.');
+      setMessage(dict?.forgotPassword?.successMessage || data.message || 'Reset link has been sent to email.');
       setEmail('')
     } catch (err) {
       console.error('[ForgotPassword] UNEXPECTED EXCEPTION:', err);
