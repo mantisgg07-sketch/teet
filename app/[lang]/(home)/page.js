@@ -263,7 +263,11 @@ export default async function HomePage({ params }) {
           ) : (
             <div className="text-center py-12">
               <p className="text-gray-600 text-lg mb-6">{dict.home.noToursMessage}</p>
-              <div className="text-6xl mb-4">🏖️</div>
+              <div className="mb-4">
+                <svg className="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 21h18M12 3c-1.5 2-2.5 4-2.5 7h5C14.5 7 13.5 5 12 3zM7 10c-1.5-1.5-4-2-6-1.5C3 10 5 11 7 10zm10 0c1.5-1.5 4-2 6-1.5-2 1.5-4 2.5-6 1.5zM12 10v11" />
+                </svg>
+              </div>
             </div>
           )}
         </div>

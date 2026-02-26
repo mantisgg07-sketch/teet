@@ -109,7 +109,11 @@ export default async function ToursPage({ params }) {
             </Suspense>
           ) : (
             <div className="text-center py-20 bg-white rounded-xl shadow-sm">
-              <div className="text-6xl mb-6">🏖️</div>
+              <div className="mb-6">
+                <svg className="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 21h18M12 3c-1.5 2-2.5 4-2.5 7h5C14.5 7 13.5 5 12 3zM7 10c-1.5-1.5-4-2-6-1.5C3 10 5 11 7 10zm10 0c1.5-1.5 4-2 6-1.5-2 1.5-4 2.5-6 1.5zM12 10v11" />
+                </svg>
+              </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">{dict.tours.noToursTitle}</h2>
               <p className="text-gray-600">{dict.tours.noToursMessage}</p>
             </div>

@@ -122,7 +122,11 @@ export default function AdminBookingsPage() {
                     <div className="divide-y divide-gray-50 px-4 md:px-0">
                         {filteredBookings.length === 0 ? (
                             <div className="py-20 text-center">
-                                <div className="text-6xl mb-6 grayscale opacity-40">🔍</div>
+                                <div className="mb-6 grayscale opacity-40">
+                                    <svg className="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
                                 <h3 className="text-xl font-black text-gray-900 uppercase tracking-tighter">No orders found</h3>
                                 <p className="text-gray-500 font-medium tracking-tight">Try adjusting your filters or search term.</p>
                             </div>

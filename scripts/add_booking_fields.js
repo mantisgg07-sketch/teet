@@ -10,10 +10,10 @@ async function addBookingFields() {
         // Add guests column
         try {
             await turso.execute(`ALTER TABLE bookings ADD COLUMN guests INTEGER DEFAULT 1;`);
-            console.log('✓ guests column added');
+            console.log('[OK] guests column added');
         } catch (e) {
             if (e.message.includes('duplicate column name')) {
-                console.log('✓ guests column already exists');
+                console.log('[OK] guests column already exists');
             } else {
                 console.log('Error adding guests column (might exist):', e.message);
             }
@@ -22,10 +22,10 @@ async function addBookingFields() {
         // Add total_price column
         try {
             await turso.execute(`ALTER TABLE bookings ADD COLUMN total_price REAL DEFAULT 0;`);
-            console.log('✓ total_price column added');
+            console.log('[OK] total_price column added');
         } catch (e) {
             if (e.message.includes('duplicate column name')) {
-                console.log('✓ total_price column already exists');
+                console.log('[OK] total_price column already exists');
             } else {
                 console.log('Error adding total_price column (might exist):', e.message);
             }

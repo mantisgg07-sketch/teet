@@ -71,8 +71,10 @@ export default async function BookingPage({ params }) {
                                         className="object-cover"
                                     />
                                 ) : (
-                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center text-4xl">
-                                        🏖️
+                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <svg className="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 21h18M12 3c-1.5 2-2.5 4-2.5 7h5C14.5 7 13.5 5 12 3zM7 10c-1.5-1.5-4-2-6-1.5C3 10 5 11 7 10zm10 0c1.5-1.5 4-2 6-1.5-2 1.5-4 2.5-6 1.5zM12 10v11" />
+                                        </svg>
                                     </div>
                                 )}
                             </div>

@@ -13,10 +13,10 @@ async function addAdminNoteColumn() {
             await turso.execute(`
         ALTER TABLE bookings ADD COLUMN admin_note TEXT;
         `);
-            console.log('✓ admin_note column added successfully');
+            console.log('[OK] admin_note column added successfully');
         } catch (e) {
             if (e.message.includes('duplicate column name')) {
-                console.log('✓ admin_note column already exists');
+                console.log('[OK] admin_note column already exists');
             } else {
                 throw e;
             }

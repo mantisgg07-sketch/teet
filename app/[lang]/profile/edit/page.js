@@ -10,58 +10,58 @@ import ProfileSidebar from '@/components/ProfileSidebar'
 
 // Country codes for mobile numbers
 const COUNTRY_CODES = [
-  { code: '+1', country: 'US/Canada', flag: '🇺🇸' },
-  { code: '+44', country: 'UK', flag: '🇬🇧' },
-  { code: '+61', country: 'Australia', flag: '🇦🇺' },
-  { code: '+81', country: 'Japan', flag: '🇯🇵' },
-  { code: '+86', country: 'China', flag: '🇨🇳' },
-  { code: '+91', country: 'India', flag: '🇮🇳' },
-  { code: '+66', country: 'Thailand', flag: '🇹🇭' },
-  { code: '+977', country: 'Nepal', flag: '🇳🇵' },
-  { code: '+65', country: 'Singapore', flag: '🇸🇬' },
-  { code: '+82', country: 'South Korea', flag: '🇰🇷' },
-  { code: '+33', country: 'France', flag: '🇫🇷' },
-  { code: '+49', country: 'Germany', flag: '🇩🇪' },
-  { code: '+39', country: 'Italy', flag: '🇮🇹' },
-  { code: '+34', country: 'Spain', flag: '🇪🇸' },
-  { code: '+31', country: 'Netherlands', flag: '🇳🇱' },
-  { code: '+46', country: 'Sweden', flag: '🇸🇪' },
-  { code: '+47', country: 'Norway', flag: '🇳🇴' },
-  { code: '+45', country: 'Denmark', flag: '🇩🇰' },
-  { code: '+41', country: 'Switzerland', flag: '🇨🇭' },
-  { code: '+43', country: 'Austria', flag: '🇦🇹' },
-  { code: '+32', country: 'Belgium', flag: '🇧🇪' },
-  { code: '+351', country: 'Portugal', flag: '🇵🇹' },
-  { code: '+353', country: 'Ireland', flag: '🇮🇪' },
-  { code: '+358', country: 'Finland', flag: '🇫🇮' },
-  { code: '+48', country: 'Poland', flag: '🇵🇱' },
-  { code: '+420', country: 'Czech Republic', flag: '🇨🇿' },
-  { code: '+36', country: 'Hungary', flag: '🇭🇺' },
-  { code: '+40', country: 'Romania', flag: '🇷🇴' },
-  { code: '+30', country: 'Greece', flag: '🇬🇷' },
-  { code: '+90', country: 'Turkey', flag: '🇹🇷' },
-  { code: '+7', country: 'Russia', flag: '🇷🇺' },
-  { code: '+52', country: 'Mexico', flag: '🇲🇽' },
-  { code: '+55', country: 'Brazil', flag: '🇧🇷' },
-  { code: '+54', country: 'Argentina', flag: '🇦🇷' },
-  { code: '+56', country: 'Chile', flag: '🇨🇱' },
-  { code: '+57', country: 'Colombia', flag: '🇨🇴' },
-  { code: '+51', country: 'Peru', flag: '🇵🇪' },
-  { code: '+58', country: 'Venezuela', flag: '🇻🇪' },
-  { code: '+27', country: 'South Africa', flag: '🇿🇦' },
-  { code: '+234', country: 'Nigeria', flag: '🇳🇬' },
-  { code: '+254', country: 'Kenya', flag: '🇰🇪' },
-  { code: '+20', country: 'Egypt', flag: '🇪🇬' },
-  { code: '+971', country: 'UAE', flag: '🇦🇪' },
-  { code: '+966', country: 'Saudi Arabia', flag: '🇸🇦' },
-  { code: '+972', country: 'Israel', flag: '🇮🇱' },
-  { code: '+64', country: 'New Zealand', flag: '🇳🇿' },
-  { code: '+63', country: 'Philippines', flag: '🇵🇭' },
-  { code: '+60', country: 'Malaysia', flag: '🇲🇾' },
-  { code: '+84', country: 'Vietnam', flag: '🇻🇳' },
-  { code: '+62', country: 'Indonesia', flag: '🇮🇩' },
-  { code: '+92', country: 'Pakistan', flag: '🇵🇰' },
-  { code: '+880', country: 'Bangladesh', flag: '🇧🇩' },
+  { code: '+1', country: 'US/Canada', flag: 'US' },
+  { code: '+44', country: 'UK', flag: 'GB' },
+  { code: '+61', country: 'Australia', flag: 'AU' },
+  { code: '+81', country: 'Japan', flag: 'JP' },
+  { code: '+86', country: 'China', flag: 'CN' },
+  { code: '+91', country: 'India', flag: 'IN' },
+  { code: '+66', country: 'Thailand', flag: 'TH' },
+  { code: '+977', country: 'Nepal', flag: 'NP' },
+  { code: '+65', country: 'Singapore', flag: 'SG' },
+  { code: '+82', country: 'South Korea', flag: 'KR' },
+  { code: '+33', country: 'France', flag: 'FR' },
+  { code: '+49', country: 'Germany', flag: 'DE' },
+  { code: '+39', country: 'Italy', flag: 'IT' },
+  { code: '+34', country: 'Spain', flag: 'ES' },
+  { code: '+31', country: 'Netherlands', flag: 'NL' },
+  { code: '+46', country: 'Sweden', flag: 'SE' },
+  { code: '+47', country: 'Norway', flag: 'NO' },
+  { code: '+45', country: 'Denmark', flag: 'DK' },
+  { code: '+41', country: 'Switzerland', flag: 'CH' },
+  { code: '+43', country: 'Austria', flag: 'AT' },
+  { code: '+32', country: 'Belgium', flag: 'BE' },
+  { code: '+351', country: 'Portugal', flag: 'PT' },
+  { code: '+353', country: 'Ireland', flag: 'IE' },
+  { code: '+358', country: 'Finland', flag: 'FI' },
+  { code: '+48', country: 'Poland', flag: 'PL' },
+  { code: '+420', country: 'Czech Republic', flag: 'CZ' },
+  { code: '+36', country: 'Hungary', flag: 'HU' },
+  { code: '+40', country: 'Romania', flag: 'RO' },
+  { code: '+30', country: 'Greece', flag: 'GR' },
+  { code: '+90', country: 'Turkey', flag: 'TR' },
+  { code: '+7', country: 'Russia', flag: 'RU' },
+  { code: '+52', country: 'Mexico', flag: 'MX' },
+  { code: '+55', country: 'Brazil', flag: 'BR' },
+  { code: '+54', country: 'Argentina', flag: 'AR' },
+  { code: '+56', country: 'Chile', flag: 'CL' },
+  { code: '+57', country: 'Colombia', flag: 'CO' },
+  { code: '+51', country: 'Peru', flag: 'PE' },
+  { code: '+58', country: 'Venezuela', flag: 'VE' },
+  { code: '+27', country: 'South Africa', flag: 'ZA' },
+  { code: '+234', country: 'Nigeria', flag: 'NG' },
+  { code: '+254', country: 'Kenya', flag: 'KE' },
+  { code: '+20', country: 'Egypt', flag: 'EG' },
+  { code: '+971', country: 'UAE', flag: 'AE' },
+  { code: '+966', country: 'Saudi Arabia', flag: 'SA' },
+  { code: '+972', country: 'Israel', flag: 'IL' },
+  { code: '+64', country: 'New Zealand', flag: 'NZ' },
+  { code: '+63', country: 'Philippines', flag: 'PH' },
+  { code: '+60', country: 'Malaysia', flag: 'MY' },
+  { code: '+84', country: 'Vietnam', flag: 'VN' },
+  { code: '+62', country: 'Indonesia', flag: 'ID' },
+  { code: '+92', country: 'Pakistan', flag: 'PK' },
+  { code: '+880', country: 'Bangladesh', flag: 'BD' },
 ]
 
 export default function ProfileEditPage() {
@@ -72,7 +72,7 @@ export default function ProfileEditPage() {
   const [message, setMessage] = useState({ type: '', text: '' })
   const [currentPassword, setCurrentPassword] = useState('')
   const [showCurrentPassword, setShowCurrentPassword] = useState(false)
-  
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -81,11 +81,11 @@ export default function ProfileEditPage() {
     gender: '',
     date_of_birth: ''
   })
-  
+
   const [showCountryCodeDropdown, setShowCountryCodeDropdown] = useState(false)
   const [countryCodeSearch, setCountryCodeSearch] = useState('')
   const dropdownRef = useRef(null)
-  
+
   const router = useRouter()
   const params = useParams()
   const lang = params.lang || 'en'
@@ -123,12 +123,12 @@ export default function ProfileEditPage() {
         }
 
         const { data: { session } } = await supabase.auth.getSession()
-        
+
         if (!session?.user) {
           router.push(`/${lang}/login`)
           return
         }
-        
+
         setUser(session.user)
 
         // Fetch profile data from profiles table
@@ -144,7 +144,7 @@ export default function ProfileEditPage() {
           // Parse phone number to extract country code and number
           let extractedCountryCode = '+1'
           let extractedPhoneNumber = profileData?.phone_number || ''
-          
+
           if (extractedPhoneNumber) {
             // Try to match a country code at the beginning
             const matchedCode = COUNTRY_CODES.find(c => extractedPhoneNumber.startsWith(c.code))
@@ -153,7 +153,7 @@ export default function ProfileEditPage() {
               extractedPhoneNumber = extractedPhoneNumber.substring(matchedCode.code.length).trim()
             }
           }
-          
+
           setFormData({
             first_name: profileData?.first_name || '',
             last_name: profileData?.last_name || '',
@@ -196,7 +196,7 @@ export default function ProfileEditPage() {
 
   const handleSaveProfile = async (e) => {
     e.preventDefault()
-    
+
     if (!formData.first_name.trim()) {
       setMessage({
         type: 'error',
@@ -243,7 +243,7 @@ export default function ProfileEditPage() {
       // Combine country code and phone number with space delimiter
       // Format: "+[code] [number]" (e.g., "+1 5551234567")
       // Note: The extraction logic in loadProfile relies on this exact format
-      const fullPhoneNumber = formData.phone_number 
+      const fullPhoneNumber = formData.phone_number
         ? `${formData.country_code} ${formData.phone_number}`.trim()
         : ''
 
@@ -341,7 +341,7 @@ export default function ProfileEditPage() {
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Sidebar */}
             <ProfileSidebar lang={lang} dict={dict} />
-            
+
             {/* Main Content */}
             <div className="flex-1">
               {/* Page Header */}
@@ -416,9 +416,9 @@ export default function ProfileEditPage() {
                             >
                               {formData.country_code}
                             </button>
-                            
+
                             {showCountryCodeDropdown && (
-                              <div 
+                              <div
                                 role="listbox"
                                 aria-label="Country codes"
                                 className="absolute z-10 w-64 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg"
@@ -446,7 +446,7 @@ export default function ProfileEditPage() {
                                       }}
                                       className="w-full px-3 py-2 text-left hover:bg-gray-100 text-sm flex items-center gap-2"
                                     >
-                                      <span>{item.flag}</span>
+                                      <span className="inline-flex items-center justify-center w-7 h-5 bg-gray-100 border border-gray-200 rounded text-[10px] font-bold text-gray-500 leading-none">{item.flag}</span>
                                       <span className="font-medium">{item.code}</span>
                                       <span className="text-gray-600">{item.country}</span>
                                     </button>
@@ -455,7 +455,7 @@ export default function ProfileEditPage() {
                               </div>
                             )}
                           </div>
-                          
+
                           {/* Phone Number Input */}
                           <input
                             type="tel"
@@ -496,15 +496,15 @@ export default function ProfileEditPage() {
                               />
                               <div className={`
                                 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all
-                                ${formData.gender === option.value 
-                                  ? 'border-primary-700 bg-primary-50' 
+                                ${formData.gender === option.value
+                                  ? 'border-primary-700 bg-primary-50'
                                   : 'border-gray-300 bg-white hover:border-gray-400'
                                 }
                               `}>
                                 <div className={`
                                   w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all
-                                  ${formData.gender === option.value 
-                                    ? 'border-primary-700 bg-primary-700' 
+                                  ${formData.gender === option.value
+                                    ? 'border-primary-700 bg-primary-700'
                                     : 'border-gray-300 bg-white'
                                   }
                                 `}>
@@ -581,11 +581,10 @@ export default function ProfileEditPage() {
 
                     {/* Message Display */}
                     {message.text && (
-                      <div className={`mt-4 p-3 rounded-lg ${
-                        message.type === 'success' 
-                          ? 'bg-green-50 text-green-800' 
-                          : 'bg-red-50 text-red-800'
-                      }`}>
+                      <div className={`mt-4 p-3 rounded-lg ${message.type === 'success'
+                        ? 'bg-green-50 text-green-800'
+                        : 'bg-red-50 text-red-800'
+                        }`}>
                         <p className="text-sm">{message.text}</p>
                       </div>
                     )}

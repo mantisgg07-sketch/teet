@@ -3,12 +3,12 @@
 import { useState } from 'react'
 import { useCurrency, CURRENCY_SYMBOLS } from './CurrencyProvider'
 
-// Currency flag emojis for visual identification
+// Currency country codes for visual identification
 const CURRENCY_FLAGS = {
-  USD: '🇺🇸',
-  INR: '🇮🇳',
-  THB: '🇹🇭',
-  NPR: '🇳🇵',
+  USD: 'US',
+  INR: 'IN',
+  THB: 'TH',
+  NPR: 'NP',
 }
 
 export default function CurrencySwitcher({ mobile = false }) {
@@ -43,7 +43,7 @@ export default function CurrencySwitcher({ mobile = false }) {
           aria-label={`Select currency - Current: ${currentCurrency.code}`}
           aria-expanded={isOpen}
         >
-          <span className="text-2xl leading-none">{CURRENCY_FLAGS[currency]}</span>
+          <span className="inline-flex items-center justify-center w-7 h-5 bg-gray-100 border border-gray-200 rounded text-[10px] font-bold text-gray-600 leading-none">{CURRENCY_FLAGS[currency]}</span>
           <span className="flex-1 text-left font-medium">
             <span className="text-base">{CURRENCY_SYMBOLS[currency]}</span> {currentCurrency.code}
           </span>
@@ -78,7 +78,7 @@ export default function CurrencySwitcher({ mobile = false }) {
                       className={`w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors ${isActive ? 'bg-primary-50 text-primary-600 font-medium' : ''
                         }`}
                     >
-                      <span className="text-lg">{CURRENCY_FLAGS[curr.code]}</span>
+                      <span className="inline-flex items-center justify-center w-7 h-5 bg-gray-100 border border-gray-200 rounded text-[10px] font-bold text-gray-600 leading-none">{CURRENCY_FLAGS[curr.code]}</span>
                       <span className="text-lg">{CURRENCY_SYMBOLS[curr.code]}</span>
                       <span className="flex-1 text-left">{curr.code}</span>
                       {isActive && (
@@ -107,7 +107,7 @@ export default function CurrencySwitcher({ mobile = false }) {
         aria-label={`Select currency - Current: ${currency}`}
         aria-expanded={isOpen}
       >
-        <span className="text-lg leading-none">{CURRENCY_FLAGS[currency]}</span>
+        <span className="inline-flex items-center justify-center w-7 h-5 bg-gray-100 border border-gray-200 rounded text-[10px] font-bold text-gray-600 leading-none">{CURRENCY_FLAGS[currency]}</span>
         <span className="font-semibold text-sm">{CURRENCY_SYMBOLS[currency]}</span>
         <svg
           className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
@@ -140,7 +140,7 @@ export default function CurrencySwitcher({ mobile = false }) {
                     className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors ${isActive ? 'bg-primary-50 text-primary-600 font-medium' : ''
                       }`}
                   >
-                    <span className="text-lg">{CURRENCY_FLAGS[curr.code]}</span>
+                    <span className="inline-flex items-center justify-center w-7 h-5 bg-gray-100 border border-gray-200 rounded text-[10px] font-bold text-gray-600 leading-none">{CURRENCY_FLAGS[curr.code]}</span>
                     <span className="text-base font-medium w-5">{CURRENCY_SYMBOLS[curr.code]}</span>
                     <span className="flex-1 text-left">{curr.code}</span>
                     {isActive && (

@@ -74,8 +74,8 @@ export default async function AdminDashboardPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-6">
         <div className="pro-card rounded-xl tight-padding">
           <div className="flex flex-col gap-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-indigo-50 rounded-lg flex items-center justify-center text-lg md:text-xl shadow-sm">
-              🏖️
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-indigo-50 rounded-lg flex items-center justify-center shadow-sm">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 21h18M12 3c-1.5 2-2.5 4-2.5 7h5C14.5 7 13.5 5 12 3zM7 10c-1.5-1.5-4-2-6-1.5C3 10 5 11 7 10zm10 0c1.5-1.5 4-2 6-1.5-2 1.5-4 2.5-6 1.5zM12 10v11" /></svg>
             </div>
             <div>
               <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5">Total Tours</p>
@@ -86,8 +86,8 @@ export default async function AdminDashboardPage() {
 
         <div className="pro-card rounded-xl tight-padding">
           <div className="flex flex-col gap-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-50 rounded-lg flex items-center justify-center text-lg md:text-xl shadow-sm">
-              📢
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-50 rounded-lg flex items-center justify-center shadow-sm">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
             </div>
             <div>
               <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5">Announcements</p>
@@ -98,8 +98,8 @@ export default async function AdminDashboardPage() {
 
         <Link href="/admin/bookings" className="pro-card rounded-xl tight-padding hover:border-indigo-200 group">
           <div className="flex flex-col gap-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-green-50 rounded-lg flex items-center justify-center text-lg md:text-xl shadow-sm group-hover:bg-green-100 transition-colors">
-              📅
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-green-50 rounded-lg flex items-center justify-center shadow-sm group-hover:bg-green-100 transition-colors">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
             </div>
             <div>
               <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5">Bookings</p>
@@ -110,8 +110,8 @@ export default async function AdminDashboardPage() {
 
         <Link href="/admin/customers" className="pro-card rounded-xl tight-padding hover:border-indigo-200 group">
           <div className="flex flex-col gap-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-slate-50 rounded-lg flex items-center justify-center text-lg md:text-xl shadow-sm group-hover:bg-indigo-50 transition-colors">
-              👥
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-slate-50 rounded-lg flex items-center justify-center shadow-sm group-hover:bg-indigo-50 transition-colors">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
             </div>
             <div>
               <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5">Customers</p>
@@ -207,7 +207,9 @@ export default async function AdminDashboardPage() {
           </div>
         ) : (
           <div className="text-center py-20 bg-gray-50 rounded-[3rem] border-2 border-dashed border-gray-200">
-            <div className="text-7xl mb-6 grayscale opacity-40">⛱️</div>
+            <div className="mb-6 opacity-40">
+              <svg className="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 21h18M12 3c-1.5 2-2.5 4-2.5 7h5C14.5 7 13.5 5 12 3zM7 10c-1.5-1.5-4-2-6-1.5C3 10 5 11 7 10zm10 0c1.5-1.5 4-2 6-1.5-2 1.5-4 2.5-6 1.5zM12 10v11" /></svg>
+            </div>
             <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tighter mb-2">No active tours</h3>
             <p className="text-gray-500 font-medium mb-8">Ready to expand your portfolio?</p>
             <Link

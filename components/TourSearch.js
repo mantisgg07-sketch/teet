@@ -210,7 +210,11 @@ export default function TourSearch({ tours, lang = 'en', dict }) {
             </div>
           ) : (
             <div className="text-center py-20 bg-white rounded-2xl shadow-sm border border-dashed border-gray-200">
-              <div className="text-6xl mb-6 opacity-30">🔍</div>
+              <div className="mb-6 opacity-30">
+                <svg className="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">No matches found</h3>
               <p className="text-gray-500 mb-6 px-4">Maybe try a different location or price range?</p>
               <button onClick={handleClearFilters} className="px-6 py-3 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 shadow-md transition">

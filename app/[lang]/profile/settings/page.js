@@ -71,8 +71,8 @@ export default function SettingsPage() {
             setEmailConfirmedBanner({
               type: 'success',
               text: event.type === 'email_updated'
-                ? (dict?.settings?.emailConfirmedBanner || '✅ Your email has been confirmed and updated successfully!')
-                : (dict?.settings?.emailVerifiedBanner || '✅ Your email has been verified successfully!')
+                ? (dict?.settings?.emailConfirmedBanner || 'Your email has been confirmed and updated successfully!')
+                : (dict?.settings?.emailVerifiedBanner || 'Your email has been verified successfully!')
             })
 
             // Reset email editing state
