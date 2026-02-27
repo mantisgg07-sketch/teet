@@ -41,12 +41,15 @@ export async function POST(request) {
 
     const db = getDb();
     await db.update(toursSchema).set({
+      title: translatedFields.title_en,
       title_en: translatedFields.title_en,
       title_th: translatedFields.title_th,
       title_zh: translatedFields.title_zh,
+      description: translatedFields.description_en,
       description_en: translatedFields.description_en,
       description_th: translatedFields.description_th,
       description_zh: translatedFields.description_zh,
+      location: translatedFields.location_en,
       location_en: translatedFields.location_en,
       location_th: translatedFields.location_th,
       location_zh: translatedFields.location_zh,
@@ -55,8 +58,8 @@ export async function POST(request) {
       duration: duration,
       dates: dates,
       banner_image: banner_image,
-      image_urls: JSON.stringify(image_urls || []),
-      video_urls: JSON.stringify(video_urls || []),
+      image_urls: image_urls || '[]',
+      video_urls: video_urls || '[]',
       is_discount_active: is_discount_active ? 1 : 0,
       discount_percentage: is_discount_active && discount_percentage ? parseFloat(discount_percentage) : null
     }).where(eq(toursSchema.id, id));

@@ -120,10 +120,14 @@ export default async function TourDetailPage({ params }) {
   let videoUrls = [];
   try {
     if (tour.image_urls) {
-      galleryImages = JSON.parse(tour.image_urls);
+      let parsed = JSON.parse(tour.image_urls);
+      if (typeof parsed === 'string') { try { parsed = JSON.parse(parsed); } catch (e) { } }
+      galleryImages = Array.isArray(parsed) ? parsed : (typeof parsed === 'string' && parsed ? [parsed] : []);
     }
     if (tour.video_urls) {
-      videoUrls = JSON.parse(tour.video_urls);
+      let parsed = JSON.parse(tour.video_urls);
+      if (typeof parsed === 'string') { try { parsed = JSON.parse(parsed); } catch (e) { } }
+      videoUrls = Array.isArray(parsed) ? parsed : (typeof parsed === 'string' && parsed ? [parsed] : []);
     }
   } catch (error) {
     console.error('Error parsing gallery URLs:', error);
@@ -133,7 +137,7 @@ export default async function TourDetailPage({ params }) {
   const localizedTitle = getLocalizedField(tour, 'title', lang);
   const localizedDescription = getLocalizedField(tour, 'description', lang);
   const localizedLocation = getLocalizedField(tour, 'location', lang);
-  const activeMediaCount = (galleryImages?.length || 0) + (videoUrls?.length || 0);
+  const activeMediaCount = (galleryImages.length || 0) + (videoUrls.length || 0);
 
   return (
     <div className="min-h-screen bg-gray-50/50">

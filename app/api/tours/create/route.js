@@ -17,7 +17,7 @@ export async function POST(request) {
     }
 
     const data = await request.json()
-    const { title, description, price, currency, duration, dates, location, banner_image, image_urls, video_urls } = data
+    const { title, description, price, currency, duration, dates, location, is_discount_active, discount_percentage, banner_image, image_urls, video_urls } = data
 
     // Validation
     if (!title || !description || !price || !duration || !dates || !location) {
