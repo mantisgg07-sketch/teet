@@ -23,7 +23,9 @@ async function getTour(id) {
             price: toursSchema.price,
             currency: toursSchema.currency,
             duration: toursSchema.duration,
-            banner_image: toursSchema.banner_image
+            banner_image: toursSchema.banner_image,
+            is_discount_active: toursSchema.is_discount_active,
+            discount_percentage: toursSchema.discount_percentage
         }).from(toursSchema).where(eq(toursSchema.id, Number(id)));
 
         const row = result[0] || null;
@@ -44,6 +46,10 @@ export default async function BookingPage({ params }) {
     }
 
     const localizedTitle = getLocalizedField(tour, 'title', lang);
+
+    // Calculate actual price to pass to the booking form
+    const hasDiscount = tour.is_discount_active === 1 && tour.discount_percentage > 0;
+    const finalPrice = hasDiscount ? tour.price * (1 - tour.discount_percentage / 100) : tour.price;
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -92,10 +98,26 @@ export default async function BookingPage({ params }) {
 
                     {/* Booking Form Section */}
                     <div className="md:col-span-2">
+                        {hasDiscount && (
+                            <div className="mb-6 bg-red-50 border border-red-100 rounded-xl p-4 flex items-center justify-between shadow-sm animate-fade-in">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-red-600 shadow-sm border border-red-100">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    </div>
+                                    <div>
+                                        <div className="text-[10px] font-black tracking-widest uppercase text-red-500">Special Offer Applied</div>
+                                        <div className="font-bold text-red-700">You saved {tour.discount_percentage}% on this booking!</div>
+                                    </div>
+                                </div>
+                                <div className="hidden md:block text-right">
+                                    <div className="text-[10px] font-bold text-gray-400 line-through uppercase">Original: {tour.price.toLocaleString()} {tour.currency}</div>
+                                </div>
+                            </div>
+                        )}
                         <BookingForm
                             tourId={tour.id}
                             tourTitle={localizedTitle}
-                            basePrice={tour.price}
+                            basePrice={finalPrice}
                             currency={tour.currency}
                             dict={dict}
                         />

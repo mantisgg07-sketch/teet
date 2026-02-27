@@ -16,6 +16,7 @@ const bookingSchema = z.object({
     guests: z.number().min(1, 'At least 1 adult guest is required'),
     children: z.number().min(0),
     contact_method: z.enum(['whatsapp', 'email']),
+    message: z.string().max(2000, 'Message is too long').optional(),
 })
 
 export default function BookingForm({ tourId, tourTitle, basePrice, currency = 'USD', dict, onClose }) {
@@ -31,7 +32,8 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
             phone: '',
             guests: 1,
             children: 0,
-            contact_method: 'whatsapp'
+            contact_method: 'whatsapp',
+            message: ''
         }
     })
 
@@ -281,6 +283,18 @@ export default function BookingForm({ tourId, tourTitle, basePrice, currency = '
                             />
                             {errors.phone && <p className="mt-1 text-xs text-red-500 font-bold px-2">{errors.phone.message}</p>}
                         </div>
+                    </div>
+
+                    <div>
+                        <label htmlFor="message" className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 px-1">{b.message || 'Additional Notes (Optional)'}</label>
+                        <textarea
+                            id="message"
+                            {...register('message')}
+                            rows={3}
+                            className={`w-full px-5 py-3.5 bg-gray-50 border-2 rounded-[1.25rem] focus:bg-white focus:ring-4 transition-all outline-none font-bold placeholder-gray-300 resize-none ${errors.message ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10 text-red-900' : 'border-transparent focus:border-primary-600 focus:ring-primary-600/5 text-gray-900'}`}
+                            placeholder={b.messagePlaceholder || 'Any special requirements or questions?'}
+                        />
+                        {errors.message && <p className="mt-1 text-xs text-red-500 font-bold px-2">{errors.message.message}</p>}
                     </div>
                 </div>
 

@@ -91,10 +91,36 @@ export async function POST(request) {
         const safeEmail = String(email).trim().slice(0, 200);
         const safePhone = String(phone).trim().slice(0, 50);
         const safeMessage = message ? String(message).trim().slice(0, 2000) : '';
-        const safeGuests = Math.max(1, Math.min(100, parseInt(body.guests) || 1));
-        const safeTotalPrice = Math.max(0, parseFloat(body.total_price) || 0);
-
+        // Fetch the authoritative tour price and discount status from the DB
         const db = getDb();
+
+        const tourResult = await db.select({
+            price: toursSchema.price,
+            is_discount_active: toursSchema.is_discount_active,
+            discount_percentage: toursSchema.discount_percentage,
+            title: toursSchema.title_en,
+            baseTitle: toursSchema.title
+        }).from(toursSchema).where(eq(toursSchema.id, safeTourId));
+
+        if (!tourResult || tourResult.length === 0) {
+            return NextResponse.json(
+                { error: 'Tour not found' },
+                { status: 404 }
+            );
+        }
+
+        const dbTour = tourResult[0];
+
+        // Calculate the true price per person
+        const hasDiscount = dbTour.is_discount_active === 1 && dbTour.discount_percentage > 0;
+        const pricePerAdult = hasDiscount ? dbTour.price * (1 - dbTour.discount_percentage / 100) : dbTour.price;
+        const pricePerChild = pricePerAdult * 0.5; // Assuming 50% child discount based on BookingForm
+
+        // Calculate authoritative total price
+        const safeGuests = Math.max(1, Math.min(100, parseInt(body.guests) || 1));
+        const safeChildren = Math.max(0, Math.min(100, parseInt(body.children) || 0));
+        const trueTotalPrice = (safeGuests * pricePerAdult) + (safeChildren * pricePerChild);
+
         const refCode = generateRefCode(); // Create the new alphanumeric code
 
         const [newBooking] = await db.insert(bookingsSchema).values({
@@ -107,21 +133,13 @@ export async function POST(request) {
             contact_method: safeContactMethod,
             message: safeMessage,
             guests: safeGuests,
-            total_price: safeTotalPrice
+            total_price: trueTotalPrice
         }).returning();
 
         // Send emails asynchronously (don't block the response, but catch errors)
         if (resend) {
             try {
-                let tourName = `Tour #${safeTourId}`;
-                try {
-                    const tourResult = await db.select({ title: toursSchema.title_en, baseTitle: toursSchema.title }).from(toursSchema).where(eq(toursSchema.id, safeTourId));
-                    if (tourResult && tourResult.length > 0) {
-                        tourName = tourResult[0].title || tourResult[0].baseTitle || tourName;
-                    }
-                } catch (e) {
-                    console.error('Failed to fetch tour name for email:', e);
-                }
+                let tourName = dbTour.title || dbTour.baseTitle || `Tour #${safeTourId}`;
 
                 const customerHtml = `
                     <!DOCTYPE html>
@@ -164,7 +182,7 @@ export async function POST(request) {
                                                         </tr>
                                                         <tr>
                                                             <td style="padding: 8px 0; border-top: 1px dashed #cbd5e1; margin-top: 8px; color: #64748b; font-size: 14px; font-weight: 600;">Estimated Total:</td>
-                                                            <td style="padding: 8px 0; border-top: 1px dashed #cbd5e1; margin-top: 8px; color: #0f172a; font-size: 16px; font-weight: 700; text-align: right;">$${safeTotalPrice.toFixed(2)}</td>
+                                                            <td style="padding: 8px 0; border-top: 1px dashed #cbd5e1; margin-top: 8px; color: #0f172a; font-size: 16px; font-weight: 700; text-align: right;">$${trueTotalPrice.toFixed(2)}</td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -232,8 +250,8 @@ export async function POST(request) {
                                                     <tr>
                                                         <td style="padding: 16px;">
                                                             <div style="margin-bottom: 12px;"><strong style="color: #475569; font-size: 13px; text-transform: uppercase;">Tour ID:</strong> <span style="color: #0f172a; font-size: 15px; margin-left: 8px;">#${safeTourId}</span></div>
-                                                            <div style="margin-bottom: 12px;"><strong style="color: #475569; font-size: 13px; text-transform: uppercase;">Party Size:</strong> <span style="color: #0f172a; font-size: 15px; margin-left: 8px;">${safeGuests} ${safeGuests > 1 ? 'Guests' : 'Guest'}</span></div>
-                                                            <div style="margin-bottom: 16px;"><strong style="color: #475569; font-size: 13px; text-transform: uppercase;">Total Quote:</strong> <span style="color: #0f172a; font-size: 15px; margin-left: 8px; font-weight: 600;">$${safeTotalPrice.toFixed(2)}</span></div>
+                                                            <div style="margin-bottom: 12px;"><strong style="color: #475569; font-size: 13px; text-transform: uppercase;">Party Size:</strong> <span style="color: #0f172a; font-size: 15px; margin-left: 8px;">${safeGuests} Adults${safeChildren > 0 ? `, ${safeChildren} Children` : ''}</span></div>
+                                                            <div style="margin-bottom: 16px;"><strong style="color: #475569; font-size: 13px; text-transform: uppercase;">Total Quote:</strong> <span style="color: #0f172a; font-size: 15px; margin-left: 8px; font-weight: 600;">$${trueTotalPrice.toFixed(2)}</span></div>
                                                             
                                                             <div style="border-top: 1px solid #e2e8f0; padding-top: 16px;">
                                                                 <strong style="color: #475569; font-size: 13px; text-transform: uppercase; display: block; margin-bottom: 8px;">Customer Notes:</strong>
