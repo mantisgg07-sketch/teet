@@ -5,8 +5,8 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import TourSearch from '@/components/TourSearch'
 import { getDb } from '@/lib/turso'
-import { tours as toursSchema } from '@/lib/schema'
-import { desc } from 'drizzle-orm'
+import { tours as toursSchema, tour_categories as tourCategoriesSchema, categories as categoriesSchema } from '@/lib/schema'
+import { desc, eq, inArray } from 'drizzle-orm'
 import { getDictionary } from '@/lib/i18n'
 import Skeleton from '@/components/Skeleton'
 
@@ -68,7 +68,36 @@ async function getAllTours(lang) {
       discount_percentage: toursSchema.discount_percentage,
       created_at: toursSchema.created_at
     }).from(toursSchema).orderBy(desc(toursSchema.created_at));
-    return result.map(row => JSON.parse(JSON.stringify(row)));
+    const tours = result.map(row => JSON.parse(JSON.stringify(row)));
+
+    if (tours.length === 0) return [];
+
+    const tourIds = tours.map(t => t.id);
+
+    // Fetch categories for all tours
+    const categoriesResult = await db.select({
+      tour_id: tourCategoriesSchema.tour_id,
+      id: categoriesSchema.id,
+      name: categoriesSchema.name,
+      name_en: categoriesSchema.name_en,
+      slug: categoriesSchema.slug
+    })
+      .from(tourCategoriesSchema)
+      .innerJoin(categoriesSchema, eq(tourCategoriesSchema.category_id, categoriesSchema.id))
+      .where(inArray(tourCategoriesSchema.tour_id, tourIds));
+
+    // Group categories by tour_id
+    const categoriesByTour = categoriesResult.reduce((acc, row) => {
+      if (!acc[row.tour_id]) acc[row.tour_id] = [];
+      acc[row.tour_id].push({ id: row.id, name: row.name, name_en: row.name_en, slug: row.slug });
+      return acc;
+    }, {});
+
+    // Attach categories to tours
+    return tours.map(tour => ({
+      ...tour,
+      categories: categoriesByTour[tour.id] || []
+    }));
   } catch (error) {
     console.error('Error fetching tours:', error);
     return [];

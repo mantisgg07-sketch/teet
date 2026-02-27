@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/auth'
 import { getDb } from '@/lib/turso'
-import { tours as toursSchema } from '@/lib/schema'
+import { tours as toursSchema, tour_categories as tourCategoriesSchema } from '@/lib/schema'
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { translateTourFields } from '@/lib/translate'
@@ -18,7 +18,7 @@ export async function POST(request) {
     }
 
     const data = await request.json()
-    const { id, title, description, price, currency, duration, dates, location, banner_image, image_urls, video_urls, is_discount_active, discount_percentage } = data
+    const { id, title, description, price, currency, duration, dates, location, banner_image, image_urls, video_urls, is_discount_active, discount_percentage, category_ids } = data
 
     const safeId = parseInt(id, 10)
     if (Number.isNaN(safeId) || safeId < 1) {
@@ -63,6 +63,19 @@ export async function POST(request) {
       is_discount_active: is_discount_active ? 1 : 0,
       discount_percentage: is_discount_active && discount_percentage ? parseFloat(discount_percentage) : null
     }).where(eq(toursSchema.id, id));
+
+    // Handle Category Mapping Update
+    // 1. Delete existing connections
+    await db.delete(tourCategoriesSchema).where(eq(tourCategoriesSchema.tour_id, safeId));
+
+    // 2. Re-insert new connections if any
+    if (category_ids && Array.isArray(category_ids) && category_ids.length > 0) {
+      const categoryLinks = category_ids.map(categoryId => ({
+        tour_id: safeId,
+        category_id: parseInt(categoryId)
+      }));
+      await db.insert(tourCategoriesSchema).values(categoryLinks);
+    }
 
     revalidatePath('/admin/dashboard')
     revalidatePath('/tours')

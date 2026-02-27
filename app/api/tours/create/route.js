@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/auth'
 import { getDb } from '@/lib/turso'
-import { tours as toursSchema } from '@/lib/schema'
+import { tours as toursSchema, tour_categories as tourCategoriesSchema } from '@/lib/schema'
 import { revalidatePath } from 'next/cache'
 import { translateTourFields } from '@/lib/translate'
 
@@ -17,7 +17,7 @@ export async function POST(request) {
     }
 
     const data = await request.json()
-    const { title, description, price, currency, duration, dates, location, is_discount_active, discount_percentage, banner_image, image_urls, video_urls } = data
+    const { title, description, price, currency, duration, dates, location, is_discount_active, discount_percentage, banner_image, image_urls, video_urls, category_ids } = data
 
     // Validation
     if (!title || !description || !price || !duration || !dates || !location) {
@@ -31,7 +31,7 @@ export async function POST(request) {
     const translatedFields = await translateTourFields({ title, description, location });
 
     const db = getDb();
-    await db.insert(toursSchema).values({
+    const createdTour = await db.insert(toursSchema).values({
       title: translatedFields.title_en,
       title_en: translatedFields.title_en,
       title_th: translatedFields.title_th,
@@ -53,7 +53,17 @@ export async function POST(request) {
       banner_image: banner_image || null,
       image_urls: image_urls || '[]',
       video_urls: video_urls || '[]'
-    });
+    }).returning({ id: toursSchema.id });
+
+    // Handle Category Mapping
+    if (category_ids && Array.isArray(category_ids) && category_ids.length > 0) {
+      const newTourId = createdTour[0].id;
+      const categoryLinks = category_ids.map(categoryId => ({
+        tour_id: newTourId,
+        category_id: parseInt(categoryId)
+      }));
+      await db.insert(tourCategoriesSchema).values(categoryLinks);
+    }
 
     revalidatePath('/admin/dashboard')
     revalidatePath('/tours')

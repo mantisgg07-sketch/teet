@@ -12,6 +12,7 @@ export default function TourSearch({ tours, lang = 'en', dict }) {
   const [priceRange, setPriceRange] = useState('all')
   const [locationFilter, setLocationFilter] = useState('all')
   const [durationFilter, setDurationFilter] = useState('all')
+  const [categoryFilter, setCategoryFilter] = useState('all')
 
   // Set locationFilter from URL parameter
   useEffect(() => {
@@ -25,15 +26,30 @@ export default function TourSearch({ tours, lang = 'en', dict }) {
     return [...new Set(locations)].sort()
   }, [tours, lang])
 
+  // Extract unique categories from tours
+  const uniqueCategories = useMemo(() => {
+    const categoryMap = new Map();
+    tours.forEach(tour => {
+      if (tour.categories && Array.isArray(tour.categories)) {
+        tour.categories.forEach(cat => {
+          categoryMap.set(cat.slug, getLocalizedField(cat, 'name', lang));
+        });
+      }
+    });
+    return Array.from(categoryMap.entries()).map(([slug, name]) => ({ slug, name })).sort((a, b) => a.name.localeCompare(b.name));
+  }, [tours, lang])
+
   // Filter tours based on all criteria
   const filteredTours = useMemo(() => {
     return tours.filter(tour => {
       const localizedTitle = getLocalizedField(tour, 'title', lang)
       const localizedLocation = getLocalizedField(tour, 'location', lang)
+      const tourCategoryNames = (tour.categories || []).map(cat => getLocalizedField(cat, 'name', lang).toLowerCase())
 
       const matchesSearch = searchTerm === '' ||
         localizedTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        localizedLocation.toLowerCase().includes(searchTerm.toLowerCase())
+        localizedLocation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        tourCategoryNames.some(name => name.includes(searchTerm.toLowerCase()))
 
       let matchesPrice = true
       if (priceRange === 'under500') {
@@ -65,18 +81,23 @@ export default function TourSearch({ tours, lang = 'en', dict }) {
         }
       }
 
-      return matchesSearch && matchesPrice && matchesLocation && matchesDuration
+      // Category matching
+      const matchesCategory = categoryFilter === 'all' ||
+        (tour.categories && tour.categories.some(cat => cat.slug === categoryFilter))
+
+      return matchesSearch && matchesPrice && matchesLocation && matchesDuration && matchesCategory
     })
-  }, [tours, searchTerm, priceRange, locationFilter, durationFilter, lang])
+  }, [tours, searchTerm, priceRange, locationFilter, durationFilter, categoryFilter, lang])
 
   const handleClearFilters = () => {
     setSearchTerm('')
     setPriceRange('all')
     setLocationFilter('all')
     setDurationFilter('all')
+    setCategoryFilter('all')
   }
 
-  const hasActiveFilters = searchTerm !== '' || priceRange !== 'all' || locationFilter !== 'all' || durationFilter !== 'all'
+  const hasActiveFilters = searchTerm !== '' || priceRange !== 'all' || locationFilter !== 'all' || durationFilter !== 'all' || categoryFilter !== 'all'
 
   const FilterContent = () => (
     <div className="space-y-6">
@@ -110,6 +131,23 @@ export default function TourSearch({ tours, lang = 'en', dict }) {
           ))}
         </select>
       </div>
+
+      {/* Category Filter */}
+      {uniqueCategories.length > 0 && (
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-tight">Categories</label>
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition bg-gray-50/50"
+          >
+            <option value="all">All Categories</option>
+            {uniqueCategories.map(cat => (
+              <option key={cat.slug} value={cat.slug}>{cat.name}</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {/* Duration Filter */}
       <div>

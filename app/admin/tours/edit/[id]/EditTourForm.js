@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ImageUpload from '@/components/ImageUpload'
@@ -11,6 +11,29 @@ export default function EditTourForm({ tour }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [categories, setCategories] = useState([])
+  const [selectedCategories, setSelectedCategories] = useState([])
+
+  // Load available categories on mount
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch('/api/categories')
+      if (res.ok) setCategories(await res.json())
+    } catch (err) {
+      console.error('Failed to fetch categories:', err)
+    }
+  }
+
+  // Initialize selected categories from the tour prop
+  useEffect(() => {
+    if (tour.categories && Array.isArray(tour.categories)) {
+      setSelectedCategories(tour.categories.map(c => c.category_id || c.id))
+    }
+  }, [tour])
 
   // Parse existing gallery images and videos
   let existingGalleryImages = []
@@ -105,6 +128,7 @@ export default function EditTourForm({ tour }) {
           banner_image: bannerImage,
           image_urls: JSON.stringify(galleryImages),
           video_urls: JSON.stringify(videoUrls),
+          category_ids: selectedCategories, // Send selected categories
         }),
       })
 
@@ -296,6 +320,41 @@ export default function EditTourForm({ tour }) {
                   className="w-full px-5 py-3.5 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none shadow-inner"
                   placeholder="e.g. MALE, MALDIVES"
                 />
+              </div>
+
+              {/* Categories Section */}
+              <div className="group pt-4 border-t border-slate-100">
+                <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-1">
+                  Tour Categories
+                </label>
+                {categories.length === 0 ? (
+                  <div className="text-xs text-slate-500 font-bold ml-1">No categories available. Please create them in the Category Library first.</div>
+                ) : (
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {categories.map(cat => {
+                      const isSelected = selectedCategories.includes(cat.id)
+                      return (
+                        <button
+                          key={cat.id}
+                          type="button"
+                          onClick={() => {
+                            if (isSelected) {
+                              setSelectedCategories(selectedCategories.filter(id => id !== cat.id))
+                            } else {
+                              setSelectedCategories([...selectedCategories, cat.id])
+                            }
+                          }}
+                          className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${isSelected
+                            ? 'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/20'
+                            : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                            }`}
+                        >
+                          {cat.name}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
 
               {/* Discount Section */}

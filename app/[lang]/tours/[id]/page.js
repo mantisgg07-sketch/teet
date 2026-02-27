@@ -8,8 +8,8 @@ import UnifiedMediaGallery from '@/components/UnifiedMediaGallery'
 import TourDetailSidebar from '@/components/TourDetailSidebar'
 import TourReviews from '@/components/TourReviews'
 import { getDb } from '@/lib/turso'
-import { tours as toursSchema } from '@/lib/schema'
-import { eq } from 'drizzle-orm'
+import { tours as toursSchema, tour_categories as tourCategoriesSchema, categories as categoriesSchema } from '@/lib/schema'
+import { eq, inArray } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import { getDictionary, getLocalizedField } from '@/lib/i18n'
 import MobileBookingBar from '@/components/MobileBookingBar'
@@ -49,7 +49,26 @@ async function getTour(id) {
     }).from(toursSchema).where(eq(toursSchema.id, Number(id)));
 
     const row = result[0] || null;
-    return row ? JSON.parse(JSON.stringify(row)) : null;
+
+    if (!row) return null;
+
+    // Fetch categories for this tour
+    const categoriesResult = await db.select({
+      id: categoriesSchema.id,
+      name: categoriesSchema.name,
+      name_en: categoriesSchema.name_en,
+      name_th: categoriesSchema.name_th,
+      name_zh: categoriesSchema.name_zh,
+      slug: categoriesSchema.slug
+    })
+      .from(tourCategoriesSchema)
+      .innerJoin(categoriesSchema, eq(tourCategoriesSchema.category_id, categoriesSchema.id))
+      .where(eq(tourCategoriesSchema.tour_id, Number(id)));
+
+    const tourData = JSON.parse(JSON.stringify(row));
+    tourData.categories = categoriesResult;
+
+    return tourData;
   } catch (error) {
     console.error('Error fetching tour:', error);
     return null;
@@ -192,6 +211,11 @@ export default async function TourDetailPage({ params }) {
                 <span className="px-3 py-1 bg-white/20 backdrop-blur-md border border-white/10 text-white text-[10px] font-black rounded-lg uppercase tracking-widest">
                   {tour.duration}
                 </span>
+                {tour.categories && tour.categories.length > 0 && tour.categories.map(cat => (
+                  <span key={cat.id} className="px-3 py-1 bg-primary-600/90 backdrop-blur-md text-white border border-primary-500/30 text-[10px] font-black rounded-lg uppercase tracking-widest">
+                    {getLocalizedField(cat, 'name', lang)}
+                  </span>
+                ))}
               </div>
 
               <h1 className="text-4xl md:text-7xl font-black text-white leading-[1] tracking-tighter uppercase mb-4 drop-shadow-xl">

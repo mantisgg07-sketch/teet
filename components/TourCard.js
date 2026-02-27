@@ -96,6 +96,21 @@ const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
               </svg>
               <span>{tour.duration}</span>
             </div>
+
+            {tour.categories && tour.categories.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-1">
+                {tour.categories.slice(0, 3).map((cat) => (
+                  <span key={cat.id} className="inline-flex items-center px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-bold bg-primary-50 text-primary-700 uppercase tracking-wide border border-primary-100">
+                    {getLocalizedField(cat, 'name', lang)}
+                  </span>
+                ))}
+                {tour.categories.length > 3 && (
+                  <span className="inline-flex items-center px-1 py-0.5 rounded text-[9px] sm:text-[10px] font-bold text-gray-400">
+                    +{tour.categories.length - 3}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Hidden on mobile to save space */}
