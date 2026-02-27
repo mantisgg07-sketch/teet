@@ -4,6 +4,11 @@ import { bookings as bookingsSchema } from '@/lib/schema';
 import { eq, desc } from 'drizzle-orm';
 import { isAuthenticated } from '@/lib/auth';
 import { createRateLimiter } from '@/lib/rateLimit';
+import { Resend } from 'resend';
+
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
+const adminEmail = process.env.ADMIN_EMAIL || 'admin@goholidays.com';
 
 // Initialize a rate limiter for bookings: 5 requests per 10 minutes per IP
 const bookingRateLimiter = createRateLimiter({
@@ -80,7 +85,7 @@ export async function POST(request) {
         const safeTotalPrice = Math.max(0, parseFloat(body.total_price) || 0);
 
         const db = getDb();
-        await db.insert(bookingsSchema).values({
+        const [newBooking] = await db.insert(bookingsSchema).values({
             tour_id: safeTourId,
             user_id: user_id || null,
             name: safeName,
@@ -90,7 +95,67 @@ export async function POST(request) {
             message: safeMessage,
             guests: safeGuests,
             total_price: safeTotalPrice
-        });
+        }).returning();
+
+        // Send emails asynchronously (don't block the response, but catch errors)
+        if (resend) {
+            try {
+                const tourName = `Tour #${safeTourId}`; // Fallback if we don't fetch the real title
+                const customerHtml = `
+                    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+                        <h2>Booking Confirmation</h2>
+                        <p>Hi ${safeName},</p>
+                        <p>Thank you for your booking! We have received your request and will contact you shortly.</p>
+                        <div style="background-color: #f9fafb; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                            <p><strong>Booking ID:</strong> ${newBooking.id}</p>
+                            <p><strong>Guests:</strong> ${safeGuests}</p>
+                            <p><strong>Total Price:</strong> $${safeTotalPrice}</p>
+                            <p><strong>Contact Method:</strong> ${safeContactMethod}</p>
+                        </div>
+                    </div>
+                `;
+
+                const adminHtml = `
+                    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border-top: 4px solid #4f46e5;">
+                        <h2>New Booking Alert</h2>
+                        <p>A new booking has been submitted.</p>
+                        <div style="background-color: #f9fafb; padding: 15px; border-radius: 8px;">
+                            <p><strong>Booking ID:</strong> ${newBooking.id}</p>
+                            <p><strong>Customer:</strong> ${safeName} (${safeEmail})</p>
+                            <p><strong>Phone:</strong> ${safePhone}</p>
+                            <p><strong>Guests:</strong> ${safeGuests}</p>
+                            <p><strong>Total Price:</strong> $${safeTotalPrice}</p>
+                            <p><strong>Tour ID:</strong> ${safeTourId}</p>
+                            <p><strong>Message:</strong> ${safeMessage || 'N/A'}</p>
+                        </div>
+                        <p style="margin-top: 20px;"><a href="${process.env.NEXT_PUBLIC_APP_URL || ''}/admin/bookings" style="background: #4f46e5; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View in Admin Panel</a></p>
+                    </div>
+                `;
+
+                // Parallel email sending
+                await Promise.all([
+                    resend.emails.send({
+                        from: 'Bookings <bookings@mail.goholidays.me>',
+                        to: [safeEmail],
+                        subject: 'Your GoHolidays Booking Request Received',
+                        html: customerHtml,
+                    }).catch(e => console.error('Failed to send customer email:', e)),
+
+                    resend.emails.send({
+                        from: 'System <alerts@mail.goholidays.me>',
+                        to: [adminEmail],
+                        subject: `New Booking #${newBooking.id} from ${safeName}`,
+                        html: adminHtml,
+                    }).catch(e => console.error('Failed to send admin email:', e))
+                ]);
+
+            } catch (emailError) {
+                console.error('Email dispatch error:', emailError);
+                // Do not throw; the booking was successfully saved.
+            }
+        } else {
+            console.warn('Resend API key missing. Skipping email notifications.');
+        }
 
         return NextResponse.json(
             { success: true, message: 'Booking submitted successfully' },
