@@ -18,9 +18,13 @@ export default function EditTourForm({ tour }) {
   try {
     if (tour.image_urls) {
       existingGalleryImages = JSON.parse(tour.image_urls)
+      if (typeof existingGalleryImages === 'string') { try { existingGalleryImages = JSON.parse(existingGalleryImages); } catch (e) { } }
+      if (!Array.isArray(existingGalleryImages)) existingGalleryImages = existingGalleryImages ? [existingGalleryImages] : []
     }
     if (tour.video_urls) {
       existingVideoUrls = JSON.parse(tour.video_urls)
+      if (typeof existingVideoUrls === 'string') { try { existingVideoUrls = JSON.parse(existingVideoUrls); } catch (e) { } }
+      if (!Array.isArray(existingVideoUrls)) existingVideoUrls = existingVideoUrls ? [existingVideoUrls] : []
     }
   } catch (e) {
     console.error('Error parsing gallery URLs:', e)
