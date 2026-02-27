@@ -233,22 +233,22 @@ export default async function TourDetailPage({ params }) {
           {/* Left Column: Details & Gallery */}
           <div className="lg:col-span-2 space-y-8">
             {/* About Section */}
-            <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100">
-              <div className="flex items-center gap-3 mb-8">
+            <div className="bg-white rounded-[2rem] p-6 md:p-10 shadow-sm border border-gray-100">
+              <div className="flex items-center gap-3 mb-6 md:mb-8">
                 <div className="w-1.5 h-8 bg-gray-900 rounded-full"></div>
                 <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tighter">{dict.tourDetail.aboutTour}</h2>
               </div>
 
               <div
-                className="text-gray-600 leading-relaxed text-lg font-medium prose prose-lg max-w-none prose-p:mb-4 prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-4 prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-4 prose-strong:text-gray-900 prose-a:text-primary-600 hover:prose-a:text-primary-800"
+                className="text-gray-600 leading-relaxed text-base md:text-lg font-medium prose prose-lg max-w-none prose-p:m-0 prose-p:mb-2 prose-ul:list-disc prose-ul:ml-6 prose-ul:m-0 prose-ul:mb-2 prose-ol:list-decimal prose-ol:ml-6 prose-ol:m-0 prose-ol:mb-2 prose-strong:text-gray-900 prose-a:text-primary-600 hover:prose-a:text-primary-800"
                 dangerouslySetInnerHTML={{ __html: localizedDescription || '' }}
               />
             </div>
 
             {/* Gallery Section */}
             {(videoUrls.length > 0 || galleryImages.length > 0) && (
-              <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100">
-                <div className="flex items-center justify-between mb-8">
+              <div className="bg-white rounded-[2rem] p-6 md:p-10 shadow-sm border border-gray-100">
+                <div className="flex items-center justify-between mb-6 md:mb-8">
                   <div className="flex items-center gap-3">
                     <div className="w-1 h-6 bg-primary-600 rounded-full"></div>
                     <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">{dict.tourDetail.gallery || 'Gallery'}</h2>
