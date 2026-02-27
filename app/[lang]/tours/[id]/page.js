@@ -238,9 +238,11 @@ export default async function TourDetailPage({ params }) {
                 <div className="w-1.5 h-8 bg-gray-900 rounded-full"></div>
                 <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tighter">{dict.tourDetail.aboutTour}</h2>
               </div>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-line text-xl font-medium italic">
-                {localizedDescription}
-              </p>
+
+              <div
+                className="text-gray-600 leading-relaxed text-lg font-medium prose prose-lg max-w-none prose-p:mb-4 prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-4 prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-4 prose-strong:text-gray-900 prose-a:text-primary-600 hover:prose-a:text-primary-800"
+                dangerouslySetInnerHTML={{ __html: localizedDescription || '' }}
+              />
             </div>
 
             {/* Gallery Section */}

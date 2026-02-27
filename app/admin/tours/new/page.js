@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ImageUpload from '@/components/ImageUpload'
 import VideoUpload from '@/components/VideoUpload'
+import RichTextEditor from '@/components/RichTextEditor'
 
 export default function NewTourPage() {
   const router = useRouter()
@@ -236,17 +237,12 @@ export default function NewTourPage() {
               </div>
 
               <div className="group">
-                <label htmlFor="description" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
+                <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
                   Description *
                 </label>
-                <textarea
-                  id="description"
-                  name="description"
+                <RichTextEditor
                   value={formData.description}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  className="w-full px-5 py-4 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none resize-none shadow-inner"
+                  onChange={(content) => setFormData(prev => ({ ...prev, description: content }))}
                   placeholder="Outline the full tour details..."
                 />
               </div>
@@ -324,8 +320,8 @@ export default function NewTourPage() {
                             }
                           }}
                           className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${isSelected
-                              ? 'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/20'
-                              : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                            ? 'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/20'
+                            : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                             }`}
                         >
                           {cat.name}

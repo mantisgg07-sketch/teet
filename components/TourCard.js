@@ -9,8 +9,11 @@ import { getLocalizedField } from '@/lib/i18n'
 const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
   const { convertPrice } = useCurrency()
   const truncateDescription = (text, maxLength = 100) => {
-    if (text.length <= maxLength) return text
-    return text.substring(0, maxLength) + '...'
+    if (!text) return ''
+    // Strip HTML tags and common entities since description is stored as rich text HTML
+    const stripped = text.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim()
+    if (stripped.length <= maxLength) return stripped
+    return stripped.substring(0, maxLength) + '...'
   }
 
   // Get localized fields
@@ -23,7 +26,7 @@ const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
   const discountedPrice = hasDiscount ? tour.price * (1 - tour.discount_percentage / 100) : tour.price
 
   return (
-    <Link href={`/${lang}/tours/${tour.id}`} className="block group">
+    <Link href={`/${lang}/tours/${tour.id}`} className="block group h-full">
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col overflow-hidden border border-gray-100 group-hover:scale-[1.01] group-hover:border-primary-200">
         {/* Banner Image with hover zoom and floating price badge */}
         <div className="relative h-28 sm:h-48 w-full overflow-hidden hover-zoom">
@@ -55,8 +58,24 @@ const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
             )}
           </div>
 
+          {/* Category Tags (Top Right) */}
+          {tour.categories && tour.categories.length > 0 && (
+            <div className="absolute top-2 right-2 flex flex-col items-end gap-1 pointer-events-none z-10">
+              {tour.categories.slice(0, 3).map((cat) => (
+                <span key={cat.id} className="bg-black/50 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">
+                  {getLocalizedField(cat, 'name', lang)}
+                </span>
+              ))}
+              {tour.categories.length > 3 && (
+                <span className="bg-black/50 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">
+                  +{tour.categories.length - 3}
+                </span>
+              )}
+            </div>
+          )}
+
           {/* Floating Price Badge */}
-          <div className="absolute bottom-2 right-2 bg-white shadow-lg rounded-lg px-2 py-1 border border-gray-100/50">
+          <div className="absolute bottom-2 right-2 bg-white shadow-lg rounded-lg px-2 py-1 border border-gray-100/50 z-10">
             {hasDiscount ? (
               <div className="flex items-center gap-1.5">
                 <span className="text-[9px] sm:text-xs text-gray-400 line-through font-medium">
@@ -96,21 +115,6 @@ const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
               </svg>
               <span>{tour.duration}</span>
             </div>
-
-            {tour.categories && tour.categories.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-1">
-                {tour.categories.slice(0, 3).map((cat) => (
-                  <span key={cat.id} className="inline-flex items-center px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-bold bg-primary-50 text-primary-700 uppercase tracking-wide border border-primary-100">
-                    {getLocalizedField(cat, 'name', lang)}
-                  </span>
-                ))}
-                {tour.categories.length > 3 && (
-                  <span className="inline-flex items-center px-1 py-0.5 rounded text-[9px] sm:text-[10px] font-bold text-gray-400">
-                    +{tour.categories.length - 3}
-                  </span>
-                )}
-              </div>
-            )}
           </div>
 
           {/* Hidden on mobile to save space */}

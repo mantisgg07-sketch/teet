@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ImageUpload from '@/components/ImageUpload'
 import VideoUpload from '@/components/VideoUpload'
+import RichTextEditor from '@/components/RichTextEditor'
 
 export default function EditTourForm({ tour }) {
   const router = useRouter()
@@ -257,17 +258,12 @@ export default function EditTourForm({ tour }) {
               </div>
 
               <div className="group">
-                <label htmlFor="description" className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
+                <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1 group-focus-within:text-indigo-600 transition-colors">
                   Description *
                 </label>
-                <textarea
-                  id="description"
-                  name="description"
+                <RichTextEditor
                   value={formData.description}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  className="w-full px-5 py-4 bg-slate-50 border border-transparent rounded-xl focus:bg-white focus:border-indigo-600 transition-all font-bold text-slate-900 text-sm outline-none resize-none shadow-inner"
+                  onChange={(content) => setFormData(prev => ({ ...prev, description: content }))}
                   placeholder="Describe the tour details..."
                 />
               </div>
