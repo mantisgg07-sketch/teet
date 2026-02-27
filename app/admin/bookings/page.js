@@ -35,8 +35,10 @@ export default function AdminBookingsPage() {
 
     const filteredBookings = bookings.filter(booking => {
         const matchesStatus = statusFilter === 'all' || booking.status === statusFilter
+        const safeRef = booking.reference_code ? booking.reference_code.toLowerCase() : ''
         const matchesSearch = booking.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             booking.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            safeRef.includes(searchTerm.toLowerCase()) ||
             booking.id.toString().includes(searchTerm)
         return matchesStatus && matchesSearch
     })
@@ -105,7 +107,7 @@ export default function AdminBookingsPage() {
                             <div className="relative w-full lg:w-80">
                                 <input
                                     type="text"
-                                    placeholder="Search by ID, Name or Email..."
+                                    placeholder="Search by Ref Code, Name or Email..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="w-full pl-9 pr-4 py-2 bg-transparent border-b border-slate-200 focus:border-black transition-colors font-bold text-xs tracking-tight outline-none"
@@ -135,7 +137,7 @@ export default function AdminBookingsPage() {
                                 <div key={booking.id} className="group flex flex-col md:grid md:grid-cols-12 md:items-center gap-4 px-6 py-4 md:py-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
                                     {/* ID & Date */}
                                     <div className="col-span-2">
-                                        <div className="text-xs font-black text-black leading-none">#{booking.id}</div>
+                                        <div className="text-xs font-black text-black leading-none">{booking.reference_code || `#${booking.id}`}</div>
                                         <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
                                             {new Date(booking.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: '2-digit' })}
                                         </div>

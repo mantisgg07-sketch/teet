@@ -39,7 +39,7 @@ export default function BookingDetailPage({ params }) {
 
                 // Temporary client-side filtering until API update
                 if (data.bookings) {
-                    const found = data.bookings.find(b => b.id.toString() === id)
+                    const found = data.bookings.find(b => b.id.toString() === id || b.reference_code === id)
                     if (found) {
                         setBooking(found)
                         setAdminNote(found.admin_note || '')
@@ -120,7 +120,7 @@ export default function BookingDetailPage({ params }) {
                         <span className="text-gray-900">Booking Details</span>
                     </div>
                     <h1 className="text-4xl font-black text-gray-900 leading-tight uppercase tracking-tighter">
-                        Booking <span className="text-primary-600">#{booking.id}</span>
+                        Booking <span className="text-primary-600">{booking.reference_code || `#${booking.id}`}</span>
                     </h1>
                 </div>
                 <div className="flex items-center gap-3">
