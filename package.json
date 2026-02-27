@@ -8,13 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "init-db": "node lib/init-db.js",
-    "seed": "node lib/seed.js",
-    "migrate-currency": "node lib/migrate-currency.js",
-    "migrate-multilingual": "node lib/migrate-multilingual.js",
-    "migrate-announcements-popup": "node lib/migrate-announcements-popup.js",
-    "migrate-bookings-ref": "node lib/migrate-bookings-ref.js",
-    "migrate-categories": "node lib/migrate-categories.js"
+    "init-db": "node lib/init-db.js"
   },
   "repository": {
     "type": "git",
