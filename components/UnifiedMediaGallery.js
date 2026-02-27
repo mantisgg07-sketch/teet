@@ -17,9 +17,18 @@ export default function UnifiedMediaGallery({ videos = [], images = [], tourTitl
 
     // Combine videos and images into a single media array
     useEffect(() => {
-        setLoading(true)
-        const safeVideos = Array.isArray(videos) ? videos : (typeof videos === 'string' ? JSON.parse(videos) : [])
-        const safeImages = Array.isArray(images) ? images : (typeof images === 'string' ? JSON.parse(images) : [])
+        let parsedVideos = videos;
+        let parsedImages = images;
+
+        if (typeof videos === 'string') {
+            try { parsedVideos = JSON.parse(videos); } catch (e) { parsedVideos = []; }
+        }
+        if (typeof images === 'string') {
+            try { parsedImages = JSON.parse(images); } catch (e) { parsedImages = []; }
+        }
+
+        const safeVideos = Array.isArray(parsedVideos) ? parsedVideos : [];
+        const safeImages = Array.isArray(parsedImages) ? parsedImages : [];
 
         const combinedMedia = [
             ...safeVideos.map(v => ({ type: 'video', src: typeof v === 'string' ? v : v.public_id })),

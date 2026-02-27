@@ -8,7 +8,11 @@ export default function ImageUpload({ images = [], onUpload, onRemove, isBanner 
   const [error, setError] = useState('')
   const fileInputRef = useRef(null)
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-  const safeImages = Array.isArray(images) ? images : (typeof images === 'string' ? JSON.parse(images) : [])
+  let parsedImages = images;
+  if (typeof images === 'string') {
+    try { parsedImages = JSON.parse(images); } catch (e) { parsedImages = []; }
+  }
+  const safeImages = Array.isArray(parsedImages) ? parsedImages : [];
 
   const handleFileSelect = async (e) => {
     const files = Array.from(e.target.files || [])

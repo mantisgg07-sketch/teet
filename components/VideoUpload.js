@@ -7,7 +7,11 @@ export default function VideoUpload({ videos = [], onUpload, onRemove }) {
     const [error, setError] = useState('')
     const fileInputRef = useRef(null)
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-    const safeVideos = Array.isArray(videos) ? videos : (typeof videos === 'string' ? JSON.parse(videos) : [])
+    let parsedVideos = videos;
+    if (typeof videos === 'string') {
+        try { parsedVideos = JSON.parse(videos); } catch (e) { parsedVideos = []; }
+    }
+    const safeVideos = Array.isArray(parsedVideos) ? parsedVideos : [];
 
     const handleFileSelect = async (e) => {
         const files = Array.from(e.target.files || [])
