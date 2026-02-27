@@ -93,10 +93,10 @@ export default function TourReviews({ tourId, lang = 'en', dict }) {
 
             setReviews(reviewsWithProfiles)
           } else {
-            setReviews(reviewsData)
+            setReviews(Array.isArray(reviewsData) ? reviewsData : [reviewsData])
           }
         } else {
-          setReviews(reviewsData)
+          setReviews(Array.isArray(reviewsData) ? reviewsData : [reviewsData])
         }
       } else {
         setReviews([])
