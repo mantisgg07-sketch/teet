@@ -77,10 +77,7 @@ export async function POST(request) {
       await db.insert(tourCategoriesSchema).values(categoryLinks);
     }
 
-    revalidatePath('/admin/dashboard')
-    revalidatePath('/tours')
-    revalidatePath(`/tours/${safeId}`)
-    revalidatePath('/')
+    revalidatePath('/', 'layout')
 
     return NextResponse.json({ success: true })
   } catch (error) {

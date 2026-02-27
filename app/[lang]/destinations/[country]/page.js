@@ -12,6 +12,7 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
+export const revalidate = 3600; // Cache for 1 hour by default, revalidated on-demand
 export async function generateMetadata({ params }) {
     const { lang, country } = await params;
     const dict = await getDictionary(lang);

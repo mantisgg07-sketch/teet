@@ -4,6 +4,8 @@ import WhatsAppFloat from '@/components/WhatsAppFloat'
 import { CurrencyProvider } from '@/components/CurrencyProvider'
 import { AuthProvider } from '@/components/AuthProvider'
 import ProgressBar from '@/components/ProgressBar'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -80,6 +82,8 @@ export default function RootLayout({ children }) {
           <CurrencyProvider>
             <ProgressBar />
             {children}
+            <Analytics />
+            <SpeedInsights />
             <WhatsAppFloat />
           </CurrencyProvider>
         </AuthProvider>

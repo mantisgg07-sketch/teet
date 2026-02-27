@@ -29,9 +29,7 @@ export async function POST(request) {
     const db = getDb();
     await db.delete(toursSchema).where(eq(toursSchema.id, safeTourId));
 
-    revalidatePath('/admin/dashboard')
-    revalidatePath('/tours')
-    revalidatePath('/')
+    revalidatePath('/', 'layout')
 
     return NextResponse.json({ success: true })
   } catch (error) {
