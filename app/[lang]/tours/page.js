@@ -17,6 +17,14 @@ export async function generateMetadata({ params }) {
   return {
     title: `${dict.tours.pageTitle} | GoHoliday`,
     description: dict.tours.pageDescription,
+    alternates: {
+      canonical: `/${lang}/tours`,
+      languages: {
+        'en': `/en/tours`,
+        'th': `/th/tours`,
+        'zh': `/zh/tours`,
+      }
+    },
     openGraph: {
       title: `${dict.tours.pageTitle} | GoHoliday`,
       description: dict.tours.pageDescription,
@@ -109,48 +117,73 @@ export default async function ToursPage({ params }) {
   const dict = await getDictionary(lang);
   const tours = await getAllTours(lang);
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: `${process.env.NEXT_PUBLIC_APP_URL || 'https://goholidays.me'}/${lang}`
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Tours',
+        item: `${process.env.NEXT_PUBLIC_APP_URL || 'https://goholidays.me'}/${lang}/tours`
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <Header lang={lang} dict={dict} />
 
-      {/* Page Header - Clean and Simple */}
-      <section className="bg-white py-12 border-b border-gray-100">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            {dict.tours.pageTitle}
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {dict.tours.pageDescription}
-          </p>
-        </div>
-      </section>
+      <main id="main-content">
+        {/* Page Header - Clean and Simple */}
+        <header className="bg-white py-12 border-b border-gray-100">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              {dict.tours.pageTitle}
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {dict.tours.pageDescription}
+            </p>
+          </div>
+        </header>
 
-      {/* Tours with Search & Filter */}
-      <section className="py-8 sm:py-12 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          {tours.length > 0 ? (
-            <Suspense fallback={
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <Skeleton key={i} variant="tourCard" />
-                ))}
+        {/* Tours with Search & Filter */}
+        <section className="py-8 sm:py-12 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            {tours.length > 0 ? (
+              <Suspense fallback={
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <Skeleton key={i} variant="tourCard" />
+                  ))}
+                </div>
+              }>
+                <TourSearch tours={tours} lang={lang} dict={dict} />
+              </Suspense>
+            ) : (
+              <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+                <div className="mb-6">
+                  <svg className="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 21h18M12 3c-1.5 2-2.5 4-2.5 7h5C14.5 7 13.5 5 12 3zM7 10c-1.5-1.5-4-2-6-1.5C3 10 5 11 7 10zm10 0c1.5-1.5 4-2 6-1.5-2 1.5-4 2.5-6 1.5zM12 10v11" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{dict.tours.noToursTitle}</h2>
+                <p className="text-gray-600">{dict.tours.noToursMessage}</p>
               </div>
-            }>
-              <TourSearch tours={tours} lang={lang} dict={dict} />
-            </Suspense>
-          ) : (
-            <div className="text-center py-20 bg-white rounded-xl shadow-sm">
-              <div className="mb-6">
-                <svg className="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 21h18M12 3c-1.5 2-2.5 4-2.5 7h5C14.5 7 13.5 5 12 3zM7 10c-1.5-1.5-4-2-6-1.5C3 10 5 11 7 10zm10 0c1.5-1.5 4-2 6-1.5-2 1.5-4 2.5-6 1.5zM12 10v11" />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">{dict.tours.noToursTitle}</h2>
-              <p className="text-gray-600">{dict.tours.noToursMessage}</p>
-            </div>
-          )}
-        </div>
-      </section>
+            )}
+          </div>
+        </section>
+      </main>
 
       <Footer lang={lang} dict={dict} />
     </div>

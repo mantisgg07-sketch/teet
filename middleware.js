@@ -16,6 +16,8 @@ const publicPaths = [
   '/images',
   '/img',
   '/auth',
+  '/robots.txt',
+  '/sitemap.xml',
 ];
 
 function getLocaleFromRequest(request) {
@@ -108,6 +110,6 @@ export const config = {
      * - images (public images)
      * - img (public images)
      */
-    '/((?!_next/static|_next/image|favicon.ico|images|img|logo.png).*)',
+    '/((?!_next/static|_next/image|favicon.ico|images|img|logo.png|robots.txt|sitemap.xml).*)',
   ],
 };

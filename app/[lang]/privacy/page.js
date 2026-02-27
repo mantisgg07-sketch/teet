@@ -3,6 +3,9 @@ import Link from 'next/link'
 export const metadata = {
     title: 'Privacy Policy | GoHoliday',
     description: 'Privacy Policy for GoHoliday - Learn how we collect, use, and protect your personal information.',
+    alternates: {
+        canonical: '/en/privacy' // Note: This is a static page, so defaulting to en for global, or we need dynamic metadata. Let's make it dynamic.
+    }
 }
 
 export default async function PrivacyPolicyPage({ params }) {

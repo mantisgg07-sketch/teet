@@ -27,14 +27,15 @@ const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
 
   return (
     <Link href={`/${lang}/tours/${tour.id}`} className="block group h-full">
-      <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col overflow-hidden border border-gray-100 group-hover:scale-[1.01] group-hover:border-primary-200">
+      <article className="bg-white rounded-xl sm:rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col overflow-hidden border border-gray-100 group-hover:scale-[1.01] group-hover:border-primary-200">
         {/* Banner Image with hover zoom and floating price badge */}
         <div className="relative h-28 sm:h-48 w-full overflow-hidden hover-zoom">
           {tour.banner_image ? (
             <Image
               src={tour.banner_image}
-              alt={localizedTitle}
+              alt={`${localizedTitle} - Tourist package in ${localizedLocation}`}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
             />
           ) : (
@@ -136,7 +137,7 @@ const TourCard = memo(function TourCard({ tour, lang = 'en', dict }) {
             </div>
           </div>
         </div>
-      </div>
+      </article>
     </Link>
   )
 })

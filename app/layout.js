@@ -11,7 +11,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 })
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://goholiday.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://goholidays.me'),
 }
 
 export const viewport = {
@@ -71,6 +71,8 @@ export default function RootLayout({ children }) {
   return (
     <html suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <script dangerouslySetInnerHTML={{ __html: hashInterceptScript }} />
       </head>
       <body className={plusJakartaSans.className} suppressHydrationWarning>
