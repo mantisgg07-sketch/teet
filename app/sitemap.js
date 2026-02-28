@@ -2,6 +2,7 @@ import { getDb } from '@/lib/turso'
 import { tours as toursSchema } from '@/lib/schema'
 import { desc } from 'drizzle-orm'
 import { locales } from '@/lib/i18n'
+import { getAllSeoSlugs } from '@/lib/seo-content'
 
 export default async function sitemap() {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://goholidays.me';
@@ -54,5 +55,21 @@ export default async function sitemap() {
         console.error('Error fetching tours for sitemap:', error);
     }
 
-    return [...staticEntries, ...tourEntries];
+    // Generate localized SEO Pillar Page entries
+    const seoSlugs = getAllSeoSlugs();
+    const seoEntries = seoSlugs.flatMap((slug) =>
+        locales.map((lang) => ({
+            url: `${baseUrl}/${lang}/${slug}`,
+            lastModified: new Date().toISOString(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+            alternates: {
+                languages: Object.fromEntries(
+                    locales.map((l) => [l, `${baseUrl}/${l}/${slug}`])
+                )
+            }
+        }))
+    );
+
+    return [...staticEntries, ...tourEntries, ...seoEntries];
 }

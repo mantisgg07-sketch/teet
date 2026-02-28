@@ -18,8 +18,8 @@ export async function generateMetadata({ params }) {
     const dict = await getDictionary(lang);
     const locationName = capitalizeFirstLetter(decodeURIComponent(country));
 
-    const title = `Best Tours & Vacation Packages in ${locationName} | GoHoliday`;
-    const description = `Explore premium tours, trekking, and sightseeing packages in ${locationName}. Book your next adventure with GoHoliday's verified travel experts.`;
+    const title = `Best Tours & Vacation Packages in ${locationName} | GoHolidays`;
+    const description = `Explore premium tours, trekking, and sightseeing packages in ${locationName}. Book your next adventure with GoHolidays's verified travel experts.`;
 
     return {
         title,
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }) {
             title,
             description,
             url: `/${lang}/destinations/${country}`,
-            siteName: 'GoHoliday',
+            siteName: 'GoHolidays',
             locale: lang === 'th' ? 'th_TH' : lang === 'zh' ? 'zh_CN' : 'en_US',
             type: 'website',
         }
@@ -151,7 +151,7 @@ export default async function DestinationPage({ params }) {
                 name: `What are the best tours in ${locationName}?`,
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: `GoHoliday offers highly-rated guided tours and packages in ${locationName}, featuring top attractions, expert guides, and luxury accommodations.`
+                    text: `GoHolidays offers highly-rated guided tours and packages in ${locationName}, featuring top attractions, expert guides, and luxury accommodations.`
                 }
             },
             {

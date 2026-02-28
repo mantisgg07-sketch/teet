@@ -15,8 +15,8 @@ export async function generateMetadata({ params }) {
   const dict = await getDictionary(lang);
 
   return {
-    title: `${dict.tours.pageTitle} | GoHoliday`,
-    description: dict.tours.pageDescription,
+    title: `${dict.tours.pageTitle} | GoHolidays`,
+    description: `${dict.tours.pageDescription} Specialized flights and tour packages from India, Nepal, Thailand, and South Asia.`,
     alternates: {
       canonical: `/${lang}/tours`,
       languages: {
@@ -26,16 +26,16 @@ export async function generateMetadata({ params }) {
       }
     },
     openGraph: {
-      title: `${dict.tours.pageTitle} | GoHoliday`,
-      description: dict.tours.pageDescription,
+      title: `${dict.tours.pageTitle} | GoHolidays`,
+      description: `${dict.tours.pageDescription} Specialized flights and tour packages from India, Nepal, Thailand, and South Asia.`,
       url: `/${lang}/tours`,
-      siteName: 'GoHoliday',
+      siteName: 'GoHolidays',
       images: [
         {
           url: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200',
           width: 1200,
           height: 630,
-          alt: 'GoHoliday Tours Search',
+          alt: 'GoHolidays Tours Search',
         }
       ],
       locale: lang === 'th' ? 'th_TH' : lang === 'zh' ? 'zh_CN' : 'en_US',
@@ -43,8 +43,8 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${dict.tours.pageTitle} | GoHoliday`,
-      description: dict.tours.pageDescription,
+      title: `${dict.tours.pageTitle} | GoHolidays`,
+      description: `${dict.tours.pageDescription} Specialized flights and tour packages from India, Nepal, Thailand, and South Asia.`,
       images: ['https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200'],
     },
   };
@@ -151,7 +151,7 @@ export default async function ToursPage({ params }) {
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               {dict.tours.pageTitle}
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-4">
               {dict.tours.pageDescription}
             </p>
           </div>

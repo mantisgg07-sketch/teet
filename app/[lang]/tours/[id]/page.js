@@ -117,7 +117,7 @@ export async function generateMetadata({ params }) {
 
   if (!tour) {
     return {
-      title: 'Tour Not Found | GoHoliday',
+      title: 'Tour Not Found | GoHolidays',
     };
   }
 
@@ -125,7 +125,7 @@ export async function generateMetadata({ params }) {
   const localizedDescription = getLocalizedField(tour, 'description', lang);
   const localizedLocation = getLocalizedField(tour, 'location', lang);
 
-  const title = `${localizedTitle} | GoHoliday`;
+  const title = `${localizedTitle} | GoHolidays`;
   const shortDescription = localizedDescription ? localizedDescription.substring(0, 160) : '';
   const metaDescription = `${localizedLocation} • ${tour.currency} ${tour.price} • ${shortDescription}...`;
 
@@ -144,7 +144,7 @@ export async function generateMetadata({ params }) {
       title,
       description: metaDescription,
       url: `/${lang}/tours/${id}`,
-      siteName: 'GoHoliday',
+      siteName: 'GoHolidays',
       images: tour.banner_image ? [
         {
           url: tour.banner_image,
@@ -255,7 +255,7 @@ export default async function TourDetailPage({ params }) {
     },
     provider: {
       '@type': 'TravelAgency',
-      name: 'GoHoliday',
+      name: 'GoHolidays',
       url: process.env.NEXT_PUBLIC_APP_URL || 'https://goholidays.me'
     },
     aggregateRating: {

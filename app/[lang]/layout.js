@@ -10,9 +10,9 @@ export async function generateMetadata({ params }) {
   const { lang } = await params;
 
   const titles = {
-    en: 'GoHoliday - Nepal-Thailand Travel Specialists',
-    th: 'GoHoliday - ผู้เชี่ยวชาญการท่องเที่ยวเนปาล-ไทย',
-    zh: 'GoHoliday - 尼泊尔-泰国旅行专家'
+    en: 'GoHolidays - Nepal-Thailand Travel Specialists',
+    th: 'GoHolidays - ผู้เชี่ยวชาญการท่องเที่ยวเนปาล-ไทย',
+    zh: 'GoHolidays - 尼泊尔-泰国旅行专家'
   };
 
   const descriptions = {

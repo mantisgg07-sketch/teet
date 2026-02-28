@@ -82,7 +82,7 @@ export async function generateMetadata({ params }) {
   const dict = await getDictionary(lang);
 
   return {
-    title: `${dict.home.heroTitle} | GoHoliday`,
+    title: `${dict.home.heroTitle} | GoHolidays`,
     description: dict.home.heroDescription,
     alternates: {
       canonical: `/${lang}`,
@@ -93,16 +93,16 @@ export async function generateMetadata({ params }) {
       }
     },
     openGraph: {
-      title: `${dict.home.heroTitle} | GoHoliday`,
+      title: `${dict.home.heroTitle} | GoHolidays`,
       description: dict.home.heroDescription,
       url: `/${lang}`,
-      siteName: 'GoHoliday',
+      siteName: 'GoHolidays',
       images: [
         {
           url: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200',
           width: 1200,
           height: 630,
-          alt: 'GoHoliday - Nepal & Thailand Tours',
+          alt: 'GoHolidays - Nepal & Thailand Tours',
         }
       ],
       locale: lang === 'th' ? 'th_TH' : lang === 'zh' ? 'zh_CN' : 'en_US',
@@ -110,7 +110,7 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${dict.home.heroTitle} | GoHoliday`,
+      title: `${dict.home.heroTitle} | GoHolidays`,
       description: dict.home.heroDescription,
       images: ['https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200'],
     },
@@ -131,7 +131,7 @@ export default async function HomePage({ params }) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'TravelAgency',
-    name: 'GoHoliday',
+    name: 'GoHolidays',
     description: dict.home.heroDescription,
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://goholidays.me',
     logo: `${process.env.NEXT_PUBLIC_APP_URL || 'https://goholidays.me'}/icon.png`,
@@ -145,7 +145,10 @@ export default async function HomePage({ params }) {
     award: 'Top Rated Travel Agency in Southeast Asia',
     areaServed: [
       { '@type': 'Country', name: 'Nepal' },
-      { '@type': 'Country', name: 'Thailand' }
+      { '@type': 'Country', name: 'Thailand' },
+      { '@type': 'Country', name: 'India' },
+      { '@type': 'Region', name: 'South Asia' },
+      { '@type': 'Region', name: 'Southeast Asia' }
     ],
     address: {
       '@type': 'PostalAddress',
@@ -189,6 +192,30 @@ export default async function HomePage({ params }) {
         acceptedAnswer: {
           '@type': 'Answer',
           text: dict.home.thailandDescription || 'Yes, we provide premium Thailand vacation packages featuring golden temples and tropical beaches.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do you offer tours from India to Thailand?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes! We actively welcome travelers from India to Thailand. We can arrange complete holiday packages including local transports, hotels, and guided sightseeing across Thailand for Indian tourists.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can travelers from Thailand book tours to Nepal or India?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Absolutely. We specialize in cross-country travel within South Asia and Southeast Asia, easily accommodating guests from Thailand traveling to Nepal or India with comprehensive tour packages.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do you handle tours for tourists from any South Asian country?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, we are a premier travel agency serving travelers from India, Nepal, Thailand, and all other South Asian and Southeast Asian countries looking for luxury and adventure tours.'
         }
       }
     ]

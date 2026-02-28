@@ -1,0 +1,18 @@
+{
+  "totalSlugs": 27,
+  "brokenCount": 3,
+  "brokenUrls": [
+    {
+      "url": "combinations/bangkok-phuket",
+      "file": "combinations.js"
+    },
+    {
+      "url": "nepal/from-thailand/all",
+      "file": "reverse-routes.js"
+    },
+    {
+      "url": "nepal/from-thailand/himalaya",
+      "file": "reverse-routes.js"
+    }
+  ]
+}
