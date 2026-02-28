@@ -8,7 +8,7 @@ import { Resend } from 'resend';
 
 const resendApiKey = process.env.RESEND_API_KEY;
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
-const adminEmail = process.env.ADMIN_EMAIL || 'admin@goholidays.com';
+const adminEmail = process.env.ADMIN_EMAIL || 'admin@goholidays.me';
 
 // Initialize a rate limiter for bookings: 5 requests per 10 minutes per IP
 const bookingRateLimiter = createRateLimiter({

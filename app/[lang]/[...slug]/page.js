@@ -115,19 +115,19 @@ export default async function SeoLandingPage({ params }) {
                 '@type': 'ListItem',
                 position: 1,
                 name: 'Home',
-                item: `https://goholidays.com/${lang}`
+                item: `https://goholidays.me/${lang}`
             },
             {
                 '@type': 'ListItem',
                 position: 2,
                 name: 'Destinations',
-                item: `https://goholidays.com/${lang}/destinations`
+                item: `https://goholidays.me/${lang}/destinations`
             },
             {
                 '@type': 'ListItem',
                 position: 3,
                 name: pageData.title,
-                item: `https://goholidays.com/${lang}/${slug.join('/')}`
+                item: `https://goholidays.me/${lang}/${slug.join('/')}`
             }
         ]
     };

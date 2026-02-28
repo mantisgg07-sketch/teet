@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all font-medium text-slate-900 text-sm outline-none"
-                    placeholder="admin@goholidays.com"
+                    placeholder="admin@goholidays.me"
                   />
                   <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none text-slate-400">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
