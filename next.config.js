@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+    // ESLint runs during production builds to catch code quality issues.
+    ignoreDuringBuilds: false,
   },
   images: {
     remotePatterns: [
@@ -46,20 +45,26 @@ const nextConfig = {
         ],
       },
       {
-        // Fresh data for all pages — never serve stale HTML
+        // Immutable long-term caching for static assets (JS, CSS, images)
+        // These have content hashes in their filenames so stale delivery is impossible.
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        // Smart ISR-compatible caching for all HTML pages.
+        // `stale-while-revalidate` tells browsers/CDNs to serve the cached page
+        // INSTANTLY while quietly fetching a fresh version in the background.
+        // This is what makes ISR ultra-fast for end users AND for Google PageSpeed.
         source: '/((?!_next/static|_next/image|favicon.ico|img|images|logo.png).*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-cache, no-store, must-revalidate',
-          },
-          {
-            key: 'Pragma',
-            value: 'no-cache',
-          },
-          {
-            key: 'Expires',
-            value: '0',
+            value: 'public, s-maxage=60, stale-while-revalidate=3600',
           },
         ],
       },
@@ -69,3 +74,4 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
